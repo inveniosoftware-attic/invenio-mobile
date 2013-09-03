@@ -1,0 +1,200 @@
+/*
+    ## This file is part of Invenio.
+    ## Copyright (C) 2012, 2013 CERN.
+    ##
+    ## Invenio is free software; you can redistribute it and/or
+    ## modify it under the terms of the GNU General Public License as
+    ## published by the Free Software Foundation; either version 2 of the
+    ## License, or (at your option) any later version.
+    ##
+    ## Invenio is distributed in the hope that it will be useful, but
+    ## WITHOUT ANY WARRANTY; without even the implied warranty of
+    ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    ## General Public License for more details.
+    ##
+    ## You should have received a copy of the GNU General Public License
+    ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
+    ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+*/
+
+.account {
+	margin-left: 6px;
+	background-position: 6px 6px;
+	background-repeat: no-repeat;
+	background-size: 22px 22px;
+	margin-top: 1px;
+	vertical-align: top;
+	overflow: hidden;
+}
+.accountName, #menuIcon {
+	display: none
+}
+#button-settings{
+	display:none;
+}
+#back {
+	background-image: url(../img/back.png);
+	background-position: 0px 2px;
+	background-size: contain;
+}
+#back2 {
+	background: url(../img/back2.png);
+	background-position: 0px 2px;
+	background-size: contain;
+}
+#back2.back2Shadow {
+	background : url(../img/back2Shadow.png);
+	background-repeat: no-repeat;
+	background-position: 0px 2px;
+	background-size: contain;
+	transition: background 0.5s linear;
+	-moz-transition: background 0.5s linear; /* Firefox 4 */
+	-webkit-transition: background 0.5s linear; /* Safari and Chrome */
+	-o-transition: background 0.5s linear; /* Opera */
+}
+.top_icons_left #back2, .top_icons_left #back {
+	display:none;
+}
+.top_icons_left {
+	display: inline-block;
+	position: absolute;
+	left: 50px;
+	right: 0px;
+	height: 50px;
+	padding-top: 7px;
+	top: 0;
+}
+.top_icons_right {
+	position: absolute;
+	left: 85px;
+	right: 0px;
+	height: 50px;
+	padding-top: 6px;
+	top: 0;
+	display: inline-block;
+}
+#trash {
+	background-image: url(../img/trash.png);
+	background-size: contain;
+	height: 32px;
+	width: 32px;
+	margin-left: auto;
+	display:inline-block;
+	float:right;
+	margin-right: 10px;
+}
+#download {
+	background-position:0px, 1px;
+	width:33px;	
+	background-repeat:no-repeat;
+	background-image: url(../img/offline.png);
+}
+.downloadBlue {
+	background-image: url(../img/offlineBlue.png) !important;
+	background-position: 0px 0px;
+	background-size: contain;
+	transition: background 0.5s linear;
+	-moz-transition: background 0.5s linear; /* Firefox 4 */
+	-webkit-transition: background 0.5s linear; /* Safari and Chrome */
+	-o-transition: background 0.5s linear; /* Opera */
+}
+.downloadpercent{
+	float:left;
+	padding-top:10px;
+	color:#000;
+	font-weight:400;
+	font-size:10px;
+	width: 36px;
+	text-align:center;
+	text-shadow:none;
+}
+
+/* Page record - start */
+.tab {
+	overflow: scroll;
+	height: 30px;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	white-space: nowrap;
+}
+.tabMenu {
+	height: 30px;
+	padding: 0px;
+	white-space: nowrap;
+}
+.tabelem {
+	display: inline-block;
+	margin-right: 1px;
+	margin-left: 0px;
+	height: 27px;
+	padding-top: 3px;
+	padding-left: 7px;
+	padding-right: 7px;
+	background-color: #CFCFCF;
+	text-align: center;
+}
+.select {
+	background-color: #EBEBEB;
+}
+
+.tabContent {
+	/*background-color: #ebebeb;*/
+	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(235, 235, 235, 1.00)), to(rgba(241, 241, 241, 0.00)));
+	background-image: -webkit-linear-gradient(top, rgba(235, 235, 235, 1.00), rgba(241, 241, 241, 0.00));
+	background-image: -moz-linear-gradient(top, rgba(235, 235, 235, 1.00), rgba(241, 241, 241, 0.00));
+	background-image: -o-linear-gradient(top, rgba(235, 235, 235, 1.00), rgba(241, 241, 241, 0.00));
+	background-image: -ms-linear-gradient(top, rgba(235, 235, 235, 1.00), rgba(241, 241, 241, 0.00));
+	background-image: linear-gradient(top, rgba(235, 235, 235, 1.00), rgba(241, 241, 241, 0.00));
+filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='#ebebeb', EndColorStr='#f1f1f1');
+	margin-top: 0px;
+	padding: 15px;
+}
+.jqm-content li {
+	margin-left: 0px;
+}
+.tablink {
+	border: none;
+	padding: none;
+	margin: none;
+}
+.gallerybox {
+	overflow: scroll;
+	max-height: 85px;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+}
+.gallery {
+	display: inline-block;
+	height: 85px;
+	max-height: 85px;
+	width: 100%;
+	padding: 0px;
+	white-space: nowrap;
+}
+.gallery_element {
+	display: inline-block;
+	margin-right: 1px;
+	margin-left: 0px;
+	height: 80px;
+	width: 80px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: center;
+	vertical-align: central;
+}
+.gallery a {
+	min-width: 80px;
+	min-height: 80px;
+}
+.gallery div {
+	width: 80px;
+	height: 80px;
+}
+/* Page record - stop */
+.ui-li .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+padding: 8px 15px;
+}

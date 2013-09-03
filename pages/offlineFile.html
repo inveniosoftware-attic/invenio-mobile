@@ -1,0 +1,301 @@
+<style>
+/* Left transition */
+
+li.ui-li.left {
+	-webkit-transition: -webkit-transform 250ms ease;
+	-webkit-transform: translateX(-100%);
+	-moz-transition: -moz-transform 250ms ease;
+	-moz-transform: translateX(-100%);
+	-o-transition: -o-transform 250ms ease;
+	-o-transform: translateX(-100%);
+	transition: transform 250ms ease;
+	transform: translateX(-100%);
+	border-top-width: 0; /* We switch to border bottom on previous list item */
+	border-right-width: 1px;
+}
+/* Right transition */
+li.ui-li.right {
+	-webkit-transition: -webkit-transform 250ms ease;
+	-webkit-transform: translateX(100%);
+	-moz-transition: -moz-transform 250ms ease;
+	-moz-transform: translateX(100%);
+	-o-transition: -o-transform 250ms ease;
+	-o-transform: translateX(100%);
+	transition: transform 250ms ease;
+	transform: translateX(100%);
+	border-top-width: 0; /* We switch to border bottom on previous list item */
+	border-left-width: 1px;
+}
+/* Border bottom for the previous list item during the transition*/
+li.ui-li.border {
+	border-bottom-width: 1px;
+}
+/* Hide the delete button on touch devices */
+.touch .delete {
+	display: none;
+}
+.touch .ui-link-inherit {
+	padding-right: 15px !important;
+}
+/* Custom styling for the popup */
+#confirm {
+	border: 1px solid;
+	border-color: #044062; /* Fallback for older browsers */
+	border-color: rgba(4,64,98,.4);
+	background: #456f9a; /* Fallback for older browsers */
+	background: rgba(69,111,154,.8);
+	-moz-box-shadow: 0 2px 6px rgba(69,111,154,.5), inset 0 1px rgba(255,255,255,.3), inset 0 6px rgba(255,255,255,.1), inset 0 10px 20px rgba(255,255,255,.25), inset 0 -15px 30px rgba(69,111,154,.3);
+	-webkit-box-shadow: 0 2px 6px rgba(69,111,154,.5), inset 0 1px rgba(255,255,255,.3), inset 0 6px rgba(255,255,255,.1), inset 0 10px 20px rgba(255,255,255,.25), inset 0 -15px 30px rgba(69,111,154,.3);
+	box-shadow: 0 2px 6px rgba(69,111,154,.5), inset 0 1px rgba(255,255,255,.3), inset 0 6px rgba(255,255,255,.1), inset 0 10px 20px rgba(255,255,255,.25), inset 0 -15px 30px rgba(69,111,154,.3);
+	max-width: 250px;
+}
+#confirm p {
+	color: #fff;
+	text-shadow: 0 1px 1px rgba(0,0,0,.6);
+	margin-bottom: .75em;
+}
+/* Make the buttons inherit the popup border-radius (.ui-corner-all) */
+#confirm div, #confirm .ui-btn-corner-all {
+	-webkit-border-radius: inherit;
+	border-radius: inherit;
+}
+#confirm #cancel {
+	background-image: none;
+}
+#confirm .topic.ui-li-desc {
+	font-size: inherit; /* The cloned topic will have class ui-li-desc so we negate the font-size settings of this class */
+	text-align: center;
+}
+.checklistelem {
+	margin-top: 10px;
+	margin-left: 0px;
+}
+.checklist {
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+.labelElem {
+	border-top-width: 0px;
+	margin-top: 0px;
+	border-bottom-width: 0px;
+	margin-bottom: 0px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+}
+
+</style>
+<div class="withPadding"  >
+<div class="offlineFile">
+  <h3 id="title"></h3>
+  <ul id="list" class="touch" data-role="listview" data-icon="false" data-split-theme="d">
+  </ul>
+  </div>
+</div>
+<script>
+var listEntries = new Array();
+var listText ="";
+function localInit() {
+	//debugTest()
+	var listitem = "";
+	$(".top_icons_right #back, .top_icons_right #back2").after('<div id="trash" class="item-menu-icon"></div>');
+	$("#title").text(sessionStorage.title);
+ 	// Swipe to remove list item
+	$( document ).on( "swipeleft swiperight", "#list li.ui-li", function( event ) {	
+		event.stopImmediatePropagation();
+		var listitem = $( this );
+	
+	function onConfirm(buttonIndex) {
+		if(buttonIndex==1)
+		confirmAndDelete()
+    }
+
+    // Show a custom confirmation dialog
+    //
+    function showConfirm() {
+        navigator.notification.confirm(
+            'Are you sure you want to delete?',  // message
+            onConfirm,              // callback to invoke with index of button pressed
+            'Delete'		        // title
+        );
+    }
+	 
+	function confirmAndDelete( ) {
+		var listText =$.trim(listitem.text());
+		console.log("start confirmAndDelete : "+$.trim(listitem.text()));
+		dir = event.type === "swipeleft" ? "left" : "right";
+       	transition = $.support.cssTransform3d ? dir : false;
+		
+        // Highlight the list item that will be removed
+        listitem.addClass( "ui-btn-down-d" );
+        // Inject topic in confirmation popup after removing any previous injected topics
+        $( "#confirm .topic" ).remove();
+        listitem.find( ".topic" ).clone().insertAfter( "#question" );
+
+			listEntries[listText].remove(successRemove, failRemove);
+			
+			//remove folder
+			
+			if(listEntries[listText+"_folder"])
+				removeFolder(listEntries[listText+"_folder"]);
+			
+            // Remove with a transition
+            if ( transition ) {
+                listitem
+                    // Remove the highlight
+                    .removeClass( "ui-btn-down-d" )
+                    // Add the class for the transition direction
+                    .addClass( transition )
+                    // When the transition is done...
+                    .on( "webkitTransitionEnd transitionend otransitionend", function() {
+                        // ...the list item will be removed
+                        listitem.remove();
+                        // ...the list will be refreshed and the temporary class for border styling removed
+                        $( "#list" ).listview( "refresh" ).find( ".ui-li.border" ).removeClass( "border" );
+						
+                    })
+                    // During the transition the previous list item should get bottom border
+                    .prev( "li.ui-li" ).addClass( "border" );
+            }
+            // If it's not a touch device or the CSS transition isn't supported just remove the list item and refresh the list
+            else {
+                listitem.remove();
+                $( "#list" ).listview( "refresh" );
+            }			
+			$("#confirm #yes").off();
+        
+        
+		console.log("Ready to dectect click");
+    }
+	showConfirm()
+
+	
+	 })
+	
+}
+        // Wait for Cordova to load
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+		
+        // Cordova is ready
+        //
+        function onDeviceReady() {
+		if(device.platform == "iOS")
+        	window.resolveLocalFileSystemURI("file://"+sessionStorage.folder, onFileSystemSuccess, fail);
+		else 
+			window.resolveLocalFileSystemURI(sessionStorage.folder, onFileSystemSuccess, fail);
+		}
+		
+		var content= new Array();
+        function onFileSystemSuccess(fileSystem) {
+			//Read only the recorder folder
+			var directoryReader = fileSystem.createReader();
+			directoryReader.readEntries(
+				function(entries){
+					content= [];
+					for(var i=0; i<entries.length; ++i){ 
+					
+					var entry = entries[i];
+					
+					var name = entry.name;
+					if(  entry.name[0] != '.' && entry.name.indexOf("record_page")==0)
+					{
+						name = name.replace(".html","");
+						name = name.replace("record_page_","");
+					} else 
+						if(!entry.isFile && entry.name[0] != '.'){
+							name= name+"_folder";
+						}
+					listEntries[name]= entry;
+					if( entry.isFile && entry.name[0] != '.' && entry.name!="record_info.json")
+					{
+						content.push(' <li class="checklist" > <input id="'+name+'" name="'+name+'" type="checkbox" value="'+name+'" data-role="none">  <span>'+name+' </span></li>')
+					}
+				
+					if(i==entries.length-1){ 
+						content.sort();
+						$("#list").html(content.join(" "));
+						$("#list").listview( "refresh" );
+
+				}
+			}
+				
+		})
+	}
+	function successRemove(entry) {
+		console.log("Removal succeeded");
+	}
+	
+	function failRemove(error) {
+		console.log('Error removing file: ' + error.code);
+	}
+	
+	var count=0;
+	
+	$(".offlineFile").on("click","input", function(event) {
+		var $this = $(event.target);
+	
+		if ($this.attr('checked')) {
+			$this.attr('checked', false);
+			count--;
+			if(count==0)
+				$("#trash").css("background-image","url(./img/trash.png)");
+		}
+		else
+		{
+			$this.attr('checked', true);	
+			count++;
+			$("#trash").css("background-image","url(./img/trash2.png)");
+		}
+		event.preventdefault();
+		event.stoppropagation()
+		
+		})
+	
+	$(".offlineFile").on("click","li", function(event) {
+		
+		if($.trim($(this).text()).indexOf(".")<0 && listEntries[$.trim($(this).text())].fullPath.indexOf("record_page_"+$.trim($(this).text())+".html")>=0)
+		{
+			window.location="#page=offlinePage&file="+encodeURIComponent(listEntries[$.trim($(this).text())].fullPath);
+		}
+		else
+		{
+			openDocument(listEntries[$.trim($(this).text())].fullPath);
+			event.preventdefault();
+			event.stoppropagation()
+		}
+	});
+	
+	
+	 $( document ).on( "click", "#trash", function(event) {
+		
+		if(count>0)
+		{
+			$(".touch :checked").each(function(index, element) {
+			listEntries[$.trim($(element).val())].remove(successRemove, failRemove);
+			$('li:contains('+$.trim($(element).val())+')').remove();
+           	$( "#list" ).listview( "refresh" );
+        });
+		count=0;
+		$("#trash").css("background-image","url(./css/trash.png)");
+		}
+	
+	});
+function debugTest(){
+	
+	var content= new Array();
+	name="test1"
+	content.push(' <li class="checklist" > <input id="'+name+'" name="'+name+'" type="checkbox" value="'+name+'" data-role="none">  <span>'+name+' </span></li>')
+	name="test2"
+	content.push(' <li class="checklist" > <input id="'+name+'" name="'+name+'" type="checkbox" value="'+name+'" data-role="none">  <span>'+name+' </span></li>')
+	$("#list").html(content.join(" "));
+	$("#list").listview( "refresh" );
+}
+  </script>
+<div id="confirm" class="ui-content" data-role="popup" data-theme="none">
+  <p id="question">Are you sure you want to delete</p>
+  <div class="ui-grid-a">
+    <div class="ui-block-a"> <a id="yes" data-role="button" data-mini="true" data-shadow="false" data-theme="b" data-rel="back">Yes</a> </div>
+    <div class="ui-block-b"> <a id="cancel" data-role="button" data-mini="true" data-shadow="false" data-theme="b" data-rel="back">Cancel</a> </div>
+  </div>
+</div>

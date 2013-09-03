@@ -1,0 +1,50 @@
+<!--
+    ## This file is part of Invenio.
+    ## Copyright (C) 2012, 2013 CERN.
+    ##
+    ## Invenio is free software; you can redistribute it and/or
+    ## modify it under the terms of the GNU General Public License as
+    ## published by the Free Software Foundation; either version 2 of the
+    ## License, or (at your option) any later version.
+    ##
+    ## Invenio is distributed in the hope that it will be useful, but
+    ## WITHOUT ANY WARRANTY; without even the implied warranty of
+    ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    ## General Public License for more details.
+    ##
+    ## You should have received a copy of the GNU General Public License
+    ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
+    ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+-->
+
+<!--   left menu for tablet   -->
+<ul data-role="listview" data-theme="d" data-divider-theme="d" data-icon="false" class="jqm-list" >
+  <li data-role="list-divider" class="list-service">Service</li>
+  <li data-role="list-divider" >On device</li>
+  <li><a href="#page=offline" rel="external">
+    <div class="panel-item-icon icon_download"></div>
+    Saved records</a></li>
+  <li data-role="list-divider">Application</li>
+  <li><a href="#page=todo" rel="external">
+    <div class="panel-item-icon icon_about"></div>
+    About</a></li>
+  <li><a href="#page=settings" rel="external">
+    <div class="panel-item-icon icon_settings"></div>
+    Settings</a></li>
+  <li><a href="#page=tests" rel="external">
+    <div class="panel-item-icon icon_test"></div>
+    Tests</a></li>
+</ul>
+<script>
+$(JSON.parse(sessionStorage.domains)).each(function(index,domain){
+	
+	if(domain.enable){
+		
+		selected = ""
+		if(domain.id==INVENIO_INITIAL_DOMAIN_ID)
+			selected = 'class="select"';
+		$(".list-service").after('<li> <a href="#page=home&domain='+domain.id+'" rel="external"><div class="account_default account_'+domain.id+' panel-item-icon"></div>'+domain.name+'</a> </li>');
+	}
+});
+//$(".jqm-list").listview('refresh');
+</script>

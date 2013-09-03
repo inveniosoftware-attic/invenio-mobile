@@ -1,0 +1,70 @@
+<!--
+    ## This file is part of Invenio.
+    ## Copyright (C) 2012, 2013 CERN.
+    ##
+    ## Invenio is free software; you can redistribute it and/or
+    ## modify it under the terms of the GNU General Public License as
+    ## published by the Free Software Foundation; either version 2 of the
+    ## License, or (at your option) any later version.
+    ##
+    ## Invenio is distributed in the hope that it will be useful, but
+    ## WITHOUT ANY WARRANTY; without even the implied warranty of
+    ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    ## General Public License for more details.
+    ##
+    ## You should have received a copy of the GNU General Public License
+    ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
+    ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+-->
+
+<div class="withPadding" align="center">
+  <h2>Add a service</h2>
+  <div data-role="fieldcontain">
+    <form>
+    <input name="form_url" type="text" id="form_url" placeholder="URL (invenio-demo.cern.ch) " />
+    <input name="form_name" type="text" id="form_name" placeholder="name" />
+    <input name="form_add" type="button" value="Add" id="form_add" />
+  </form>
+
+	</div>
+</div>
+<script>
+function localInit() {		
+	$("#form_add").on("vclick", function(event){
+		event.preventdefault();
+		event.stoppropagation()
+		
+		var name = $.trim($("#form_name").val());
+		var url  = $.trim($("#form_url").val());
+		var service = {};
+		var record = {};
+	
+		service["id"]= name.replace(/[^a-zA-Z0-9-]/g, '');
+		service["domain"]= url;
+		service["favicon"]= "favicon_Invenio.png";		
+		service["name"] = name;
+		service["enable"] = true;
+		record["display_file"]= true,
+		record["display_video"]= true,
+		record["offline"]= true,
+		record["tab"]= [];
+		service["record"]=record;
+		
+		var domains = JSON.parse(sessionStorage.domains);
+		domains.push(service);
+		sessionStorage.domains = JSON.stringify(domains);
+		
+		var personalDomains = [];
+		if(sessionStorage.personalDomains)
+			personalDomains = JSON.parse(sessionStorage.personalDomains);
+			
+		personalDomains.push(service);
+		sessionStorage.personalDomains = JSON.stringify(personalDomains);
+		
+		writeFile("./Invenio/","settings.domain.json", sessionStorage.personalDomains);
+		setDomainInMenu(service);
+		document.location.href= "#page=settings&domain="+hashParam("domain");
+	});
+	
+}
+</script>

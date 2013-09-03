@@ -1,0 +1,140 @@
+ <!--
+    ## This file is part of Invenio.
+    ## Copyright (C) 2012, 2013 CERN.
+    ##
+    ## Invenio is free software; you can redistribute it and/or
+    ## modify it under the terms of the GNU General Public License as
+    ## published by the Free Software Foundation; either version 2 of the
+    ## License, or (at your option) any later version.
+    ##
+    ## Invenio is distributed in the hope that it will be useful, but
+    ## WITHOUT ANY WARRANTY; without even the implied warranty of
+    ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    ## General Public License for more details.
+    ##
+    ## You should have received a copy of the GNU General Public License
+    ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
+    ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable = no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Invenio Mobile</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.3.2.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/invenio-mobile.css"/>
+    <link rel="stylesheet" type="text/css" href="css/invenio-mobile.android.css"/>
+    <link rel="stylesheet" type="text/css" href="css/photoswipe.css"/>
+
+    <!-- JS - External libraries -->
+    <script src="js_external/android.cordova.js"></script>
+    <script src="js_external/jquery-1.9.1.min.js"></script>
+    <script src="js_external/jquery.mobile-1.3.2.min.js"></script>
+    <script src="js_external/jquery-ui-1.8.20.custom.min.js"></script>
+    <script src="js_external/klass.min.js"></script>
+    <script src="js_external/code.photoswipe.jquery-3.0.5.min.js"></script>
+    <script src="js_external/fileopener.js"></script>
+
+    <!-- JS -->
+    <script src="js/invenio-mobile.config.js"></script>
+    <script src="js/invenio-mobile.settings.js"></script>
+    <script src="js/invenio-mobile.js"></script>
+    <script src="js/invenio-mobile.initialization.js"></script>
+    <script src="js/invenio-mobile.debug.js"></script>
+    
+    <script>
+	var preventBack = false;
+	var config ="";
+	$(document).on("pageinit", function(event,ui){
+
+		$(ui.prevPage).remove();
+		
+		config=globalInit();
+		
+		if(!hashParam("page"))
+			$(".search-zone").hide();
+		$(document).trigger("hashchange");
+	});
+    </script>
+    </head>
+    <body>
+
+    <!-- header -->
+    <div data-role="page">
+    	<div data-role="header" class="jqm-header">
+            <div class="top_icons_left"></div>
+            <div class="top_icons_right"></div>
+            <div class="search-zone">
+    			<div class="jqm-search"  data-ajax="false" >
+                    <ul class="jqm-list autocomplete"  data-ajax="false" >
+                        <li data-section="Widgets" data-filtertext="accordions collapsible sets content formatting grouped inset mini"></li>
+                    </ul>
+                </div>
+    		</div>
+   			<div class="drop-down-menu" id="tools-menu" style="right:10px; width:160px; display:none;">
+                <ul>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d  tools-menu-item" >
+                        <div class="ui-btn-inner ">
+                            <div class="ui-btn-text">
+                                <a href="#page=todo" rel="external" class="ui-link-inherit" style="padding-right:0px; padding-top: 7px; padding-bottom:7px; font-size:18px;">
+                                    <div class="panel-item-icon icon_about"></div>About
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d tools-menu-item">
+                        <div class="ui-btn-inner " >
+                            <div class="ui-btn-text">
+                                <a href="#page=settings" rel="external" class="ui-link-inherit" style="padding-right:0px; padding-top: 7px; padding-bottom:7px; font-size:18px;">
+                                    <div class="panel-item-icon icon_settings"></div>Settings
+                                </a>
+                            </div>
+                        </div>
+                     </li>
+                    <li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-d  tools-menu-item">
+                        <div class="ui-btn-inner" >
+                            <div class="ui-btn-text">
+                            <a href="#page=tests" rel="external" class="ui-link-inherit" style="padding-right:0px; padding-top: 7px; padding-bottom:7px; font-size:18px;">
+                                <div class="panel-item-icon icon_test"></div>Tests
+                            </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /header -->
+        
+        <div data-role="content" class="jqm-content without-margin"></div>
+        <!-- /footer -->
+        
+        <div data-role="panel" class="jqm-nav-panel jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="c">
+            <p class="logo-panel">
+                <img src="img/invenio.png" alt="Invenio" style="max-width:120px; max-height:40px;" >
+                <br>
+                <span class="domain_name"></span>
+            </p>
+            <ul data-role="listview" data-theme="d" data-divider-theme="d" data-icon="false" class="jqm-list" >
+                <li data-role="list-divider" class="list-service">Service</li>
+                <li data-role="list-divider" >On device</li>
+                <li>
+                    <a href="#page=offline" rel="external">
+                        <div class="panel-item-icon icon_download"></div>Saved records
+                    </a>
+                </li>
+            </ul>
+            <div data-role="footer" class="jqm-footer">
+                <p>Powered by Invenio</p>
+            </div>
+        </div>
+        <!-- /panel --> 
+    </div>
+    <div id="splashscreen"></div>
+    <!-- /page --> 
+    </body>
+</html>

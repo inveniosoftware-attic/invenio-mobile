@@ -1,0 +1,112 @@
+<!--
+    ## This file is part of Invenio.
+    ## Copyright (C) 2012, 2013 CERN.
+    ##
+    ## Invenio is free software; you can redistribute it and/or
+    ## modify it under the terms of the GNU General Public License as
+    ## published by the Free Software Foundation; either version 2 of the
+    ## License, or (at your option) any later version.
+    ##
+    ## Invenio is distributed in the hope that it will be useful, but
+    ## WITHOUT ANY WARRANTY; without even the implied warranty of
+    ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    ## General Public License for more details.
+    ##
+    ## You should have received a copy of the GNU General Public License
+    ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
+    ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+-->
+
+<style>
+.col {
+	display: inline-block;
+	text-align: left;
+	width: 45%;
+	vertical-align: top
+}
+.box {
+	width: 100px;
+	height: 50px;
+	background-color: #39F;
+	display: none;
+	font-size: 30px;
+	text-align: center;
+	text-shadow: none;
+	color: #FFF;
+	padding-top: 4px
+}
+</style>
+
+<div class="withPadding" align="center">
+  <h2>Tests page</h2>
+  <h3>Speed Test</h3>
+  <div  style="display:inline-block">
+    <button id="SPT" data-icon="check" value="Start" />
+  </div>
+  <div  style="display:inline-block">
+    <button id="reset" value="Reset" data-icon="refresh" />
+  </div>
+  <div style=" vertical-align:top">
+    <div class="col" > <strong>V.Click Down</strong>
+      <div id="t1-box" class="box"></div>
+    </div>
+    <div class="col" > <strong>V.Click</strong>
+      <div id="t2-box"  class="box"></div>
+    </div>
+    <div class="col" > <strong>Click Down </strong>
+      <div id="t4-box"  class="box"></div>
+    </div>
+    <div class="col" > <strong>Click </strong>
+      <div id="t5-box"  class="box"></div>
+    </div>
+  </div>
+</div>
+<script>
+var t=0;
+var v=0
+function setTesttime(area){
+	var d = new Date();
+	var n = d.getTime();
+	if(t==0)
+	 	t=n;
+	$("#"+area+"-box").text((n-t)+"ms");
+	$("#"+area+"-box").show();
+	v++;
+		
+}
+
+function simulTest(){
+	$.ajax({ url: "./js/invenio-mobile.domain.json", async: false, dataType: 'json',
+	  success: function (response) {
+		 
+		$(response.domain).each(function(i,v){if(v.id==INVENIO_INITIAL_DOMAIN_ID){
+			 console.log("success");
+			config=v;	
+			$(".domain_name").html(v.name); 
+			sessionStorage.domain =INVENIO_INITIAL_DOMAIN_ID;
+		}});
+	}});
+	return $("#tools-menu").is(":not(:visible)");
+}
+
+fastClickDown("#SPT", null, null, function(event){
+	setTesttime("t1");
+});
+fastClick("#SPT", null, null, function(event){
+	setTesttime("t2");
+});
+
+$("#SPT").on("mousedown", function(event) {
+	setTesttime("t4");
+});
+$("#SPT").on("click", function(event) {
+	setTesttime("t5");
+});
+
+fastClickDown("#reset", null, null, function(event){
+	t=0;
+	v=0;
+	for(i=1;i<=6;i++)
+		$("#t"+i+"-box").hide();
+});
+</script>
