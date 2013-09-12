@@ -54,6 +54,19 @@
                 "offline": true,
                 "tab": []
             }
+        }, {
+            "id": "zenodo",
+            "domain": "pccis77.cern.ch",
+			"favicon": "favicon_ZENODO.png",
+			"name" : "ZENODO",
+			"enable" : true,
+            "record": {
+                "display_file": true,
+				"display_video": true,
+				"allowed_file_format":["gif","pdf","jpg","jpeg","txt","webm"],
+                "offline": true,
+                "tab": []
+            }
         }
     ]
 }
