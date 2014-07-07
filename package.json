@@ -1,0 +1,10 @@
+{
+  "name": "invenio-mobile",
+  "version": "0.0.0",
+  "description": "A mobile app for the Invenio document repository suite.",
+  "license": "GPLv2",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-less": "~0.11.3"
+  }
+}
