@@ -16,29 +16,16 @@
  * along with Invenio; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-var app = {
-	// Application Constructor
-	initialize: function() {
-		this.bindEvents();
-	},
 
-	// Bind any events that are required on startup. Common events are:
-	// 'load', 'deviceready', 'offline', and 'online'.
-	bindEvents: function() {
-		document.addEventListener('deviceready', this.onDeviceReady, false);
-	},
+#homeMain > * {
+	margin-bottom: 0.5em;
+}
 
-	// The scope of 'this' is the event. In order to call the 'receivedEvent'
-	// function, we must explicitly call 'app.receivedEvent(...);'
-	onDeviceReady: function() {
-		app.receivedEvent('deviceready');
-	},
+.brand {
+	text-align: center;
+	font-weight: bold;
+}
 
-	receivedEvent: function(id) {
-		console.log('Received Event: ' + id);
-	}
-};
-
-function go(url) {
-	$('#main').load(url);
+#sourceDropdown {
+	width: 100%;
 }
