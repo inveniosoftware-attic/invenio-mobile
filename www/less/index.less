@@ -16,25 +16,39 @@
  * along with Invenio; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-var app = {
-	// Application Constructor
-	initialize: function() {
-		this.bindEvents();
-	},
 
-	// Bind any events that are required on startup. Common events are:
-	// 'load', 'deviceready', 'offline', and 'online'.
-	bindEvents: function() {
-		document.addEventListener('deviceready', this.onDeviceReady, false);
-	},
+* {
+	-webkit-tap-highlight-color: rgba(0,0,0,0); // make transparent link selection, adjust last value opacity 0 to 1.0
+	box-sizing: border-box;
+}
 
-	// The scope of 'this' is the event. In order to call the 'receivedEvent'
-	// function, we must explicitly call 'app.receivedEvent(...);'
-	onDeviceReady: function() {
-		app.receivedEvent('deviceready');
-	},
+body {
+	-webkit-touch-callout: none;     // prevent callout to copy image, etc when tap to hold
+	-webkit-text-size-adjust: none;  // prevent webkit from resizing text to fit
+	-webkit-user-select: none;       // prevent copy paste, to allow, change 'none' to 'text'
+}
 
-	receivedEvent: function(id) {
-		console.log('Received Event: ' + id);
+@topBarHeight: 4em;
+
+#topBar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+
+	height: @topBarHeight;
+
+	background: none repeat scroll 0% 0% #E8E8E8;
+	border-color: #E8E8E8;
+	box-shadow: 0px 0px 15px #AAA;
+
+	#title {
+		margin-left: 1em;
+		line-height: @topBarHeight;
+		font-weight: bold;
 	}
-};
+}
+
+#main {
+	margin-top: @topBarHeight;
+}
