@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="org.invenio-software.mobile" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Invenio Mobile</name>
+    <description>
+        A mobile app for the Invenio document repository suite.
+    </description>
+	<author email="info@invenio-software.com" href="http://invenio-software.org/">
+        Invenio Development Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+</widget>
