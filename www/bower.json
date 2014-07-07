@@ -1,0 +1,14 @@
+{
+  "name": "invenio-mobile",
+  "version": "0.0.0",
+  "description": "A mobile app for the Invenio document repository suite.",
+  "license": "GPLv2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+}
