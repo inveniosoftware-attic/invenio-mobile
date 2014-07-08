@@ -14,6 +14,7 @@
   "dependencies": {
     "bootstrap": "~3.2.0",
     "jquery": "~2.1.1",
-    "jinja-js": "git://github.com/sstur/jinja-js.git#~0.1.8"
+    "jinja-js": "git://github.com/sstur/jinja-js.git#~0.1.8",
+    "fastclick": "~1.0.2"
   }
 }

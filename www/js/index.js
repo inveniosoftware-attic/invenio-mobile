@@ -42,3 +42,5 @@ var app = {
 function go(url) {
 	$('#main').load(url);
 }
+
+$(function() { FastClick.attach(document.body); });
