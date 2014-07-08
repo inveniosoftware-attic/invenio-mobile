@@ -15,8 +15,22 @@ module.exports = (grunt) ->
 				]
 			}
 		}
+		coffee: {
+			build: {
+				files: [
+					{
+						expand: true
+						cwd: 'www/coffee/'
+						src: ['**/*.coffee']
+						dest: 'www/jsbin/'
+						ext: '.js'
+					}
+				]
+			}
+		}
 	}
 
 	grunt.loadNpmTasks('grunt-contrib-less')
+	grunt.loadNpmTasks('grunt-contrib-coffee')
 
-	grunt.registerTask('default', ['less'])
+	grunt.registerTask('default', ['less', 'coffee'])
