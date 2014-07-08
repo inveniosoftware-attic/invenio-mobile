@@ -4,30 +4,29 @@
 	Invenio Mobile
 </div>
 
-<div class="dropdown">
-	<button id="sourceDropdown" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-		Atlantis Institute of Fictive Science
+<div>
+	<button id="sourceDropdownButton" class="btn btn-default dropdown-toggle" type="button">
+		<span id="sourceName">Atlantis Institute of Fictive Science</span>
 		<span class="caret"></span>
 	</button>
-	<ul class="dropdown-menu" role="menu" aria-labelledby="sourceDropdown">
-		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Atlantis Institute of Fictive Science</a></li>
-		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">CDS</a></li>
-		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">INSPIRE</a></li>
-		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Labordoc</a></li>
-		<li class="divider" role="presentation"></li>
-		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Add source...</a></li>
-	</ul>
+	<div id="sourceDropdown" class="hidden list-group" role="menu" aria-labelledby="sourceDropdownButton">
+		<a class="list-group-item active" role="menuitem" href="#">Atlantis Institute of Fictive Science</a></li>
+		<a class="list-group-item" role="menuitem" href="#">CDS</a></li>
+		<a class="list-group-item" role="menuitem" href="#">INSPIRE</a></li>
+		<a class="list-group-item" role="menuitem" href="#">Labordoc</a></li>
+		<a class="list-group-item" role="menuitem" href="#">Add source...</a></li>
+	</div>
 </div>
 
 <div class="clause input-group">
 	<input class="fieldValue form-control" type="text" />
 
 	<div class="dropdown input-group-addon">
-		<a class="fieldDropdown dropdown-toggle" data-toggle="dropdown">
+		<a id="fieldDropdownButton" class="fieldDropdown dropdown-toggle" data-toggle="dropdown">
 			anywhere	
 			<span class="caret"></span>
 		</a>
-		<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="sourceDropdown">
+		<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="fieldDropdownButton">
 			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">anywhere</a></li>
 			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Author</a></li>
 			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Title</a></li>
@@ -49,3 +48,5 @@
 		</button>
 	</div>
 </div>
+
+<script type="text/javascript" src="js/search.js"></script>
