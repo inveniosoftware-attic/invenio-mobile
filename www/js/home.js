@@ -20,3 +20,15 @@
 function homeGo(url) {
 	$('#homeMain').load(url);
 }
+
+$('#searchTab').click(function() {
+	homeGo('./pages/search.html');
+	$('#homeTabs > li').removeClass('active');
+	$('#searchTab').parent().addClass('active');
+});
+
+$('#offlineTab').click(function() {
+	homeGo('./pages/offline.html');
+	$('#homeTabs > li').removeClass('active');
+	$('#offlineTab').parent().addClass('active');
+});
