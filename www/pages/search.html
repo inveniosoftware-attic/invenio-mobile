@@ -18,23 +18,28 @@
 	</div>
 </div>
 
-<div class="clause input-group">
-	<input class="fieldValue form-control" type="text" />
+<script id="clauseTemplate" type="text/x-jinja2-template">
+	<div class="clause input-group">
+		<input class="fieldValue form-control" type="text" />
 
-	<div class="dropdown input-group-addon">
-		<a id="fieldDropdownButton" class="fieldDropdown dropdown-toggle" data-toggle="dropdown">
-			anywhere	
-			<span class="caret"></span>
-		</a>
-		<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="fieldDropdownButton">
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">anywhere</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Author</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Title</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Report number</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Collaboration</a></li>
-			<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Keywords</a></li>
-		</ul>
+		<div class="dropdown input-group-addon">
+			<a class="fieldDropdown dropdown-toggle" data-toggle="dropdown">
+				anywhere
+				<span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-right" role="menu">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">anywhere</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Author</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Title</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Report number</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Collaboration</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Keywords</a></li>
+			</ul>
+		</div>
 	</div>
+</script>
+
+<div id="clauses">
 </div>
 
 <div class="container">

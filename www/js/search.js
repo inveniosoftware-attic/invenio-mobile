@@ -26,3 +26,13 @@ $('#sourceDropdown a').click(function() {
 	$('#sourceDropdownButton').removeClass('hidden');
 	$('#sourceDropdown').addClass('hidden');
 });
+
+var clauseTemplate = jinja.compile($('#clauseTemplate').html());
+
+function addClause() {
+	$('#clauses').append(clauseTemplate.render());
+}
+
+$('#addClauseButton').click(addClause);
+
+addClause();
