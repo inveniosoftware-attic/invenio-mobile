@@ -17,13 +17,35 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-$('#sourceDropdownButton').click ->
-	$('#sourceDropdown').removeClass('hidden')
-	$('#sourceDropdownButton').addClass('hidden')
+## Source list ##
 
-$('#sourceDropdown a').click ->
-	$('#sourceDropdownButton').removeClass('hidden')
-	$('#sourceDropdown').addClass('hidden')
+sources = [
+	{
+		name: "Atlantis Institute of Fictive Science"
+	},
+	{
+		name: "CDS"
+	},
+	{
+		name: "INSPIRE"
+	},
+	{
+		name: "Labordoc"
+	},
+]
+
+selectedSourceIndex = 0
+
+sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
+
+$('#sources').expandingButtonList(sourcesListTemplate, sources, selectedSourceIndex, (index) ->
+	selectedSourceIndex = index
+)
+
+$('#sources_add').click ->
+	# TODO
+
+## Clauses ##
 
 clauseTemplate = jinja.compile($('#clauseTemplate').html())
 

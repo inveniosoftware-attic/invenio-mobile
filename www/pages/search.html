@@ -1,16 +1,22 @@
 <link rel="stylesheet" type="text/css" href="cssbin/search.css" />
 
-<div>
-	<button id="sourceDropdownButton" class="btn btn-default dropdown-toggle" type="button">
-		<span id="sourceName">Atlantis Institute of Fictive Science</span>
+<div id="sources" class="expandingButtonList">
+	<button class="btn btn-default" type="button">
+		<span class="ebl_name">Atlantis Institute of Fictive Science</span>
 		<span class="caret"></span>
 	</button>
-	<div id="sourceDropdown" class="hidden list-group" role="menu" aria-labelledby="sourceDropdownButton">
-		<a class="list-group-item active" role="menuitem" href="#">Atlantis Institute of Fictive Science</a></li>
-		<a class="list-group-item" role="menuitem" href="#">CDS</a></li>
-		<a class="list-group-item" role="menuitem" href="#">INSPIRE</a></li>
-		<a class="list-group-item" role="menuitem" href="#">Labordoc</a></li>
-		<a class="list-group-item" role="menuitem" href="#">Add source...</a></li>
+	<script id="sources_listTemplate" type="text/x-jinja2-template">
+		{% for source in data %}
+		<a class="list-group-item" role="menuitem" href="#"
+			data-index="{{loop.index - 1}}">
+			{{source.name}}
+		</a>
+		{% endfor %}
+	</script>
+	<div class="list-group" role="menu">
+		<div class="ebl_list">
+		</div>
+		<a id="sources_add" class="list-group-item" role="menuitem" href="#">Add source...</a>
 	</div>
 </div>
 
@@ -54,4 +60,5 @@
 	Powered by Invenio.
 </footer>
 
+<script src="jsbin/expandingButtonList.js"></script>
 <script src="jsbin/search.js"></script>
