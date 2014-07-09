@@ -1,17 +1,15 @@
 <link rel="stylesheet" type="text/css" href="cssbin/home.css" />
 
-<ul id="homeTabs" class="topBar tabBar nav" role="tablist">
-	<li class="active"><a id="searchTab" href=#>
+<ul id="homeTabs" class="topBar tabBar nav" role="tablist" data-target="#homeMain">
+	<li class="active"><a id="searchTab" href=# data-tab-href="pages/search.html">
 		<span class="glyphicon glyphicon-search"></span> Search
 	</a></li>
-	<li><a id="offlineTab" href=#>
+	<li><a id="offlineTab" href=# data-tab-href="pages/offline.html">
 		<span class="glyphicon glyphicon-book"></span> On Device
 	</a></li>
 </ul>
 
 <div id="homeMain"></div>
 
+<script src="jsbin/tabBar.js"></script>
 <script src="jsbin/home.js"></script>
-<script type="text/javascript">
-	homeGo('./pages/search.html');
-</script>

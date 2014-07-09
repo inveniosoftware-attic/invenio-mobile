@@ -17,4 +17,22 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-$('#homeTabs').tabBar()
+$.fn.tabBar = ->
+	$tabBar = this
+	$target = $(this.attr('data-target'))
+
+	go = (url) ->
+		if $target.attr('data-current-tab-href') isnt url
+			$target.load(url)
+			$target.attr('data-current-tab-href', url)
+
+	this.find('a').click ->
+		$this = $(this)
+		go($this.attr('data-tab-href'))
+
+		$tabBar.children('li').removeClass('active')
+		$this.parent().addClass('active')
+
+	go(this.find('.active > a').attr('data-tab-href'))
+
+	return this
