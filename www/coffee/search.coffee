@@ -21,6 +21,8 @@
 
 sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
 
+selectedSourceIndex = null
+
 app.onceSettingsLoaded ->
 	selectedSourceIndex = app.selectedSourceIndex
 
@@ -45,3 +47,33 @@ addClause = ->
 $('#addClauseButton').click(addClause)
 
 addClause()
+
+## Performing the query ##
+
+createQueryJSON = ->
+	array = []
+	first = true
+	for clause in $('#clauses .clause')
+		$clause = $(clause)
+		field = $clause.find('.dropdown').attr('data-value')
+		array.push({
+			operation: 'AND' unless first
+			value: $clause.find('.clause_fieldValue').val()
+			field: field if field isnt ''
+		})
+		first = false
+
+	return array
+
+$('#searchButton').click ->
+	array = createQueryJSON()
+	selectedSource = app.sources[selectedSourceIndex]
+	connectorClass = getConnector(selectedSource.type ? 'invenio')
+	if not connectorClass?
+		# TODO: an error message
+		console.error("No connector for source type #{selectedSource.type} is installed.")
+		return
+
+	connector = new connectorClass(selectedSource)
+	query = connector.compileQuery(array)
+	# TODO
