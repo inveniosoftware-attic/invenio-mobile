@@ -50,7 +50,10 @@ $('#sources_add').click ->
 clauseTemplate = jinja.compile($('#clauseTemplate').html())
 
 addClause = ->
-	$('#clauses').append(clauseTemplate.render())
+	$newClause = $(clauseTemplate.render())
+	$newClause.appendTo('#clauses')
+
+	$newClause.find('.dropdown').dropdownSelect()
 
 $('#addClauseButton').click(addClause)
 

@@ -22,20 +22,32 @@
 
 <script id="clauseTemplate" type="text/x-jinja2-template">
 	<div class="clause input-group">
-		<input class="fieldValue form-control" type="text" />
+		<input class="clause_fieldValue form-control" type="text" />
 
-		<div class="dropdown input-group-addon">
-			<a class="fieldDropdown dropdown-toggle" data-toggle="dropdown">
-				anywhere
+		<div class="dropdown input-group-addon" data-value="">
+			<a class="dropdown-toggle" data-toggle="dropdown">
+				<span class="dropdownSelect_label">anywhere</span>
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu dropdown-menu-right" role="menu">
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">anywhere</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Author</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Title</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Report number</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Collaboration</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#">in Keywords</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="">
+					anywhere
+				</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="author">
+					in Author
+				</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="title">
+					in Title
+				</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="rn">
+					in Report number
+				</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="cn">
+					in Collaboration
+				</a></li>
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="k">
+					in Keywords
+				</a></li>
 			</ul>
 		</div>
 	</div>
@@ -61,4 +73,5 @@
 </footer>
 
 <script src="jsbin/expandingButtonList.js"></script>
+<script src="jsbin/dropdownSelect.js"></script>
 <script src="jsbin/search.js"></script>
