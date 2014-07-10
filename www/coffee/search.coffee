@@ -19,31 +19,18 @@
 
 ## Source list ##
 
-sources = [
-	{
-		name: "Atlantis Institute of Fictive Science"
-	},
-	{
-		name: "CDS"
-	},
-	{
-		name: "INSPIRE"
-	},
-	{
-		name: "Labordoc"
-	},
-]
-
-selectedSourceIndex = 0
-
 sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
 
-$('#sources').expandingButtonList(sourcesListTemplate, sources, selectedSourceIndex, (index) ->
-	selectedSourceIndex = index
-)
+app.onceSettingsLoaded ->
+	selectedSourceIndex = app.selectedSourceIndex
 
-$('#sources_add').click ->
-	# TODO
+	$('#sources').expandingButtonList(sourcesListTemplate, app.sources, selectedSourceIndex, (index) ->
+		selectedSourceIndex = index
+		app.setSelectedSourceIndex(index)
+	)
+
+	$('#sources_add').click ->
+		# TODO
 
 ## Clauses ##
 

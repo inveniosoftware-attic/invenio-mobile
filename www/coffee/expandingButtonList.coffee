@@ -42,7 +42,15 @@ $.fn.expandingButtonList = (template, data, selectedIndex, callback) ->
 	$list = this.find('.ebl_list')
 
 	$list.html(template.render(data: data, selected: selectedIndex))
-	$list.children("a[data-index=#{selectedIndex}]").addClass('active')
+
+	selectItem = (index) ->
+		newLabel = data[index].name
+		$button.find('.ebl_name').text(newLabel)
+
+		$list.children('a[data-index]').removeClass('active')
+		$list.children("a[data-index=#{index}]").addClass('active')
+
+	selectItem(selectedIndex)
 
 	$button.click ->
 		$expandingButtonList.addClass('expanded')
@@ -50,13 +58,9 @@ $.fn.expandingButtonList = (template, data, selectedIndex, callback) ->
 	$list.children('a[data-index]').click ->
 		$expandingButtonList.removeClass('expanded')
 
-		selectedIndex = $(this).attr('data-index')
-		newLabel = data[selectedIndex].name
-		$button.find('.ebl_name').text(newLabel)
+		index = $(this).attr('data-index')
+		selectItem(index)
 
-		$list.children('a[data-index]').removeClass('active')
-		$list.children("a[data-index=#{selectedIndex}]").addClass('active')
-
-		callback(selectedIndex)
+		callback(index)
 
 	return this
