@@ -73,10 +73,16 @@ class InvenioMobileApp
 		this.selectedSourceIndex = value
 		localStorage['selectedSourceIndex'] = value
 
-@go = (url) ->
-	$('#main').load(url)
 
 $ -> FastClick.attach(document.body)
 
 @app = new InvenioMobileApp()
-go('./pages/home.html')
+
+## Hash and history handling ##
+
+$(window).on 'hashchange', ->
+	hash = window.location.hash.substr(2)
+	[page, params] = hash.split('?')
+	$('#main').load("./pages/#{page}.html")
+
+window.location.hash = '#/home'

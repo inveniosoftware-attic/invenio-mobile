@@ -7,7 +7,7 @@
 	</button>
 	<script id="sources_listTemplate" type="text/x-jinja2-template">
 		{% for source in data %}
-		<a class="list-group-item" role="menuitem" href="#"
+		<a class="list-group-item" role="menuitem" href="javascript:;"
 			data-index="{{loop.index - 1}}">
 			{{source.name}}
 		</a>
@@ -16,7 +16,7 @@
 	<div class="list-group" role="menu">
 		<div class="ebl_list">
 		</div>
-		<a id="sources_add" class="list-group-item" role="menuitem" href="#">Add source...</a>
+		<a id="sources_add" class="list-group-item" role="menuitem" href="javascript:;">Add source...</a>
 	</div>
 </div>
 
@@ -30,22 +30,22 @@
 				<span class="caret"></span>
 			</a>
 			<ul class="dropdown-menu dropdown-menu-right" role="menu">
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="">
 					anywhere
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="author">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="author">
 					in Author
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="title">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="title">
 					in Title
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="rn">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="rn">
 					in Report number
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="cn">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="cn">
 					in Collaboration
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="#" data-value="k">
+				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="k">
 					in Keywords
 				</a></li>
 			</ul>
