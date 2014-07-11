@@ -17,44 +17,30 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-* {
-	-webkit-tap-highlight-color: rgba(0,0,0,0); // make transparent link selection, adjust last value opacity 0 to 1.0
-	box-sizing: border-box;
-}
+.record {
+	&.list-group-item {
+		// Override Bootstrap to give full-width list items
+		border-left: none;
+		border-right: none;
 
-body {
-	-webkit-touch-callout: none;     // prevent callout to copy image, etc when tap to hold
-	-webkit-text-size-adjust: none;  // prevent webkit from resizing text to fit
-	-webkit-user-select: none;       // prevent copy paste, to allow, change 'none' to 'text'
-}
+		&:last-child {
+			border-radius: 0;
+		}
+	}
 
-@topBarHeight: 4em;
+	& > * {
+		white-space: nowrap;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+	}	
 
-.topBar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-
-	height: @topBarHeight;
-
-	z-index: 999;
-
-	background: none repeat scroll 0% 0% #E8E8E8;
-	border-color: #E8E8E8;
-	box-shadow: 0px 0px 15px #AAA;
-
-	.topBar_title {
-		margin-left: 1em;
-		line-height: @topBarHeight;
+	.title {
 		font-weight: bold;
 	}
-}
 
-.contentBelowTopBar {
-	position: fixed;
-	top: @topBarHeight;
-	bottom: 0;
-
-	width: 100%;
+	.rightSide {
+		// Float to the right, keeping it on the same line as the next element
+		float: right;
+		max-width: 40%;
+	}
 }
