@@ -76,4 +76,5 @@ $('#searchButton').click ->
 
 	connector = new connectorClass(selectedSource)
 	query = connector.compileQuery(array)
+	console.log "TODO: perform query '#{query}' on source '#{selectedSource.name}'"
 	# TODO

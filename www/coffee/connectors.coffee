@@ -21,9 +21,13 @@ class @InvenioConnector
 	constructor: (@source) ->
 
 	compileQuery: (queryArray) ->
-		console.log "TODO: compile Invenio query for query array:"
-		console.log queryArray
-		return ""
+		query = ''
+		for clause in queryArray
+			query += clause.operation + ' ' if clause.operation?
+			query += clause.field + ':' if clause.field?
+			query += clause.value + ' '
+
+		return query.trim()
 
 connectors = {
 	invenio: InvenioConnector
