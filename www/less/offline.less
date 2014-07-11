@@ -17,34 +17,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-.listLetterGroup {
-	.letter {
-		margin-bottom: 0.2em;
-		border-bottom: 0.1em solid #444;
+@import "list.less";
 
-		font-weight: bold;
-	}
+.listLetterGroup .letter {
+	margin-bottom: 0.2em;
+	border-bottom: 0.1em solid #444;
+	padding-left: 0.5em;
 
-	.offlineRecord {
-		.name {
-			font-weight: bold;
-		}
-
-		// Float the source to the right, keeping it on the same line as the authors
-		@lineHeight: 1.4em;
-
-		.source {
-			float: right;
-			max-width: 40%;
-			height: @lineHeight;
-
-			overflow: hidden;
-		}
-
-		.author {
-			height: @lineHeight;
-
-			overflow: hidden;
-		}
-	}
+	font-weight: bold;
 }
