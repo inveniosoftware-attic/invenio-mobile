@@ -68,13 +68,7 @@ createQueryJSON = ->
 $('#searchButton').click ->
 	array = createQueryJSON()
 	selectedSource = app.sources[selectedSourceIndex]
-	connectorClass = getConnector(selectedSource.type ? 'invenio')
-	if not connectorClass?
-		# TODO: an error message
-		console.error("No connector for source type #{selectedSource.type} is installed.")
-		return
-
-	connector = new connectorClass(selectedSource)
+	connector = getConnector(selectedSource)
 	query = connector.compileQuery(array)
 	
 	window.location.hash = "#/results?query=#{query}"
