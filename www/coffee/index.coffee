@@ -80,6 +80,22 @@ $ -> FastClick.attach(document.body)
 
 ## Hash and history handling ##
 
+###*
+	@returns {Object} the parameters passed in the hash, as an object.
+###
+@parseHashParameters = ->
+	[page, params] = window.location.hash.split('?')
+	obj = {}
+	return obj unless params?
+
+	for param in params.split('&')
+		splitAt = param.indexOf('=')
+		key = param[...splitAt]
+		value = param[splitAt + 1..]
+		obj[key] = value
+	
+	return obj
+
 $(window).on 'hashchange', ->
 	hash = window.location.hash.substr(2)
 	[page, params] = hash.split('?')
