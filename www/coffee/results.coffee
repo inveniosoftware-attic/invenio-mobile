@@ -17,6 +17,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+$queryBar = $('#queryBar')
 $spinner = $('#spinner')
 $resultsList = $('#resultsList')
 
@@ -24,7 +25,9 @@ resultsListItemsTemplate = jinja.compile($('#resultsListItemsTemplate').html())
 
 doSearch = (source, query) ->
 	$resultsList.hide()
+	$queryBar.text(query)
 	$spinner.show()
+
 	connector = getConnector(source)
 	connector.performQuery query, (data) ->
 		$resultsList.html(resultsListItemsTemplate.render(data))
