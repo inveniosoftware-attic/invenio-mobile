@@ -12,41 +12,20 @@
 		quarks
 	</a>
 
+	<div id="spinner">
+		Loading...
+	</div>
+
+	<script id="resultsListItemsTemplate" type="text/x-jinja-template">
+		{% for record in records %}
+		<a class="record list-group-item" href="javascript:;">
+			<div class="title">{{record.title}}</div>
+		</a>
+		{% endfor %}
+	</script>
+
 	<div id="resultsList" class="list-group">
-		<!-- Sample results from a search for "quarks" on the Invenio demo. -->
-		<a class="record list-group-item" href="javascript:;">
-			<div class="title">A new model-independent way of extracting |V_ub/V_cb|</div>
-			<div class="author">Aglietti, U; Ciuchini, M; Gambino, P</div>
-		</a>
-
-		<a class="record list-group-item" href="javascript:;">
-			<div class="title">Remarks on the f_0(400-1200) scalar meson as the dynamically generated chiral partner of the pion</div>
-			<div class="author">Van Beveren, E; Kleefeld, F; Rupp, G; Scadron, M D</div>
-		</a>
-
-		<a class="record list-group-item" href="javascript:;">
-			<div class="title">Supersymmetry and a rationale for small CP violating phases</div>
-			<div class="author">Branco, G C; Gomez, M E; Khalil, S; Teixeira, A M</div>
-		</a>
-
-		<a class="record list-group-item" href="javascript:;">
-			<div class="title">Thermal conductivity of dense quark matter and cooling of stars</div>
-			<div class="author">Shovkovy, I A; Ellis, P J</div>
-		</a>
-
-		<a class="record list-group-item" href="javascript:;">
-			<div class="title">The total cross section for the production of heavy quarks in hadronic collisions</div>
-			<div class="author">Nason, P; Dawson, S; Ellis, R K</div>
-		</a>
-
-		<a class="record list-group-item" href="javascript:;">
-			<div class="title">Physics at the front-end of a neutrino factory : a quantitative appraisal</div>
-			<div class="author">Mangano, M L; Alekhin, S I; Anselmino, M; Ball, R D; Boglione, M; D'Alesio, U; Davidson, S; De Lellis, G; Ellis, J; Forte, S; Gambino, P; Gehrmann, T; Kataev, A L; Kotzinian, A; Kulagin, S A; Lehmann-Dronke, B; Migliozzi, P; Murgia, F; Ridolfi, G</div>
-		</a>
-
-		<a class="record list-group-item" href="javascript:;">
-			<div class="title">ALEPH experiment: Candidate of Higgs boson production</div>
-			<div class="author">Photolab</div>
-		</a>
 	</div>
 </div>
+
+<script src="jsbin/results.js"></script>

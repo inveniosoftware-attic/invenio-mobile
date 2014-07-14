@@ -71,4 +71,4 @@ $('#searchButton').click ->
 	connector = getConnector(selectedSource)
 	query = connector.compileQuery(array)
 	
-	window.location.hash = "#/results?query=#{query}"
+	window.location.hash = "#/results?sourceIndex=#{selectedSourceIndex}&query=#{query}"
