@@ -35,7 +35,7 @@ class @InvenioConnector
 
 		# For now, return sample data (from a search for "quarks" on the Invenio demo)
 		sampleData = {
-			lineStyles: ['authors', ['reportNumber', 'rightSide']],
+			lineStyles: ['authors', ['reportNumber', 'rightSide'], ''],
 			records: [
 				{
 					id: 55,

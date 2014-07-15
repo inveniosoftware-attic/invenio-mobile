@@ -21,7 +21,26 @@ $queryBar = $('#queryBar')
 $spinner = $('#spinner')
 $resultsList = $('#resultsList')
 
-resultsListItemsTemplate = jinja.compile($('#resultsListItemsTemplate').html())
+displayResults = (data) ->
+	itemLines = ""
+	for classes, i in data.lineStyles
+		if typeof classes is 'string'
+			classAttr = if classes.length > 0 then 'record_' + escape(classes) else ''
+		else
+			classAttr = ('record_' + escape(cssClass) for cssClass in classes).join(' ')
+
+		itemLines += "<div class='#{classAttr}'>{{record.lines[#{i}]}}</div>"
+
+	itemsTemplate = jinja.compile("""
+		{% for record in records %}
+		<a class="record list-group-item" href="javascript:;">
+			<div class="title">{{record.title}}</div>
+			#{itemLines}
+		</a>
+		{% endfor %}
+		""")
+
+	$resultsList.html(itemsTemplate.render(data))
 
 doSearch = (source, query) ->
 	$resultsList.hide()
@@ -30,7 +49,7 @@ doSearch = (source, query) ->
 
 	connector = getConnector(source)
 	connector.performQuery query, (data) ->
-		$resultsList.html(resultsListItemsTemplate.render(data))
+		displayResults(data)
 
 		$spinner.hide()
 		$resultsList.show()
