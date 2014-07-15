@@ -26,7 +26,7 @@
 	
 	@param {Object}   template
 		The Jinja.js template to use to create the menu. The data will be
-		passed as the data parameter.
+		passed as the `data` parameter.
 	@param {Array}    data
 		An array of objects to display in the list. The `name` value of each
 		object will be used as its label.
@@ -38,7 +38,7 @@
 ###
 $.fn.expandingButtonList = (template, data, selectedIndex, callback) ->
 	$expandingButtonList = this
-	$button = this.children('button')
+	$button = this.children('.ebl_button')
 	$list = this.find('.ebl_list')
 
 	$list.html(template.render(data: data, selected: selectedIndex))
