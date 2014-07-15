@@ -33,7 +33,7 @@ displayResults = (data) ->
 
 	itemsTemplate = jinja.compile("""
 		{% for record in records %}
-		<a class="record list-group-item" href="javascript:;">
+		<a class="record list-group-item" href="#/record?id={{record.id}}">
 			<div class="title">{{record.title}}</div>
 			#{itemLines}
 		</a>
