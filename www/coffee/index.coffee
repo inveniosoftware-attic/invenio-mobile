@@ -96,9 +96,13 @@ $ -> FastClick.attach(document.body)
 	
 	return obj
 
+currentPage = null
+
 $(window).on 'hashchange', ->
 	hash = window.location.hash.substr(2)
 	[page, params] = hash.split('?')
-	$('#main').load("./pages/#{page}.html")
+	unless page is currentPage
+		$('#main').load("./pages/#{page}.html")
+		currentPage = page
 
 window.location.hash = '#/home'
