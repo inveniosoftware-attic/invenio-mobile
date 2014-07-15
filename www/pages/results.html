@@ -1,10 +1,23 @@
 <link rel="stylesheet" type="text/css" href="cssbin/results.css" />
 
-<div class="topBar">
-	<span class="topBar_title">
-		<span id="sourceName">Atlantis Institute of Fictive Science</span>
+<div id="sources" class="topBar">
+	<a class="topBar_title ebl_button" href="javascript:;">
+		<span class="ebl_name"></span>
 		<span class="caret"></span>
-	</span>
+	</a>
+	<script id="sources_listTemplate" type="text/x-jinja2-template">
+		{% for source in data %}
+		<a class="list-group-item" role="menuitem" href="javascript:;"
+			data-index="{{loop.index - 1}}">
+			{{source.name}}
+		</a>
+		{% endfor %}
+	</script>
+	<div class="topBar_dropdown list-group" role="menu">
+		<div class="ebl_list">
+		</div>
+		<a id="sources_add" class="list-group-item" role="menuitem" href="javascript:;">Add source...</a></li>
+	</div>
 </div>
 
 <div class="contentBelowTopBar">

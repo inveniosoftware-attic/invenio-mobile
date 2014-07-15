@@ -55,6 +55,27 @@ doSearch = (source, query) ->
 		$resultsList.show()
 
 params = parseHashParameters()
-source = app.sources[params.sourceIndex]
 query = params.query
-doSearch(source, query)
+app.onceSettingsLoaded ->
+	source = app.sources[app.selectedSourceIndex]
+	doSearch(source, query)
+
+## Sources dropdown ##
+
+sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
+
+selectedSourceIndex = null
+
+app.onceSettingsLoaded ->
+	selectedSourceIndex = app.selectedSourceIndex
+
+	$('#sources').expandingButtonList(sourcesListTemplate, app.sources, selectedSourceIndex, (index) ->
+		selectedSourceIndex = index
+		app.setSelectedSourceIndex(index)
+
+		source = app.sources[index]
+		doSearch(source, query)
+	)
+
+	$('#sources_add').click ->
+		# TODO

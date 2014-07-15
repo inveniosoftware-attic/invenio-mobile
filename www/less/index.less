@@ -42,12 +42,16 @@ body {
 
 	background: none repeat scroll 0% 0% #E8E8E8;
 	border-color: #E8E8E8;
-	box-shadow: 0px 0px 15px #AAA;
 
 	.topBar_title {
 		margin-left: 1em;
 		line-height: @topBarHeight;
 		font-weight: bold;
+		color: black;
+	}
+
+	&, .topBar_dropdown {  // If something's going to extend out of the top bar, give it a shadow too
+		box-shadow: 0px 0px 15px #AAA;
 	}
 }
 
