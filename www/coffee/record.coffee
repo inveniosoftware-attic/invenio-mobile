@@ -20,4 +20,3 @@
 params = parseHashParameters()
 
 $('.topBar_title').text app.sources[app.selectedSourceIndex].name
-$('.contentBelowTopBar h2').text "Record #{params.id}"

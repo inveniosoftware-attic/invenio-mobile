@@ -1,0 +1,86 @@
+/*
+ * This file is part of Invenio.
+ * Copyright (C) 2014 CERN.
+ *
+ * Invenio is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * Invenio is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Invenio; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+.inlineList(@separator) {
+	padding-left: 0;
+
+	li {
+		display: inline;
+
+		&::after { content: @separator; }
+		&:last-child::after { content: none; }
+	}
+}
+
+.contentBelowTopBar {
+	padding: 0.3em;
+
+	overflow-y: auto;
+	-webkit-user-select: text;
+}
+
+.pillsContainer {
+	padding-left: 0;
+
+	.pill {
+		display: inline-block;
+
+		margin: 0.1em;
+		border: 0.1em solid #AAA;
+		padding: 0.2em 0.3em;
+
+		border-radius: 0.3em;
+
+		background: #EEE;
+	}
+}
+
+.fieldLabel {
+	margin-bottom: 0.2em;
+	border-bottom: 0.1em solid #333;
+
+	font-size: small;
+	font-weight: bold;
+	text-transform: uppercase;
+
+	-webkit-user-select: none;
+}
+
+.record_title {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.record_authors {
+	.inlineList('; ');
+}
+
+.record_journal {
+	font-style: italic;
+}
+
+.record_reportNumbers {
+	.inlineList('; ');
+
+	font-size: small;
+}
+
+.record_keywords {
+	-webkit-user-select: none;
+}

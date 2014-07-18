@@ -28,7 +28,7 @@ body {
 	-webkit-user-select: none;       // prevent copy paste, to allow, change 'none' to 'text'
 }
 
-@topBarHeight: 4em;
+@topBarHeight: 48px;
 
 .topBar {
 	position: fixed;
@@ -48,6 +48,27 @@ body {
 		line-height: @topBarHeight;
 		font-weight: bold;
 		color: black;
+	}
+
+	.topBar_actions {
+		float: right;
+		display: inline-block;
+
+		margin: 0;
+		border: 0 none;
+		padding: 0;
+
+		.topBar_action {
+			display: inline-block;
+			width: @topBarHeight;
+			height: @topBarHeight;
+
+			padding: @topBarHeight / 6;
+
+			font-size: @topBarHeight * 2 / 3;
+
+			color: #555;
+		}
 	}
 
 	&, .topBar_dropdown {  // If something's going to extend out of the top bar, give it a shadow too
