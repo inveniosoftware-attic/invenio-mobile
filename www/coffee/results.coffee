@@ -25,16 +25,16 @@ displayResults = (data) ->
 	itemLines = ""
 	for classes, i in data.lineStyles
 		if typeof classes is 'string'
-			classAttr = if classes.length > 0 then 'record_' + escape(classes) else ''
+			classAttr = if classes.length > 0 then 'result_' + escape(classes) else ''
 		else
-			classAttr = ('record_' + escape(cssClass) for cssClass in classes).join(' ')
+			classAttr = ('result_' + escape(cssClass) for cssClass in classes).join(' ')
 
-		itemLines += "<div class='#{classAttr}'>{{record.lines[#{i}]}}</div>"
+		itemLines += "<div class='#{classAttr}'>{{result.lines[#{i}]}}</div>"
 
 	itemsTemplate = jinja.compile("""
-		{% for record in records %}
-		<a class="record list-group-item" href="#/record?id={{record.id}}">
-			<div class="title">{{record.title}}</div>
+		{% for result in results %}
+		<a class="listItem list-group-item" href="#/record?id={{result.id}}">
+			<div class="title">{{result.title}}</div>
 			#{itemLines}
 		</a>
 		{% endfor %}

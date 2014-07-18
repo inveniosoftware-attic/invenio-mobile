@@ -36,7 +36,7 @@ class @InvenioConnector
 		# For now, return sample data (from a search for "quarks" on the Invenio demo)
 		sampleData = {
 			lineStyles: ['authors', ['reportNumber', 'rightSide'], ''],
-			records: [
+			results: [
 				{
 					id: 55,
 					title: "A new model-independent way of extracting |V_ub/V_cb|",
