@@ -15,13 +15,13 @@
 	<ul class="record_authors">
 	{% for author in authors %}
 		<li>
-			<a href="javascript:;">{{author.name}}</a>
+			<a href="#/results?query=author:'{{author.name}}'">{{author.name}}</a>
 			{% if author.inst %}<span class="record_institute">{{author.inst}}</span>{% endif %}
 		</li>
 	{% endfor %}
 	</ul>
 
-	<span class="record_journal"><a href="javascript:;">{{journal}}</a></span>,
+	<span class="record_journal">{{journal}}</span>,
 	<span class="record_date">{{date | formatDate}}</span>
 
 	<ul class="record_reportNumbers">
