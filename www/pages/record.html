@@ -36,7 +36,7 @@
 	<div class="fieldLabel">Keywords</div>
 	<ul class="record_keywords pillsContainer">
 	{% for keyword in keywords %}
-		<li class="pill">{{keyword}}</li>
+		<li class="pill"><a href="#/results?query=keyword:'{{keyword}}'">{{keyword}}</a></li>
 	{% endfor %}
 	</ul>
 </script>
