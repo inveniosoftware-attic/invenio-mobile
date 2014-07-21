@@ -83,7 +83,11 @@ class @InvenioConnector
 
 		sampleRecord = {
 			title: "A new model-independent way of extracting |V_ub/V_cb|"
-			authors: [ "Aglietti, U. (CERN)", "Ciuchini, M.", "Gambino, P." ]
+			authors: [
+				{name: "Aglietti, U.", inst: "CERN"}
+				{name: "Ciuchini, M."}
+				{name: "Gambino, P."}
+			]
 			journal: "CERN"
 			date: '2002-04-12'  # ISO 8601
 			reportNumbers: [ "CERN-TH-2002-069", "RM3-TH-02-4", "hep-ph/0204140" ]

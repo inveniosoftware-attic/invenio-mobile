@@ -14,7 +14,10 @@
 	<h3 class="record_title">{{title}}</h3>
 	<ul class="record_authors">
 	{% for author in authors %}
-		<li><a href="javascript:;">{{author}}</a></li>
+		<li>
+			<a href="javascript:;">{{author.name}}</a>
+			{% if author.inst %}<span class="record_institute">{{author.inst}}</span>{% endif %}
+		</li>
 	{% endfor %}
 	</ul>
 

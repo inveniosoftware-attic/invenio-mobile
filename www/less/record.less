@@ -69,6 +69,13 @@
 
 .record_authors {
 	.inlineList('; ');
+
+	.record_institute {
+		font-size: small;
+
+		&::before { content: '('; }
+		&::after  { content: ')'; }
+	}
 }
 
 .record_journal {
