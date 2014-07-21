@@ -17,6 +17,17 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+source = app.sources[app.selectedSourceIndex]
+
+$('.topBar_title').text source.name
+
+recordTemplate = jinja.compile($('#recordTemplate').html())
+
+formatDate = (dateString) ->
+	return new Date(dateString).toLocaleDateString()
+
 params = parseHashParameters()
 
-$('.topBar_title').text app.sources[app.selectedSourceIndex].name
+connector = getConnector(source)
+connector.getRecord params.id, (data) ->
+	$('.contentBelowTopBar').html(recordTemplate.render(data, filters: {formatDate: formatDate}))

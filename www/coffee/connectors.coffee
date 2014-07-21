@@ -77,6 +77,31 @@ class @InvenioConnector
 
 		setTimeout((-> callback(sampleData)), 750)
 
+	getRecord: (id, callback) ->
+		# TODO
+		console.log "TODO: get record #{id} from #{@source.name}"
+
+		sampleRecord = {
+			title: "A new model-independent way of extracting |V_ub/V_cb|"
+			authors: [ "Aglietti, U. (CERN)", "Ciuchini, M.", "Gambino, P." ]
+			journal: "CERN"
+			date: '2002-04-12'  # ISO 8601
+			reportNumbers: [ "CERN-TH-2002-069", "RM3-TH-02-4", "hep-ph/0204140" ]
+			abstract: """
+				The ratio between the photon spectrum in B -> X_s gamma and the
+				differential semileptonic rate wrt the hadronic variable M_X/E_X is a
+				short-distance quantity calculable in perturbation theory and independent
+				of the Fermi motion of the b quark in the B meson. We present a NLO analysis
+				of this ratio and show how it can be used to determine |V_ub/V_cb|
+				independently of any model for the shape function. We also discuss how this
+				relation can be used to test the validity of the shape-function theory on
+				the data.
+				"""
+			keywords: [ "photon spectrum", "peturbation", "semileptonic rate" ]
+		}
+
+		setTimeout((-> callback(sampleRecord)), 750)
+
 connectors = {
 	invenio: InvenioConnector
 }
