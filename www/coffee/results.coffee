@@ -27,39 +27,42 @@ filters = {
 	joinList: (list) -> list.join("; ")
 }
 
-displayResults = (data) ->
-	cleanField = (field) ->
-		return field.split('\'').join('')
-
-	itemLines = ""
-	for line in data.lines
-		if line.classes? and line.classes.length > 0
-			classAttr = if typeof line.classes is 'string'
-					'result_' + escape(line.classes)
-				else
-					('result_' + escape(cssClass) for cssClass in line.classes).join(' ')
+displayResults = (usData) ->
+	# Hungarian notation: variables prefixed with `us` contain unsafe data.
+	# `s` variables are safe.
+	# See http://joelonsoftware.com/articles/Wrong.html
+	
+	sGenerateClassAttr = (usClasses) ->
+		return '' unless usClasses? and usClasses.length > 0
+		if typeof usClasses is 'string'
+			return 'result_' + escape(usClasses)
 		else
-			classAttr = ''
+			return ('result_' + escape(usClass) for usClass in usClasses).join(' ')
 
-		field = cleanField(line.field)
+	sCleanField = (usField) -> usField.split('\'').join('')
 
-		filter = if filters[line.filter]? then line.filter
+	sItemLines = ""
+	for usLine in usData.lines
+		sClassAttr = sGenerateClassAttr(usLine.classes)
+		sField = sCleanField(usLine.field)
 
-		itemLines += if filter?
-				"<div class='#{classAttr}'>{{result['#{field}'] | #{filter}}}</div>"
+		sFilter = if filters[usLine.filter]? then usLine.filter
+
+		sItemLines += if sFilter?
+				"<div class='#{sClassAttr}'>{{result['#{sField}'] | #{sFilter}}}</div>"
 			else
-				"<div class='#{classAttr}'>{{result['#{field}']}}</div>"
+				"<div class='#{sClassAttr}'>{{result['#{sField}']}}</div>"
 
 	itemsTemplate = jinja.compile("""
 		{% for result in results %}
 		<a class="listItem list-group-item" href="#/record?id={{result.id}}">
 			<div class="title">{{result.title}}</div>
-			#{itemLines}
+			#{sItemLines}
 		</a>
 		{% endfor %}
 		""")
 
-	$resultsList.html(itemsTemplate.render(data, filters: filters))
+	$resultsList.html(itemsTemplate.render(usData, filters: filters))
 
 doSearch = (source, query) ->
 	$resultsList.hide()
