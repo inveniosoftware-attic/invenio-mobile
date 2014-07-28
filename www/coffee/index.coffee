@@ -51,6 +51,10 @@ class InvenioMobileApp
 		console.log "First run; creating default settings."
 		this.sources = [
 			{
+				name: "Imposter",
+				url: 'http://pcuds47.cern.ch:5000/'
+			},
+			{
 				name: "Atlantis Institute of Fictive Science"
 			},
 			{
