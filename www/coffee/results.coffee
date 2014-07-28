@@ -21,15 +21,34 @@ $queryBar = $('#queryBar')
 $spinner = $('#spinner')
 $resultsList = $('#resultsList')
 
-displayResults = (data) ->
-	itemLines = ""
-	for classes, i in data.lineStyles
-		if typeof classes is 'string'
-			classAttr = if classes.length > 0 then 'result_' + escape(classes) else ''
-		else
-			classAttr = ('result_' + escape(cssClass) for cssClass in classes).join(' ')
+filters = {
+	# DO NOT add `safe` to this object.
+	date: (dateString) -> new Date(dateString).toLocaleDateString()
+	joinList: (list) -> list.join("; ")
+}
 
-		itemLines += "<div class='#{classAttr}'>{{result.lines[#{i}]}}</div>"
+displayResults = (data) ->
+	cleanField = (field) ->
+		return field.split('\'').join('')
+
+	itemLines = ""
+	for line in data.lines
+		if line.classes? and line.classes.length > 0
+			classAttr = if typeof line.classes is 'string'
+					'result_' + escape(line.classes)
+				else
+					('result_' + escape(cssClass) for cssClass in line.classes).join(' ')
+		else
+			classAttr = ''
+
+		field = cleanField(line.field)
+
+		filter = if filters[line.filter]? then line.filter
+
+		itemLines += if filter?
+				"<div class='#{classAttr}'>{{result['#{field}'] | #{filter}}}</div>"
+			else
+				"<div class='#{classAttr}'>{{result['#{field}']}}</div>"
 
 	itemsTemplate = jinja.compile("""
 		{% for result in results %}
@@ -40,7 +59,7 @@ displayResults = (data) ->
 		{% endfor %}
 		""")
 
-	$resultsList.html(itemsTemplate.render(data))
+	$resultsList.html(itemsTemplate.render(data, filters: filters))
 
 doSearch = (source, query) ->
 	$resultsList.hide()
