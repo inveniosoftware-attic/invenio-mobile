@@ -4,9 +4,15 @@
     <description>
         A mobile app for the Invenio document repository suite.
     </description>
-	<author email="info@invenio-software.com" href="http://invenio-software.org/">
+    <author email="info@invenio-software.com" href="http://invenio-software.org/">
         Invenio Development Team
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <feature name="File">
+        <param name="id" value="org.apache.cordova.file" />
+    </feature>
+    <feature name="File Transfer">
+        <param name="id" value="org.apache.cordova.file-transfer" />
+    </feature>
 </widget>

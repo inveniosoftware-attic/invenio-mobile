@@ -31,3 +31,11 @@ params = parseHashParameters()
 connector = getConnector(source)
 connector.getRecord params.id, (data) ->
 	$('.contentBelowTopBar').html(recordTemplate.render(data, filters: {formatDate: formatDate}))
+	$('.record_file').click ->
+		usFileName = $(this).attr('data-file-name')
+
+		usPath = cordova.file.externalCacheDirectory + source.id + '/' + usFileName
+
+		error = (e) -> console.error "Download error: #{e.code}"
+		app.openFile(connector.getFileURL(params.id, usFileName), usPath, error)
+

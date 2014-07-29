@@ -28,6 +28,8 @@ class InvenioMobileApp
 	bindEvents: ->
 		document.addEventListener('deviceready', this.onDeviceReady, false)
 
+	## Settings ##
+
 	onDeviceReady: =>
 		console.log "Received deviceready event."
 
@@ -51,6 +53,7 @@ class InvenioMobileApp
 		console.log "First run; creating default settings."
 		this.sources = [
 			{
+				id: 'ch.cern.pcuds47',
 				name: "Imposter",
 				url: 'http://pcuds47.cern.ch:5000/'
 			},
@@ -77,6 +80,28 @@ class InvenioMobileApp
 		this.selectedSourceIndex = value
 		localStorage['selectedSourceIndex'] = value
 
+	## Files ##
+	
+	###*
+		Opens a file, downloading it if it does not exist.
+
+		@param {string} url     The URL from which to download the file.
+		@param {string} usPath  The path at which to store the file on the device.
+	###
+	openFile: (url, usPath, errorCallback) ->
+		# TODO: remove old files from the cache directory
+		sCleanPath = (usPath) -> usPath.split('../').join('\\.\\./')
+
+		sPath = sCleanPath(usPath)
+
+		open = (fileEntry) ->
+			console.log "TODO: open #{sPath}"
+
+		download = (e) ->
+			fileTransfer = new FileTransfer()
+			fileTransfer.download(url, sPath, open, errorCallback)
+
+		window.resolveLocalFileSystemURL(sPath, open, download)
 
 $ -> FastClick.attach(document.body)
 

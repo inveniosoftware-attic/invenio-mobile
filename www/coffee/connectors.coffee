@@ -34,6 +34,9 @@ class @InvenioConnector
 
 	getRecord: (id, callback) ->
 		$.get("#{@source.url}api/record/#{id}", callback, 'json')
+	
+	getFileURL: (recordID, fileName) ->
+		return "#{@source.url}api/record/#{recordID}/files/#{fileName}"
 
 connectors = {
 	invenio: InvenioConnector
