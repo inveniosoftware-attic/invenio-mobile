@@ -85,17 +85,20 @@ class InvenioMobileApp
 	###*
 		Opens a file, downloading it if it does not exist.
 
-		@param {string} url     The URL from which to download the file.
-		@param {string} usPath  The path at which to store the file on the device.
+		@param {string} url       The URL from which to download the file.
+		@param {string} usPath    The path at which to store the file on the device.
+		@param {string} fileType  The MIME type of the file.
 	###
-	openFile: (url, usPath, errorCallback) ->
+	openFile: (url, usPath, fileType, errorCallback) ->
 		# TODO: remove old files from the cache directory
 		sCleanPath = (usPath) -> usPath.split('../').join('\\.\\./')
 
 		sPath = sCleanPath(usPath)
 
 		open = (fileEntry) ->
-			console.log "TODO: open #{sPath}"
+			console.log "Opening #{sPath}..."
+			cordova.plugins.fileOpener2.open(sPath, fileType, error: errorCallback)
+			# TODO: test on Android <4
 
 		download = (e) ->
 			fileTransfer = new FileTransfer()

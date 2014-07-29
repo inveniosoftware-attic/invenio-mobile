@@ -33,9 +33,13 @@ connector.getRecord params.id, (data) ->
 	$('.contentBelowTopBar').html(recordTemplate.render(data, filters: {formatDate: formatDate}))
 	$('.record_file').click ->
 		usFileName = $(this).attr('data-file-name')
+		fileType = $(this).attr('data-file-type')
 
-		usPath = cordova.file.externalCacheDirectory + source.id + '/' + usFileName
+		usPath = "#{cordova.file.externalCacheDirectory}#{source.id}/#{params.id}/#{usFileName}"
 
-		error = (e) -> console.error "Download error: #{e.code}"
-		app.openFile(connector.getFileURL(params.id, usFileName), usPath, error)
+		error = (e) ->
+			console.error "Error in download or opening: #{JSON.stringify(e)}"
+			# TODO: show nice error messages to the user
+
+		app.openFile(connector.getFileURL(params.id, usFileName), usPath, fileType, error)
 
