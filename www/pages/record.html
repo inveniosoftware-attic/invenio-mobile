@@ -11,6 +11,19 @@
 </div>
 
 <script id="recordTemplate" type="text/x-jinja2-template">
+	{% if files %}
+	<div class="record_filesButton btn-group">
+		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<span class="glyphicon glyphicon-file"></span>
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+		{% for file in files %}
+			<li><a class="record_file" href="javascript:;" data-file-name="{{file.path}}">{{file.name}}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
 	<h3 class="record_title">{{title}}</h3>
 	<ul class="record_authors">
 	{% for author in authors %}
