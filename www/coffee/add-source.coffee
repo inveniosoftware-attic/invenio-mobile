@@ -45,7 +45,7 @@ $urlInput.on 'input', ->
 
 $locateButton.click ->
 	url = normalizeURL($urlInput.val())
-	# TODO: a spinner
+	$('.spinner').removeClass('hidden')
 	InvenioConnector.getSourceFromURL url, (usSource) ->
 		source = sCleanSource(usSource)
 		$('#sourceInfo_name').text(usSource.name)
