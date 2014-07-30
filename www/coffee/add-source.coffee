@@ -19,6 +19,8 @@
 
 # TODO: provide validation feedback to user
 
+$urlInput = $('#urlInput')
+
 normalizeURL = (url) ->
 	if url[0..7] isnt 'http://' and url[0..8] isnt 'https://'
 		url = 'http://' + url
@@ -26,7 +28,12 @@ normalizeURL = (url) ->
 	if url[-1..] isnt '/'
 		url += '/'
 
-$urlInput = $('#urlInput')
+
+sCleanSource = (usSource) ->
+	sSource = {
+		id: usSource.id
+		name: $('<div/>').text(usSource.name).html()
+	}
 
 url = null
 source = null
@@ -34,11 +41,10 @@ source = null
 $('#locateButton').click ->
 	url = normalizeURL($urlInput.val())
 	# TODO: a spinner
-	InvenioConnector.getSourceFromURL url, (theSource) ->
-		source = theSource
-		# TODO: check that all the required info is present and valid
-		$('#sourceInfo_name').text(source.name)
-		$('#sourceInfo_description').text(source.description)
+	InvenioConnector.getSourceFromURL url, (usSource) ->
+		source = sCleanSource(usSource)
+		$('#sourceInfo_name').text(usSource.name)
+		$('#sourceInfo_description').text(usSource.description)
 		$('#urlForm').addClass('hidden')
 		$('#sourceInfo').removeClass('hidden')
 
