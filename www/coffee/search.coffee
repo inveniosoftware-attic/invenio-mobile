@@ -28,9 +28,6 @@ app.onceSettingsLoaded ->
 		app.settings.getSourceList(), index,
 		(i) -> app.settings.setSelectedSource(i))
 
-	$('#sources_add').click ->
-		# TODO
-
 ## Clauses ##
 
 clauseTemplate = jinja.compile($('#clauseTemplate').html())

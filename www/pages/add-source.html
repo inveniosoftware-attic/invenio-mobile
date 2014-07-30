@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="cssbin/add-source.css" />
+
+<div class="topBar">
+	<span class="topBar_title">Add source</span>
+</div>
+
+<div id="urlForm" class="contentBelowTopBar form-group">
+	<label for="urlInput">URL</label>
+	<input id="urlInput" class="form-control" type="url" autofocus placeholder="cds.cern.ch" />
+	<p class="help-block">
+		Enter the URL of an Invenio source. This is simply the Web address
+		of the source's website, for example cds.cern.ch.
+	</p>
+	<button id="locateButton" type="button" class="btn btn-primary btn-block">
+		Locate
+	</button>
+</div>
+<div id="sourceInfo" class="contentBelowTopBar hidden">
+	<h3 id="sourceInfo_name"></h3>
+	<blockquote id="sourceInfo_description"></blockquote>
+	<button id="addButton" class="btn btn-primary btn-block" type="button">
+		Add source
+	</button>
+</div>
+
+<script src="jsbin/add-source.js"></script>

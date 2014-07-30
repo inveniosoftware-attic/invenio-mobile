@@ -18,6 +18,14 @@
 ###
 
 class @InvenioConnector
+
+	## Static methods ##
+	
+	@getSourceFromURL = (url, callback) ->
+		$.get("#{url}api/info", callback, 'json')
+	
+	## Instance methods ##
+
 	constructor: (@source) ->
 
 	compileQuery: (queryArray) ->

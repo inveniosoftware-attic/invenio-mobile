@@ -36,11 +36,6 @@ class Settings
 		console.log "First run; creating default settings."
 		this._sources = [
 			{
-				id: 'ch.cern.pcuds47',
-				name: "Imposter",
-				url: 'http://pcuds47.cern.ch:5000/'
-			},
-			{
 				name: "Atlantis Institute of Fictive Science"
 			},
 			{
@@ -65,6 +60,11 @@ class Settings
 		this._selectedSourceIndex = index
 		localStorage['selectedSourceIndex'] = index
 		return this.getSelectedSource()
+
+	addSource: (source) ->
+		index = this._sources.push(source) - 1
+		localStorage['sources'] = JSON.stringify(this._sources)
+		return index
 
 
 class InvenioMobileApp

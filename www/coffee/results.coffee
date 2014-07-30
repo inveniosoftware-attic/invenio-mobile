@@ -95,9 +95,6 @@ app.onceSettingsLoaded ->
 			doSearch()
 	)
 
-	$('#sources_add').click ->
-		# TODO
-
 ## Sort dropdown ##
 
 $sortOptions = $('#sortDropdown ul')
