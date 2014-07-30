@@ -17,41 +17,24 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-class InvenioMobileApp
+class Settings
 	constructor: ->
-		this.bindEvents()
-		this.settingsLoaded = false
-		this._settingsLoadedEvent = new Event('settingsLoaded')
-
-	# Bind any events that are required on startup. Common events are:
-	# 'load', 'deviceready', 'offline', and 'online'.
-	bindEvents: ->
-		document.addEventListener('deviceready', this.onDeviceReady, false)
-
-	## Settings ##
-
-	onDeviceReady: =>
-		console.log "Received deviceready event."
-
 		if localStorage['version']?
-			this.sources = JSON.parse(localStorage['sources'])
-			this.selectedSourceIndex = parseInt(localStorage['selectedSourceIndex'])
+			this._sources = JSON.parse(localStorage['sources'])
+			this._selectedSourceIndex = parseInt(localStorage['selectedSourceIndex'])
 		else
 			this.createDefaultSettings()
 
 		console.log "Settings loaded."
-		this.settingsLoaded = true
-		document.dispatchEvent(this._settingsLoadedEvent)
 
-	onceSettingsLoaded: (callback) ->
-		if this.settingsLoaded
-			callback()
-		else
-			$(document).on('settingsLoaded', callback)
+	save: ->
+		localStorage['version'] = '0.0.0'
+		localStorage['sources'] = JSON.stringify(this._sources)
+		localStorage['selectedSourceIndex'] = this._selectedSourceIndex
 
 	createDefaultSettings: ->
 		console.log "First run; creating default settings."
-		this.sources = [
+		this._sources = [
 			{
 				id: 'ch.cern.pcuds47',
 				name: "Imposter",
@@ -70,15 +53,45 @@ class InvenioMobileApp
 				name: "Labordoc"
 			},
 		]
-		this.selectedSourceIndex = 0
+		this._selectedSourceIndex = 0
+		this.save()
 
-		localStorage['version'] = '0.0.0'
-		localStorage['sources'] = JSON.stringify(this.sources)
-		localStorage['selectedSourceIndex'] = this.selectedSourceIndex
+	getSourceList: -> this._sources
 
-	setSelectedSourceIndex: (value) ->
-		this.selectedSourceIndex = value
-		localStorage['selectedSourceIndex'] = value
+	getSelectedSource: ->
+		return [this._sources[this._selectedSourceIndex], this._selectedSourceIndex]
+
+	setSelectedSource: (index) ->
+		this._selectedSourceIndex = index
+		localStorage['selectedSourceIndex'] = index
+		return this.getSelectedSource()
+
+
+class InvenioMobileApp
+	constructor: ->
+		this.bindEvents()
+		this._settingsLoaded = false
+		this._settingsLoadedEvent = new Event('settingsLoaded')
+
+	# Bind any events that are required on startup. Common events are:
+	# 'load', 'deviceready', 'offline', and 'online'.
+	bindEvents: ->
+		document.addEventListener('deviceready', this.onDeviceReady, false)
+
+	## Settings ##
+
+	onDeviceReady: =>
+		console.log "Received deviceready event."
+
+		this.settings = new Settings()
+		this._settingsLoaded = true
+		document.dispatchEvent(this._settingsLoadedEvent)
+
+	onceSettingsLoaded: (callback) ->
+		if this._settingsLoaded
+			callback()
+		else
+			$(document).on('settingsLoaded', callback)
 
 	## Files ##
 	

@@ -67,13 +67,12 @@ displayResults = (usData) ->
 params = parseHashParameters()
 params.sort ?= 'date'
 
-source = null
-
-doSearch = (source) ->
+doSearch = ->
 	$resultsList.hide()
 	$queryBar.text(params.query)
 	$spinner.show()
 
+	[source, index] = app.settings.getSelectedSource()
 	connector = getConnector(source)
 	connector.performQuery params.query, params.sort, (data) ->
 		displayResults(data)
@@ -81,25 +80,19 @@ doSearch = (source) ->
 		$spinner.hide()
 		$resultsList.show()
 
-app.onceSettingsLoaded ->
-	source = app.sources[app.selectedSourceIndex]
-	doSearch(source)
+app.onceSettingsLoaded -> doSearch()
 
 ## Sources dropdown ##
 
 sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
 
-selectedSourceIndex = null
-
 app.onceSettingsLoaded ->
-	selectedSourceIndex = app.selectedSourceIndex
+	[source, index] = app.settings.getSelectedSource()
 
-	$('#sources').expandingButtonList(sourcesListTemplate, app.sources, selectedSourceIndex, (index) ->
-		selectedSourceIndex = index
-		app.setSelectedSourceIndex(index)
-
-		source = app.sources[index]
-		doSearch(source)
+	$('#sources').expandingButtonList(sourcesListTemplate,
+		app.settings.getSourceList(), index, (i) ->
+			app.settings.setSelectedSource(i)
+			doSearch()
 	)
 
 	$('#sources_add').click ->
@@ -114,7 +107,7 @@ $sortOptions.find('a').click ->
 	value = $this.attr('data-value')
 
 	params.sort = value
-	doSearch(source)
+	doSearch()
 	updateHashParameters(params)
 
 	$sortOptions.children().removeClass('active')
