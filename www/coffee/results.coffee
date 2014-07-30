@@ -64,23 +64,26 @@ displayResults = (usData) ->
 
 	$resultsList.html(itemsTemplate.render(usData, filters: filters))
 
-doSearch = (source, query) ->
+params = parseHashParameters()
+params.sort ?= 'date'
+
+source = null
+
+doSearch = (source) ->
 	$resultsList.hide()
-	$queryBar.text(query)
+	$queryBar.text(params.query)
 	$spinner.show()
 
 	connector = getConnector(source)
-	connector.performQuery query, (data) ->
+	connector.performQuery params.query, params.sort, (data) ->
 		displayResults(data)
 
 		$spinner.hide()
 		$resultsList.show()
 
-params = parseHashParameters()
-query = params.query
 app.onceSettingsLoaded ->
 	source = app.sources[app.selectedSourceIndex]
-	doSearch(source, query)
+	doSearch(source)
 
 ## Sources dropdown ##
 
@@ -96,8 +99,25 @@ app.onceSettingsLoaded ->
 		app.setSelectedSourceIndex(index)
 
 		source = app.sources[index]
-		doSearch(source, query)
+		doSearch(source)
 	)
 
 	$('#sources_add').click ->
 		# TODO
+
+## Sort dropdown ##
+
+$sortOptions = $('#sortDropdown ul')
+
+$sortOptions.find('a').click ->
+	$this = $(this)
+	value = $this.attr('data-value')
+
+	params.sort = value
+	doSearch(source)
+	# TODO: change the hash tag
+
+	$sortOptions.children().removeClass('active')
+	$this.parent().addClass('active')
+
+$sortOptions.find("a[data-value=#{params.sort}]").parent().addClass('active')
