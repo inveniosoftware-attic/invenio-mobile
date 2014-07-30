@@ -115,7 +115,7 @@ $sortOptions.find('a').click ->
 
 	params.sort = value
 	doSearch(source)
-	# TODO: change the hash tag
+	updateHashParameters(params)
 
 	$sortOptions.children().removeClass('active')
 	$this.parent().addClass('active')

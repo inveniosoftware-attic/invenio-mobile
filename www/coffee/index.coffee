@@ -112,6 +112,8 @@ $ -> FastClick.attach(document.body)
 
 ## Hash and history handling ##
 
+currentPage = null
+
 ###*
 	@returns {Object} the parameters passed in the hash, as an object.
 ###
@@ -128,7 +130,9 @@ $ -> FastClick.attach(document.body)
 	
 	return obj
 
-currentPage = null
+@updateHashParameters = (params) ->
+	newURL = "#/#{currentPage}?#{$.param(params)}"
+	history.replaceState(null, null, newURL)
 
 $(window).on 'hashchange', ->
 	hash = window.location.hash.substr(2)
