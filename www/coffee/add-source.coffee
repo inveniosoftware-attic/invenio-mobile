@@ -17,9 +17,8 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-# TODO: provide validation feedback to user
-
 $urlInput = $('#urlInput')
+$locateButton = $('#locateButton')
 
 normalizeURL = (url) ->
 	if url[0..7] isnt 'http://' and url[0..8] isnt 'https://'
@@ -38,7 +37,13 @@ sCleanSource = (usSource) ->
 url = null
 source = null
 
-$('#locateButton').click ->
+$urlInput.on 'input', ->
+	if $urlInput.val().length > 0
+		$locateButton.removeAttr('disabled')
+	else
+		$locateButton.attr('disabled', '')
+
+$locateButton.click ->
 	url = normalizeURL($urlInput.val())
 	# TODO: a spinner
 	InvenioConnector.getSourceFromURL url, (usSource) ->
