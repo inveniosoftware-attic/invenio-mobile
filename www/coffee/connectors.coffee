@@ -21,8 +21,15 @@ class @InvenioConnector
 
 	## Static methods ##
 	
-	@getSourceFromURL = (url, callback) ->
-		$.get("#{url}api/info", callback, 'json')
+	@getSourceFromURL = (url, callback, error) ->
+		checkData = (data) ->
+			unless data.invenioAPIVersion?
+				error(jqXHR, 'parsererror', "invenioAPIVersion was not defined.")
+				return
+
+			callback(data)
+
+		jqXHR = $.ajax(url: "#{url}api/info", success: checkData, error: error, dataType: 'json')
 	
 	## Instance methods ##
 

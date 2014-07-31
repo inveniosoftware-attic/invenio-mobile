@@ -29,10 +29,18 @@ normalizeURL = (url) ->
 
 
 sCleanSource = (usSource) ->
-	sSource = {
+	return {
 		id: usSource.id
+		invenioAPIVersion: invenioAPIVersion
 		name: $('<div/>').text(usSource.name).html()
 	}
+
+displayError = (message) ->
+	$('#urlErrorMessage').text(message)
+	$('#urlForm').addClass('has-error')
+
+clearError = ->
+	$('#urlForm').removeClass('has-error')
 
 url = null
 source = null
@@ -45,13 +53,25 @@ $urlInput.on 'input', ->
 
 $locateButton.click ->
 	url = normalizeURL($urlInput.val())
+	clearError()
 	$('.spinner').removeClass('hidden')
-	InvenioConnector.getSourceFromURL url, (usSource) ->
+	success = (usSource) ->
 		source = sCleanSource(usSource)
 		$('#sourceInfo_name').text(usSource.name)
 		$('#sourceInfo_description').text(usSource.description)
 		$('#urlForm').addClass('hidden')
 		$('#sourceInfo').removeClass('hidden')
+
+	error = (jqXHR, textStatus, errorThrown) ->
+		debugObj = { jqXHR: jqXHR, errorThrown: errorThrown }
+		console.error "Error while fetching source info: #{JSON.stringify(debugObj)}"
+		$('.spinner').addClass('hidden')
+		if jqXHR.status is 404 or textStatus is 'parsererror'
+			displayError "The URL you entered is not of an Invenio server which supports this app."
+		else
+			displayError "An error occurred. Please check the URL is correct and that you have an Internet connection."
+
+	InvenioConnector.getSourceFromURL(url, success, error)
 
 $('#addButton').click ->
 	source.url = url
