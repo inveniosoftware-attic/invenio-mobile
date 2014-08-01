@@ -44,8 +44,15 @@ class @InvenioConnector
 
 		return query.trim()
 
-	performQuery: (query, sort, callback) ->
-		$.get("#{@source.url}api/search?#{$.param(query: escape(query), sort: sort)}", callback, 'json')
+	performQuery: (query, sort, pageStart, pageSize, callback) ->
+		options = {
+			query: escape(query),
+			sort: sort
+		}
+		options.pageStart = pageStart if pageStart?
+		options.pageSize  = pageSize  if pageSize?
+
+		$.get("#{@source.url}api/search?#{$.param(options)}", callback, 'json')
 
 	getRecord: (id, callback) ->
 		$.get("#{@source.url}api/record/#{id}", callback, 'json')

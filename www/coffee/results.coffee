@@ -17,8 +17,11 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+PAGE_SIZE = 50
+
 $queryBar = $('#queryBar')
-$spinner = $('#spinner')
+$spinner = $('.spinner')
+$scrollPane = $('#scrollPane')
 $resultsList = $('#resultsList')
 
 filters = {
@@ -31,7 +34,7 @@ displayResults = (usData) ->
 	# Hungarian notation: variables prefixed with `us` contain unsafe data.
 	# `s` variables are safe.
 	# See http://joelonsoftware.com/articles/Wrong.html
-	
+
 	sGenerateClassAttr = (usClasses) ->
 		return '' unless usClasses? and usClasses.length > 0
 		if typeof usClasses is 'string'
@@ -54,33 +57,58 @@ displayResults = (usData) ->
 				"<div class='#{sClassAttr}'>{{result['#{sField}']}}</div>"
 
 	itemsTemplate = jinja.compile("""
-		{% for result in results %}
 		<a class="listItem list-group-item" href="#/record?id={{result.id}}">
 			<div class="title">{{result.title}}</div>
 			#{sItemLines}
 		</a>
-		{% endfor %}
 		""")
 
-	$resultsList.html(itemsTemplate.render(usData, filters: filters))
+	for result in usData.results
+		$resultsList.append(itemsTemplate.render({result: result}, filters: filters))
 
 params = parseHashParameters()
 params.sort ?= 'date'
 
-doSearch = ->
-	$resultsList.hide()
-	$queryBar.text(params.query)
+loading = false
+numResults = 0
+nextPageStart = 0
+
+getSearchResults = (first) ->
 	$spinner.show()
+	loading = true
 
 	[source, index] = app.settings.getSelectedSource()
 	connector = getConnector(source)
-	connector.performQuery params.query, params.sort, (data) ->
-		displayResults(data)
+	connector.performQuery params.query, params.sort, first, PAGE_SIZE, (usData) ->
+		displayResults(usData)
 
+		numResults = usData.paging.count
+		nextPageStart = usData.paging.pageStart + usData.results.length
+
+		loading = false
 		$spinner.hide()
-		$resultsList.show()
+
+doSearch = ->
+	$resultsList.empty()
+	$queryBar.text(params.query)
+
+	nextPageStart = 0
+	getSearchResults(nextPageStart)
 
 app.onceSettingsLoaded -> doSearch()
+
+## Load-on-demand ##
+
+loadNextPage = ->
+	if nextPageStart < numResults
+		console.log "Scrolled to bottom, loading more results"
+		getSearchResults(nextPageStart)
+	else
+		console.log "No more results."
+
+$scrollPane.scroll ->
+	if $scrollPane.scrollTop() + $scrollPane.innerHeight() >= $scrollPane.prop('scrollHeight')
+		loadNextPage() unless loading
 
 ## Sources dropdown ##
 
