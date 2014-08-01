@@ -50,6 +50,8 @@ $.fn.expandingButtonList = (template, data, selectedIndex, callback) ->
 		$list.children('a[data-index]').removeClass('active')
 		$list.children("a[data-index=#{index}]").addClass('active')
 
+		selectedIndex = index
+
 	selectItem(selectedIndex)
 
 	$button.click ->
@@ -58,9 +60,9 @@ $.fn.expandingButtonList = (template, data, selectedIndex, callback) ->
 	$list.children('a[data-index]').click ->
 		$expandingButtonList.removeClass('expanded')
 
-		index = $(this).attr('data-index')
-		selectItem(index)
-
-		callback(index)
+		index = parseInt($(this).attr('data-index'))
+		if index != selectedIndex
+			selectItem(index)
+			callback(index)
 
 	return this
