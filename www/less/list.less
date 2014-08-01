@@ -17,7 +17,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+@import "constants.less";
+
 .listItem {
+	.contentBelowTopBar & {
+		margin-left:  -@contentPadding;
+		margin-right: -@contentPadding;
+	}
+
 	&.list-group-item {
 		// Override Bootstrap to give full-width list items
 		border-left: none;

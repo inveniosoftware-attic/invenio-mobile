@@ -17,6 +17,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+@import "constants.less";
+
 * {
 	-webkit-tap-highlight-color: rgba(0,0,0,0); // make transparent link selection, adjust last value opacity 0 to 1.0
 	box-sizing: border-box;
@@ -27,8 +29,6 @@ body {
 	-webkit-text-size-adjust: none;  // prevent webkit from resizing text to fit
 	-webkit-user-select: none;       // prevent copy paste, to allow, change 'none' to 'text'
 }
-
-@topBarHeight: 48px;
 
 .topBar {
 	position: fixed;
@@ -84,6 +84,8 @@ body {
 	bottom: 0;
 
 	width: 100%;
+
+	padding: @contentPadding;
 }
 
 .spinner {
