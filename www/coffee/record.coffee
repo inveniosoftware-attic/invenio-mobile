@@ -30,6 +30,7 @@ params = parseHashParameters()
 
 connector = getConnector(source)
 connector.getRecord params.id, (data) ->
+	$('#downloadButton').attr('href', "#/download?id=#{params.id}")
 	$('.contentBelowTopBar').html(recordTemplate.render(data, filters: {formatDate: formatDate}))
 	$('.record_file').click ->
 		usFileName = $(this).attr('data-file-name')

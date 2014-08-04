@@ -1,0 +1,22 @@
+<link rel="stylesheet" type="text/css" href="cssbin/download.css" />
+
+<div class="topBar">
+	<span class="topBar_title"></span>
+</div>
+
+<div class="contentBelowTopBar">
+	<h3 id="recordTitle"></h3>
+	<p> The record will be saved to your device. Select the files to download with it: </p>
+	<script id="fileItemTemplate" type="text/x-jinja2-template">
+		<a class="listItem list-group-item" data-value="{{path}}">
+			<input type="checkbox"/>
+			{{name}}
+		</a>
+	</script>
+	<div id="filesList" class="list-group"></div>
+	<button id="downloadButton" class="btn btn-primary btn-block" type="button">
+		Download
+	</button>
+</div>
+
+<script src="jsbin/download.js"></script>
