@@ -31,7 +31,7 @@ normalizeURL = (url) ->
 sCleanSource = (usSource) ->
 	return {
 		id: usSource.id
-		invenioAPIVersion: invenioAPIVersion
+		invenioAPIVersion: usSource.invenioAPIVersion
 		name: $('<div/>').text(usSource.name).html()
 	}
 
