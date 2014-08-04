@@ -109,6 +109,11 @@ class InvenioMobileApp
 		else
 			$(document).on('settingsLoaded', callback)
 
+	offlineSource: {
+		type: 'offline'
+		name: "On Device"
+	}
+
 	## Files ##
 	
 	###*

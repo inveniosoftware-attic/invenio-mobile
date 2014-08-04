@@ -17,7 +17,14 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-[source, sourceIndex] = app.settings.getSelectedSource()
+params = parseHashParameters()
+
+if params.offline is 'true'
+	source = app.offlineSource
+	sourceID = params.offlineSourceID
+else
+	[source, sourceIndex] = app.settings.getSelectedSource()
+	sourceID = source.id
 
 $('.topBar_title').text source.name
 
@@ -26,17 +33,15 @@ recordTemplate = jinja.compile($('#recordTemplate').html())
 formatDate = (dateString) ->
 	return new Date(dateString).toLocaleDateString()
 
-params = parseHashParameters()
-
 connector = getConnector(source)
-connector.getRecord params.id, (data) ->
+connector.getRecord params.id, (usData) ->
 	$('#downloadButton').attr('href', "#/download?id=#{params.id}")
-	$('.contentBelowTopBar').html(recordTemplate.render(data, filters: {formatDate: formatDate}))
+	$('.contentBelowTopBar').html(recordTemplate.render(usData, filters: {formatDate: formatDate}))
 	$('.record_file').click ->
 		usFileName = $(this).attr('data-file-name')
 		fileType = $(this).attr('data-file-type')
 
-		usPath = "#{cordova.file.externalCacheDirectory}#{source.id}/#{params.id}/#{usFileName}"
+		usPath = "#{cordova.file.externalCacheDirectory}#{sourceID}/#{params.id}/#{usFileName}"
 
 		error = (e) ->
 			console.error "Error in download or opening: #{JSON.stringify(e)}"

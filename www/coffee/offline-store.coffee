@@ -26,6 +26,13 @@ class @OfflineStore
 
 	contains: (sourceID, recordID) ->
 		return this._db({sourceID: sourceID, recordID: recordID}).count() > 0
+
+	usGetEntry: (sourceID, recordID) ->
+		entries = this._db({sourceID: sourceID, recordID: recordID}).get()
+		if entries.length is 1
+			return entries[0]
+		else
+			console.error "#{entries.length} entries for ID #{recordID} from #{sourceID}."
 	
 	saveRecord: (sourceConnector, usRecord, files) ->
 		sourceID = sourceConnector.source.id
@@ -40,7 +47,18 @@ class @OfflineStore
 			this._db.insert(entry)
 
 		console.log "TODO: download files #{files.toString()}."
-		
-		# Dump the database to the log for debugging
-		console.log "Offline store state:"
-		console.dir this._db().get()
+
+class OfflineStoreConnector
+	constructor: ->
+
+	compileQuery: (queryArray) ->
+
+	performQuery: (query, sort, pageStart, pageSize, callback) ->
+
+	getRecord: (id, callback) ->
+		[sourceID, recordID] = id.split('/')
+		callback(app.offlineStore.usGetEntry(sourceID, parseInt(recordID)).usRecord)
+
+	getFileURL: (recordID, fileName) ->
+
+registerConnector('offline', OfflineStoreConnector)
