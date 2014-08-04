@@ -22,6 +22,8 @@ class @OfflineStore
 		this._db = TAFFY()
 		this._db.store(taffyStoreName)
 
+	getAllEntries: -> this._db().get()
+
 	contains: (sourceID, recordID) ->
 		return this._db({sourceID: sourceID, recordID: recordID}).count() > 0
 	

@@ -25,7 +25,14 @@ class Settings
 		else
 			this.createDefaultSettings()
 
+		this._buildIDMap()
+
 		console.log "Settings loaded."
+
+	_buildIDMap: ->
+		this._idMap = {}
+		for source in this._sources
+			this._idMap[source.id] = source
 
 	save: ->
 		localStorage['version'] = '0.0.0'
@@ -36,15 +43,19 @@ class Settings
 		console.log "First run; creating default settings."
 		this._sources = [
 			{
+				id: 'ch.cern.invenio-demo-next'
 				name: "Atlantis Institute of Fictive Science"
 			},
 			{
+				id: 'ch.cern.cds'
 				name: "CDS"
 			},
 			{
+				id: 'net.inspirehep'
 				name: "INSPIRE"
 			},
 			{
+				id: 'org.ilo.labordoc'
 				name: "Labordoc"
 			},
 		]
@@ -52,6 +63,8 @@ class Settings
 		this.save()
 
 	getSourceList: -> this._sources
+
+	getSourceByID: (sourceID) -> this._idMap[sourceID]
 
 	getSelectedSource: ->
 		return [this._sources[this._selectedSourceIndex], this._selectedSourceIndex]
@@ -64,6 +77,7 @@ class Settings
 	addSource: (source) ->
 		index = this._sources.push(source) - 1
 		localStorage['sources'] = JSON.stringify(this._sources)
+		this._buildIDMap()
 		return index
 
 

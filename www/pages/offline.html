@@ -1,39 +1,17 @@
 <link rel="stylesheet" type="text/css" href="cssbin/offline.css" />
 
-<div class="listLetterGroup">
-	<div class="letter">6</div>
-	<div class="list-group">
-		<a class="listItem list-group-item" href="javascript:;">
-			<div class="title">64 STRAW Prototype</div>
-			<div class="source rightSide">CDS</div>
-			<div class="author">Danielsson, H.</div>
-		</a>
-	</div>
-</div>
+<script id="recordTemplate" type="text/x-jinja2-template">
+	<a class="listItem list-group-item" href="javascript:;">
+		<div class="title">{{usRecord.title}}</div>
+		<div class="source rightSide">{{sourceID | sourceIDToName}}</div>
+		<div class="author">
+			{% for author in usRecord.authors %}
+			{{author.name}};
+			{% endfor %}
+		</div>
+	</a>
+</script>
 
-<div class="listLetterGroup">
-	<div class="letter">A</div>
-	<div class="list-group">
-		<a class="listItem list-group-item" href="javascript:;">
-			<div class="title">A naturalist's voyage around the world</div>
-			<div class="source rightSide">Invenio Demo</div>
-			<div class="author">Darwin, C.</div>
-		</a>
-		<a class="listItem list-group-item" href="javascript:;">
-			<div class="title">AngularJS web application development</div>
-			<div class="source rightSide">CDS</div>
-			<div class="author">Darwin, P.B.; Kozlowski, P.</div>
-		</a>
-	</div>
-</div>
+<div id="recordList" class="list-group"></div>
 
-<div class="listLetterGroup">
-	<div class="letter">J</div>
-	<div class="list-group">
-		<a class="listItem list-group-item" href="javascript:;">
-			<div class="title">Java cookbook</div>
-			<div class="source rightSide">CDS</div>
-			<div class="author">Darwin, I.F.</div>
-		</a>
-	</div>
-</div>
+<script src="jsbin/offline.js"></script>
