@@ -83,6 +83,8 @@ class InvenioMobileApp
 	onDeviceReady: =>
 		console.log "Received deviceready event."
 
+		this.offlineStore = new OfflineStore('offlineRecords')
+
 		this.settings = new Settings()
 		this._settingsLoaded = true
 		document.dispatchEvent(this._settingsLoadedEvent)

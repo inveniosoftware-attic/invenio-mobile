@@ -57,14 +57,19 @@ hideUnselectedItems = ->
 
 ## ##
 
+connector = getConnector(source)
+usRecord = null
+
 $('#downloadButton').click ->
 	$('#downloadButton').attr('disabled', 'true')
 	files = getSelectedItems()
 	hideUnselectedItems()
-	console.log "TODO: download record #{params.id} and files #{files.toString()}."
 
-connector = getConnector(source)
+	app.offlineStore.saveRecord(connector, usRecord, files)
+	history.back()
+
 connector.getRecord params.id, (usData) ->
+	usRecord = usData
 	$('#recordTitle').text usData.title
 	if usData.files?
 		for usFile in usData.files
