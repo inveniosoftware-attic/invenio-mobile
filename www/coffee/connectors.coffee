@@ -17,52 +17,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-class @InvenioConnector
-
-	## Static methods ##
-	
-	@getSourceFromURL = (url, callback, error) ->
-		checkData = (data) ->
-			unless data.invenioAPIVersion?
-				error(jqXHR, 'parsererror', "invenioAPIVersion was not defined.")
-				return
-
-			callback(data)
-
-		jqXHR = $.ajax(url: "#{url}api/info", success: checkData, error: error, dataType: 'json')
-	
-	## Instance methods ##
-
-	constructor: (@source) ->
-
-	compileQuery: (queryArray) ->
-		query = ''
-		for clause in queryArray
-			query += clause.operation + ' ' if clause.operation?
-			query += clause.field + ':' if clause.field?
-			query += clause.value + ' '
-
-		return query.trim()
-
-	performQuery: (query, sort, pageStart, pageSize, callback) ->
-		options = {
-			query: escape(query),
-			sort: sort
-		}
-		options.pageStart = pageStart if pageStart?
-		options.pageSize  = pageSize  if pageSize?
-
-		$.get("#{@source.url}api/search?#{$.param(options)}", callback, 'json')
-
-	getRecord: (id, callback) ->
-		$.get("#{@source.url}api/record/#{id}", callback, 'json')
-	
-	getFileURL: (recordID, fileName) ->
-		return "#{@source.url}api/record/#{recordID}/files/#{fileName}"
-
-connectors = {
-	invenio: InvenioConnector
-}
+connectors = {}
 
 @getConnector = (source) ->
 	connectorClass = connectors[source.type ? 'invenio']
@@ -72,3 +27,7 @@ connectors = {
 		return
 
 	return new connectorClass(source)
+
+@registerConnector = (sourceType, connectorClass) ->
+	connectors[sourceType] = connectorClass
+
