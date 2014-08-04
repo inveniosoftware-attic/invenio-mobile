@@ -57,7 +57,7 @@ class OfflineStoreConnector
 
 	getRecord: (id, callback) ->
 		[sourceID, recordID] = id.split('/')
-		callback(app.offlineStore.usGetEntry(sourceID, parseInt(recordID)).usRecord)
+		callback(app.offlineStore.usGetEntry(sourceID, recordID).usRecord)
 
 	getFileURL: (recordID, fileName) ->
 
