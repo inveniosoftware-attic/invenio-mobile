@@ -17,6 +17,8 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+$downloadButton = $('#downloadButton')
+
 params = parseHashParameters()
 
 if params.offline is 'true'
@@ -35,7 +37,11 @@ formatDate = (dateString) ->
 
 connector = getConnector(source)
 connector.getRecord params.id, (usData) ->
-	$('#downloadButton').attr('href', "#/download?id=#{params.id}")
+	$downloadButton.attr('href', "#/download?id=#{params.id}")
+	if params.offline is 'true' or app.offlineStore.contains(source.id, params.id)
+		$downloadButton.children('.glyphicon').removeClass('glyphicon-floppy-disk')
+		                                      .addClass('glyphicon-floppy-saved')
+
 	$('.contentBelowTopBar').html(recordTemplate.render(usData, filters: {formatDate: formatDate}))
 	$('.record_file').click ->
 		usFilePath = $(this).attr('data-file-path')
