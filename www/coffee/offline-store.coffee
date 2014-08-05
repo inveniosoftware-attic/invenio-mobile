@@ -55,8 +55,7 @@ class @OfflineStore
 
 			usFileName = usFiles[index]
 			success = ->
-				entry.usSavedFileNames.push(usFileName)
-				entryQuery.update(entry)
+				entryQuery.update(-> this.usSavedFileNames.push(usFileName))
 				downloadRecursive(index + 1)
 
 			console.log "Downloading file #{index}, #{usFileName}..."
@@ -75,7 +74,13 @@ class OfflineStoreConnector extends Connector
 
 	getRecord: (id, callback) ->
 		[sourceID, recordID] = id.split('/')
-		callback(app.offlineStore.usGetEntry(sourceID, recordID).usRecord)
+		entry = app.offlineStore.usGetEntry(sourceID, recordID)
+		usRecord = entry.usRecord
+
+		for usFile in usRecord.files
+			usFile._availableOffline = (usFile.path in entry.usSavedFileNames)
+
+		callback(usRecord)
 
 	getFileURL: (recordID, fileName) ->
 

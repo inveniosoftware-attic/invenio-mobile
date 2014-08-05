@@ -19,9 +19,11 @@
 		</button>
 		<ul class="dropdown-menu dropdown-menu-right" role="menu">
 		{% for file in files %}
-			<li><a class="record_file" href="javascript:;" data-file-name="{{file.path}}" data-file-type="{{file.type}}">
-				{{file.name}}
-			</a></li>
+			<li {% if file._availableOffline === false %}class="disabled"{% endif %}>
+				<a class="record_file" href="javascript:;" data-file-name="{{file.path}}" data-file-type="{{file.type}}">
+					{{file.name}}
+				</a>
+			</li>
 		{% endfor %}
 		</ul>
 	</div>
