@@ -67,6 +67,7 @@ class @OfflineStore
 
 
 class OfflineStoreConnector extends Connector
+	## Instance methods ##
 
 	compileQuery: (queryArray) ->
 
@@ -77,5 +78,15 @@ class OfflineStoreConnector extends Connector
 		callback(app.offlineStore.usGetEntry(sourceID, recordID).usRecord)
 
 	getFileURL: (recordID, fileName) ->
+
+	# Overrides #
+
+	getStorageDirectory: -> cordova.file.externalDataDirectory
+
+	openFile: (recordID, usFileName, fileType, errorCallback) ->
+		usPath = "#{this.getStorageDirectory()}#{recordID}/#{usFileName}"
+
+		app.openFile(usPath, fileType, errorCallback)
+
 
 registerConnector('offline', OfflineStoreConnector)

@@ -123,6 +123,19 @@ class InvenioMobileApp
 
 		fileTransfer = new FileTransfer()
 		fileTransfer.download(url, sPath, successCallback, errorCallback)
+	
+	###*
+		Opens a file from the local file system.
+
+		@param {string} usPath   The path of the file.
+		@param {string} fileType The MIME type of the file.
+	###
+	openFile: (usPath, fileType, errorCallback) ->
+		sPath = sCleanPath(usPath)
+
+		console.log "Opening #{sPath}..."
+		cordova.plugins.fileOpener2.open(sPath, fileType, error: errorCallback)
+		# TODO: test on Android <4
 
 	###*
 		Opens a file, downloading it if it does not exist.
@@ -135,10 +148,7 @@ class InvenioMobileApp
 		# TODO: remove old files from the cache directory
 		sPath = sCleanPath(usPath)
 
-		open = (fileEntry) ->
-			console.log "Opening #{sPath}..."
-			cordova.plugins.fileOpener2.open(sPath, fileType, error: errorCallback)
-			# TODO: test on Android <4
+		open = (fileEntry) => this.openFile(sPath, fileType, errorCallback)
 
 		download = (e) ->
 			fileTransfer = new FileTransfer()
