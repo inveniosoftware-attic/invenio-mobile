@@ -17,6 +17,9 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+getStorageDirectory = ->
+	return cordova.file.externalApplicationStorageDirectory + 'saved-files/'
+
 class @OfflineStore
 	constructor: (@taffyStoreName) ->
 		this._db = TAFFY()
@@ -47,7 +50,7 @@ class @OfflineStore
 		else
 			entryQuery = this._db.insert(entry)
 
-		usPath = "#{cordova.file.externalDataDirectory}#{sourceID}/#{usRecord.id}/"
+		usPath = "#{getStorageDirectory()}#{sourceID}/#{usRecord.id}/"
 		downloadRecursive = (index) ->
 			if index >= usFiles.length
 				successCallback()
@@ -94,7 +97,7 @@ class OfflineStoreConnector extends Connector
 
 	# Overrides #
 
-	getStorageDirectory: -> cordova.file.externalDataDirectory
+	getStorageDirectory: -> getStorageDirectory()
 
 	openFile: (recordID, usFilePath, fileType, errorCallback) ->
 		usPath = "#{this.getStorageDirectory()}#{recordID}/#{usFilePath}"
