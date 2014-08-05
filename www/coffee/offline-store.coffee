@@ -65,8 +65,8 @@ class @OfflineStore
 
 		downloadRecursive(0)
 
-class OfflineStoreConnector
-	constructor: ->
+
+class OfflineStoreConnector extends Connector
 
 	compileQuery: (queryArray) ->
 

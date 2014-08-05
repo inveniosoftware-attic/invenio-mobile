@@ -41,11 +41,8 @@ connector.getRecord params.id, (usData) ->
 		usFileName = $(this).attr('data-file-name')
 		fileType = $(this).attr('data-file-type')
 
-		usPath = "#{cordova.file.externalCacheDirectory}#{sourceID}/#{params.id}/#{usFileName}"
-
 		error = (e) ->
 			console.error "Error in download or opening: #{JSON.stringify(e)}"
 			# TODO: show nice error messages to the user
 
-		app.openFile(connector.getFileURL(params.id, usFileName), usPath, fileType, error)
-
+		connector.openFile(params.id, usFileName, fileType, error)

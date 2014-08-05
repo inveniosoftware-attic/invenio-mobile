@@ -131,7 +131,7 @@ class InvenioMobileApp
 		@param {string} usPath    The path at which to store the file on the device.
 		@param {string} fileType  The MIME type of the file.
 	###
-	openFile: (url, usPath, fileType, errorCallback) ->
+	downloadAndOpenFile: (url, usPath, fileType, errorCallback) ->
 		# TODO: remove old files from the cache directory
 		sPath = sCleanPath(usPath)
 

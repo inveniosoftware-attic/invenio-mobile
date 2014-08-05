@@ -17,6 +17,17 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+class @Connector
+	constructor: (@source) ->
+
+	getStorageDirectory: -> cordova.file.externalCacheDirectory
+
+	openFile: (recordID, usFileName, fileType, errorCallback) ->
+		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFileName}"
+
+		app.downloadAndOpenFile(this.getFileURL(recordID, usFileName), usPath, fileType, errorCallback)
+
+
 connectors = {}
 
 @getConnector = (source) ->

@@ -17,7 +17,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-class @InvenioConnector
+class @InvenioConnector extends Connector
 
 	## Static methods ##
 	
@@ -32,8 +32,6 @@ class @InvenioConnector
 		jqXHR = $.ajax(url: "#{url}api/info", success: checkData, error: error, dataType: 'json')
 	
 	## Instance methods ##
-
-	constructor: (@source) ->
 
 	compileQuery: (queryArray) ->
 		query = ''
