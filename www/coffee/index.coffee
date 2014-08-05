@@ -17,6 +17,8 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+sCleanPath = (usPath) -> usPath.split('../').join('\\.\\./')
+
 class Settings
 	constructor: ->
 		if localStorage['version']?
@@ -116,6 +118,12 @@ class InvenioMobileApp
 
 	## Files ##
 	
+	downloadFile: (url, usPath, successCallback, errorCallback) ->
+		sPath = sCleanPath(usPath)
+
+		fileTransfer = new FileTransfer()
+		fileTransfer.download(url, sPath, successCallback, errorCallback)
+
 	###*
 		Opens a file, downloading it if it does not exist.
 
@@ -125,8 +133,6 @@ class InvenioMobileApp
 	###
 	openFile: (url, usPath, fileType, errorCallback) ->
 		# TODO: remove old files from the cache directory
-		sCleanPath = (usPath) -> usPath.split('../').join('\\.\\./')
-
 		sPath = sCleanPath(usPath)
 
 		open = (fileEntry) ->

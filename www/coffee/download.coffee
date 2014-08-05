@@ -52,7 +52,7 @@ getSelectedItems = ->
 	return items
 
 hideUnselectedItems = ->
-	$filesList.find('input[type=checkbox]:not(:checked)').parent().slideUp()
+	$filesList.find('input[type=checkbox]:not(:checked)').parent().hide()
 	$filesList.children('.listItem').removeClass('selected')
 
 ## ##
@@ -65,8 +65,8 @@ $('#downloadButton').click ->
 	files = getSelectedItems()
 	hideUnselectedItems()
 
-	app.offlineStore.saveRecord(connector, usRecord, files)
-	history.back()
+	success = -> history.back()
+	app.offlineStore.saveRecord(connector, usRecord, files, success)
 
 connector.getRecord params.id, (usData) ->
 	usRecord = usData

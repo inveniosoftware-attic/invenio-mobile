@@ -34,19 +34,36 @@ class @OfflineStore
 		else
 			console.error "#{entries.length} entries for ID #{recordID} from #{sourceID}."
 	
-	saveRecord: (sourceConnector, usRecord, files) ->
-		sourceID = sourceConnector.source.id
+	saveRecord: (connector, usRecord, usFiles, successCallback, errorCallback) ->
+		sourceID = connector.source.id
 		entry = {
 			sourceID: sourceID
 			recordID: usRecord.id
 			usRecord: usRecord
+			usSavedFileNames: []
 		}
 		if this.contains(sourceID, usRecord.id)
-			this._db({sourceID: sourceID, recordID: usRecord.id}).update(entry)
+			entryQuery = this._db({sourceID: sourceID, recordID: usRecord.id}).update(entry)
 		else
-			this._db.insert(entry)
+			entryQuery = this._db.insert(entry)
 
-		console.log "TODO: download files #{files.toString()}."
+		usPath = "#{cordova.file.externalDataDirectory}#{sourceID}/#{usRecord.id}/"
+		downloadRecursive = (index) ->
+			if index >= usFiles.length
+				successCallback()
+				return
+
+			usFileName = usFiles[index]
+			success = ->
+				entry.usSavedFileNames.push(usFileName)
+				entryQuery.update(entry)
+				downloadRecursive(index + 1)
+
+			console.log "Downloading file #{index}, #{usFileName}..."
+			app.downloadFile(connector.getFileURL(usRecord.id, usFileName),
+					usPath + usFileName, success, errorCallback)
+
+		downloadRecursive(0)
 
 class OfflineStoreConnector
 	constructor: ->
