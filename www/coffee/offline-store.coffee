@@ -55,7 +55,14 @@ class @OfflineStore
 
 			usFilePath = usFiles[index]
 			success = ->
-				entryQuery.update(-> this.usSavedFilePaths.push(usFilePath))
+				entryQuery.update ->
+					# Clone the array so that TaffyDB notices that it's changed.
+					# This can be tidied when the TaffyDB GitHub issue #85 is
+					# fixed. (https://github.com/typicaljoe/taffydb/issues/85)
+					this.usSavedFilePaths = this.usSavedFilePaths.slice(0)
+					this.usSavedFilePaths.push(usFilePath)
+					return this
+
 				downloadRecursive(index + 1)
 
 			console.log "Downloading #{usFilePath} (#{index})..."
