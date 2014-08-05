@@ -20,7 +20,7 @@
 		<ul class="dropdown-menu dropdown-menu-right" role="menu">
 		{% for file in files %}
 			<li {% if file._availableOffline === false %}class="disabled"{% endif %}>
-				<a class="record_file" href="javascript:;" data-file-name="{{file.path}}" data-file-type="{{file.type}}">
+				<a class="record_file" href="javascript:;" data-file-path="{{file.path}}" data-file-type="{{file.type}}">
 					{{file.name}}
 				</a>
 			</li>

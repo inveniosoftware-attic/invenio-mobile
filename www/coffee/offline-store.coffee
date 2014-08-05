@@ -40,7 +40,7 @@ class @OfflineStore
 			sourceID: sourceID
 			recordID: usRecord.id
 			usRecord: usRecord
-			usSavedFileNames: []
+			usSavedFilePaths: []
 		}
 		if this.contains(sourceID, usRecord.id)
 			entryQuery = this._db({sourceID: sourceID, recordID: usRecord.id}).update(entry)
@@ -53,14 +53,14 @@ class @OfflineStore
 				successCallback()
 				return
 
-			usFileName = usFiles[index]
+			usFilePath = usFiles[index]
 			success = ->
-				entryQuery.update(-> this.usSavedFileNames.push(usFileName))
+				entryQuery.update(-> this.usSavedFilePaths.push(usFilePath))
 				downloadRecursive(index + 1)
 
-			console.log "Downloading file #{index}, #{usFileName}..."
-			app.downloadFile(connector.getFileURL(usRecord.id, usFileName),
-					usPath + usFileName, success, errorCallback)
+			console.log "Downloading #{usFilePath} (#{index})..."
+			app.downloadFile(connector.getFileURL(usRecord.id, usFilePath),
+					usPath + usFilePath, success, errorCallback)
 
 		downloadRecursive(0)
 
@@ -78,7 +78,7 @@ class OfflineStoreConnector extends Connector
 		usRecord = entry.usRecord
 
 		for usFile in usRecord.files
-			usFile._availableOffline = (usFile.path in entry.usSavedFileNames)
+			usFile._availableOffline = (usFile.path in entry.usSavedFilePaths)
 
 		callback(usRecord)
 
@@ -88,8 +88,8 @@ class OfflineStoreConnector extends Connector
 
 	getStorageDirectory: -> cordova.file.externalDataDirectory
 
-	openFile: (recordID, usFileName, fileType, errorCallback) ->
-		usPath = "#{this.getStorageDirectory()}#{recordID}/#{usFileName}"
+	openFile: (recordID, usFilePath, fileType, errorCallback) ->
+		usPath = "#{this.getStorageDirectory()}#{recordID}/#{usFilePath}"
 
 		app.openFile(usPath, fileType, errorCallback)
 

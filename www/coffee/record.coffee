@@ -38,11 +38,11 @@ connector.getRecord params.id, (usData) ->
 	$('#downloadButton').attr('href', "#/download?id=#{params.id}")
 	$('.contentBelowTopBar').html(recordTemplate.render(usData, filters: {formatDate: formatDate}))
 	$('.record_file').click ->
-		usFileName = $(this).attr('data-file-name')
+		usFilePath = $(this).attr('data-file-path')
 		fileType = $(this).attr('data-file-type')
 
 		error = (e) ->
 			console.error "Error in download or opening: #{JSON.stringify(e)}"
 			# TODO: show nice error messages to the user
 
-		connector.openFile(params.id, usFileName, fileType, error)
+		connector.openFile(params.id, usFilePath, fileType, error)
