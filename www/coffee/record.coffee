@@ -23,10 +23,8 @@ params = parseHashParameters()
 
 if params.offline is 'true'
 	source = app.offlineSource
-	sourceID = params.offlineSourceID
 else
 	[source, sourceIndex] = app.settings.getSelectedSource()
-	sourceID = source.id
 
 $('.topBar_title').text source.name
 

@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="cssbin/offline.css" />
 
 <script id="recordTemplate" type="text/x-jinja2-template">
-	<a class="listItem list-group-item" href="#/record?offline=true&offlineSourceID={{sourceID}}&id={{sourceID}}/{{recordID}}">
+	<a class="listItem list-group-item" href="#/record?offline=true&id={{sourceID}}/{{recordID}}">
 		<div class="title">{{usRecord.title}}</div>
 		<div class="source rightSide">{{sourceID | sourceIDToName}}</div>
 		<div class="author">
