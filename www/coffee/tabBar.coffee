@@ -17,7 +17,7 @@
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-$.fn.tabBar = ->
+$.fn.tabBar = (tabClickedCallback) ->
 	$tabBar = this
 	$target = $(this.attr('data-target'))
 
@@ -32,6 +32,9 @@ $.fn.tabBar = ->
 
 		$tabBar.children('li').removeClass('active')
 		$this.parent().addClass('active')
+
+		if tabClickedCallback?
+			tabClickedCallback($this.parent().attr('data-tab-name'))
 
 	go(this.find('.active > a').attr('data-tab-href'))
 

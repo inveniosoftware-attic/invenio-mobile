@@ -21,4 +21,8 @@ params = parseHashParameters()
 activeTab = '#' + (params['tab'] ? 'search') + 'Tab'
 $(activeTab).addClass('active')
 
-$('#homeTabs').tabBar()
+tabClicked = (tabName) ->
+	params.tab = tabName
+	updateHashParameters(params)
+
+$('#homeTabs').tabBar(tabClicked)
