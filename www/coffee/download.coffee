@@ -29,6 +29,7 @@ $('.topBar_title').text source.name
 ## Files list ##
 
 toggleListItem = ($listItem) ->
+	return if $listItem.hasClass('disabled')
 	$checkbox = $listItem.find('input[type=checkbox]')
 	if $checkbox.prop('checked')
 		$checkbox.prop('checked', false)
@@ -41,6 +42,13 @@ bindListItemHandlers = ->
 	$filesList.children('.listItem').click -> toggleListItem($(this))
 	$filesList.find('.listItem > input[type=checkbox]').click ->
 		toggleListItem($(this).parent())
+
+selectItems = (values) ->
+	for listItem in $filesList.children('.listItem')
+		$listItem = $(listItem)
+		if $listItem.attr('data-value') in values
+			$listItem.addClass('selected')
+			$listItem.find('input[type=checkbox]').prop('checked', 'true')
 
 getSelectedItems = ->
 	items = []
@@ -60,6 +68,15 @@ hideUnselectedItems = ->
 connector = getConnector(source)
 usRecord = null
 
+displayRecord = (usData) ->
+	usRecord = usData
+	$('#recordTitle').text usData.title
+	if usData.files?
+		for usFile in usData.files
+			$filesList.append(fileItemTemplate.render(usFile))
+
+		bindListItemHandlers()
+
 $('#downloadButton').click ->
 	$('#downloadButton').attr('disabled', 'true')
 	files = getSelectedItems()
@@ -68,11 +85,28 @@ $('#downloadButton').click ->
 	success = -> history.back()
 	app.offlineStore.saveRecord(connector, usRecord, files, success)
 
-connector.getRecord params.id, (usData) ->
-	usRecord = usData
-	$('#recordTitle').text usData.title
-	if usData.files?
-		for usFile in usData.files
-			$filesList.append(fileItemTemplate.render(usFile))
 
-		bindListItemHandlers()
+offlineEntry = app.offlineStore.getEntry(source.id, params.id)
+if navigator.connection.type is Connection.NONE
+	$('#message').text "Cannot download new files while offline."
+	displayRecord(offlineEntry.usRecord)
+	selectItems(offlineEntry.usSavedFilePaths)
+	$filesList.children('.listItem').addClass('disabled')
+	$filesList.find('input[type=checkbox]').attr('disabled', 'true')
+
+	$('#removeButton').removeClass('hidden')
+	$('#downloadButton').hide()
+
+else if offlineEntry?
+	$('#message').text "This record is already saved. To change which files are
+		stored with it, choose them from this list:"
+	connector.getRecord params.id, (usData) ->
+		displayRecord(usData)
+		selectItems(offlineEntry.usSavedFilePaths)
+
+	$('#removeButton').removeClass('hidden')
+	$('#downloadButton').text "Update"
+
+else
+	connector.getRecord(params.id, displayRecord)
+

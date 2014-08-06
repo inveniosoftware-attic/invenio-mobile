@@ -30,10 +30,12 @@ class @OfflineStore
 	contains: (sourceID, recordID) ->
 		return this._db({sourceID: sourceID, recordID: recordID}).count() > 0
 
-	usGetEntry: (sourceID, recordID) ->
+	getEntry: (sourceID, recordID) ->
 		entries = this._db({sourceID: sourceID, recordID: recordID}).get()
 		if entries.length is 1
 			return entries[0]
+		else if entries.length is 0
+			return null
 		else
 			console.error "#{entries.length} entries for ID #{recordID} from #{sourceID}."
 	
@@ -84,7 +86,7 @@ class OfflineStoreConnector extends Connector
 
 	getRecord: (id, callback) ->
 		[sourceID, recordID] = id.split('/')
-		entry = app.offlineStore.usGetEntry(sourceID, recordID)
+		entry = app.offlineStore.getEntry(sourceID, recordID)
 		usRecord = entry.usRecord
 
 		if usRecord.files?
