@@ -82,9 +82,16 @@ $('#downloadButton').click ->
 	files = getSelectedItems()
 	hideUnselectedItems()
 
-	success = -> history.back()
-	app.offlineStore.saveRecord(connector, usRecord, files, success)
+	success = ->
+		console.log "Record downloaded."
+		history.back()
+	error = (e) -> console.error(JSON.stringify(e))
+	app.offlineStore.saveRecord(connector, usRecord, files, success, error)
 
+$('#removeButton').click ->
+	app.offlineStore.removeEntry(source.id, params.id)
+	history.back()
+	# TODO: handle the record screen not finding the saved entry any more.
 
 offlineEntry = app.offlineStore.getEntry(source.id, params.id)
 if navigator.connection.type is Connection.NONE

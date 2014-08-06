@@ -38,6 +38,11 @@ class @OfflineStore
 			return null
 		else
 			console.error "#{entries.length} entries for ID #{recordID} from #{sourceID}."
+
+	removeEntry: (sourceID, recordID) ->
+		this._db({sourceID: sourceID, recordID: recordID}).remove()
+
+		app.removeDirectory("#{getStorageDirectory()}#{sourceID}/#{recordID}")
 	
 	saveRecord: (connector, usRecord, usFiles, successCallback, errorCallback) ->
 		sourceID = connector.source.id

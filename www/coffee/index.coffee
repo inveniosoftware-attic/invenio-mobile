@@ -113,6 +113,7 @@ class InvenioMobileApp
 
 	offlineSource: {
 		type: 'offline'
+		id: '__offline__'
 		name: "On Device"
 	}
 
@@ -155,6 +156,12 @@ class InvenioMobileApp
 			fileTransfer.download(url, sPath, open, errorCallback)
 
 		window.resolveLocalFileSystemURL(sPath, open, download)
+
+	removeDirectory: (usPath) ->
+		sPath = sCleanPath(usPath)
+		resolved = (entry) -> entry.removeRecursively()
+		error = (e) -> console.error(JSON.stringify(e))
+		window.resolveLocalFileSystemURL(sPath, resolved, error)
 
 $ -> FastClick.attach(document.body)
 
