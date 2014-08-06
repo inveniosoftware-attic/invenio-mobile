@@ -52,8 +52,13 @@ class @InvenioConnector extends Connector
 
 		$.get("#{@source.url}api/search?#{$.param(options)}", callback, 'json')
 
-	getRecord: (id, callback) ->
-		$.get("#{@source.url}api/record/#{id}", callback, 'json')
+	getRecord: (id, callback, error) ->
+		$.ajax(
+			url: "#{@source.url}api/record/#{id}",
+			success: callback,
+			error: error,
+			dataType: 'json',
+		)
 	
 	getFileURL: (recordID, fileName) ->
 		return "#{@source.url}api/record/#{recordID}/files/#{fileName}"

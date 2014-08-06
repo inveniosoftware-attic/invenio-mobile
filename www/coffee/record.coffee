@@ -48,8 +48,12 @@ if params.offline is 'true'
 	source = app.offlineSource
 	originalSourceID = params.sourceID
 
+	error = ->
+		# Record has been removed
+		history.back()
+
 	connector = getConnector(app.offlineSource)
-	connector.getRecord(params.sourceID + '/' + params.id, displayRecord)
+	connector.getRecord(params.sourceID + '/' + params.id, displayRecord, error)
 
 else
 	[source, sourceIndex] = app.settings.getSelectedSource()

@@ -52,8 +52,10 @@ class @OfflineStore
 			usRecord: usRecord
 			usSavedFilePaths: []
 		}
+
 		if this.contains(sourceID, usRecord.id)
 			entryQuery = this._db({sourceID: sourceID, recordID: usRecord.id}).update(entry)
+			app.removeDirectory("#{getStorageDirectory()}#{sourceID}/#{usRecord.id}/")
 		else
 			entryQuery = this._db.insert(entry)
 
@@ -89,9 +91,13 @@ class OfflineStoreConnector extends Connector
 
 	performQuery: (query, sort, pageStart, pageSize, callback) ->
 
-	getRecord: (id, callback) ->
+	getRecord: (id, callback, error) ->
 		[sourceID, recordID] = id.split('/')
 		entry = app.offlineStore.getEntry(sourceID, recordID)
+		unless entry?
+			error()
+			return
+
 		usRecord = entry.usRecord
 
 		if usRecord.files?
