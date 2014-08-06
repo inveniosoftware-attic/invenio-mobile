@@ -86,10 +86,10 @@ class OfflineStoreConnector extends Connector
 		[sourceID, recordID] = id.split('/')
 		entry = app.offlineStore.usGetEntry(sourceID, recordID)
 		usRecord = entry.usRecord
-		usRecord.id = sourceID + '/' + recordID
 
-		for usFile in usRecord.files
-			usFile._availableOffline = (usFile.path in entry.usSavedFilePaths)
+		if usRecord.files?
+			for usFile in usRecord.files
+				usFile._availableOffline = (usFile.path in entry.usSavedFilePaths)
 
 		callback(usRecord)
 
