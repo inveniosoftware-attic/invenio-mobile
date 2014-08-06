@@ -21,26 +21,18 @@ $downloadButton = $('#downloadButton')
 
 params = parseHashParameters()
 
-if params.offline is 'true'
-	source = app.offlineSource
-else
-	[source, sourceIndex] = app.settings.getSelectedSource()
-
-$('.topBar_title').text source.name
-
 recordTemplate = jinja.compile($('#recordTemplate').html())
 
 formatDate = (dateString) ->
 	return new Date(dateString).toLocaleDateString()
 
-connector = getConnector(source)
-connector.getRecord params.id, (usData) ->
-	$downloadButton.attr('href', "#/download?id=#{params.id}")
+displayRecord = (usRecord) ->
+	$downloadButton.removeClass('hidden')
 	if params.offline is 'true' or app.offlineStore.contains(source.id, params.id)
 		$downloadButton.children('.glyphicon').removeClass('glyphicon-floppy-disk')
 		                                      .addClass('glyphicon-floppy-saved')
 
-	$('.contentBelowTopBar').html(recordTemplate.render(usData, filters: {formatDate: formatDate}))
+	$('.contentBelowTopBar').html(recordTemplate.render(usRecord, filters: {formatDate: formatDate}))
 	$('.record_file').click ->
 		usFilePath = $(this).attr('data-file-path')
 		fileType = $(this).attr('data-file-type')
@@ -50,3 +42,20 @@ connector.getRecord params.id, (usData) ->
 			# TODO: show nice error messages to the user
 
 		connector.openFile(params.id, usFilePath, fileType, error)
+
+
+if params.offline is 'true'
+	source = app.offlineSource
+	originalSourceID = params.sourceID
+
+	connector = getConnector(app.offlineSource)
+	connector.getRecord(params.sourceID + '/' + params.id, displayRecord)
+
+else
+	[source, sourceIndex] = app.settings.getSelectedSource()
+	connector = getConnector(source)
+	connector.getRecord(params.id, displayRecord)
+
+$downloadButton.attr('href', "#/download?sourceID=#{originalSourceID ? source.id}&id=#{params.id}")
+$('.topBar_title').text source.name
+

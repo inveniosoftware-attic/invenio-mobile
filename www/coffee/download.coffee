@@ -22,7 +22,7 @@ fileItemTemplate = jinja.compile($('#fileItemTemplate').html())
 
 params = parseHashParameters()
 
-[source, sourceIndex] = app.settings.getSelectedSource()
+source = app.settings.getSourceByID(params.sourceID)
 
 $('.topBar_title').text source.name
 
