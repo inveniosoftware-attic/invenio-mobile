@@ -96,3 +96,18 @@ body {
 	.contentBelowTopBar > & { margin-top: 8em; }
 }
 
+.flexRow {
+	display: -moz-box;
+	display: flex;
+	-webkit-flex-flow: row wrap;
+	justify-content: space-around;
+
+	& > * {
+		flex-grow: 1;
+		margin-right: 0.5em;
+
+		width: 1em;  // just to force flexbox to make them all the same size
+
+		&:last-child { margin-right: 0; }
+	}
+}
