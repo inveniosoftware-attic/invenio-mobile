@@ -41,7 +41,11 @@ displayRecord = (usRecord) ->
 			console.error "Error in download or opening: #{JSON.stringify(e)}"
 			# TODO: show nice error messages to the user
 
-		connector.openFile(params.id, usFilePath, fileType, error)
+		id = if params.offline is 'true'
+				params.sourceID + '/' + params.id
+			else
+				params.id
+		connector.openFile(id, usFilePath, fileType, error)
 
 
 if params.offline is 'true'
