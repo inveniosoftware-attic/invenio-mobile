@@ -157,6 +157,12 @@ class InvenioMobileApp
 
 		window.resolveLocalFileSystemURL(sPath, open, download)
 
+	removeFile: (usPath) ->
+		sPath = sCleanPath(usPath)
+		resolved = (entry) -> entry.remove()
+		error = (e) -> console.error(JSON.stringify(e))
+		window.resolveLocalFileSystemURL(sPath, resolved, error)
+
 	removeDirectory: (usPath) ->
 		sPath = sCleanPath(usPath)
 		resolved = (entry) -> entry.removeRecursively()

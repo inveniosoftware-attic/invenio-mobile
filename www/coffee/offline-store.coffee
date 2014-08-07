@@ -43,9 +43,19 @@ class @OfflineStore
 		this._db({sourceID: sourceID, recordID: recordID}).remove()
 
 		app.removeDirectory("#{getStorageDirectory()}#{sourceID}/#{recordID}")
-	
+
 	saveRecord: (connector, usRecord, usFiles, successCallback, errorCallback) ->
 		sourceID = connector.source.id
+
+		oldEntry = this.getEntry(sourceID, usRecord.id)
+		if oldEntry?
+			for usFilePath in oldEntry.usSavedFilePaths
+				if usFilePath not in usFiles
+					usFullPath = "#{getStorageDirectory()}#{sourceID}/#{usRecord.id}/#{usFilePath}"
+					app.removeFile(usFullPath)
+
+			this._db({sourceID: sourceID, recordID: usRecord.id}).remove()
+
 		entry = {
 			sourceID: sourceID
 			recordID: usRecord.id
@@ -53,11 +63,7 @@ class @OfflineStore
 			usSavedFilePaths: []
 		}
 
-		if this.contains(sourceID, usRecord.id)
-			entryQuery = this._db({sourceID: sourceID, recordID: usRecord.id}).update(entry)
-			app.removeDirectory("#{getStorageDirectory()}#{sourceID}/#{usRecord.id}/")
-		else
-			entryQuery = this._db.insert(entry)
+		entryQuery = this._db.insert(entry)
 
 		usPath = "#{getStorageDirectory()}#{sourceID}/#{usRecord.id}/"
 		downloadRecursive = (index) ->
