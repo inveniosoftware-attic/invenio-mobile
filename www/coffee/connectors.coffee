@@ -20,7 +20,7 @@
 class @Connector
 	constructor: (@source) ->
 
-	getStorageDirectory: -> cordova.file.externalCacheDirectory
+	getStorageDirectory: -> cordova.file.externalApplicationStorageDirectory + 'cache/'
 
 	openFile: (recordID, usFilePath, fileType, errorCallback) ->
 		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFilePath}"
