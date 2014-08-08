@@ -1,15 +1,15 @@
-<link rel="stylesheet" type="text/css" href="cssbin/tabBar.css" />
+<nav id="homeTabs" class="bar bar-tab" role="tablist" data-target="#homeMain">
+	<a id="searchTab" class="tab-item" data-tab-name="search" href="javascript:;" data-tab-href="pages/search.html">
+		<span class="icon icon-search"></span>
+		<span class="tab-label">Search</span>
+	</a>
+	<a id="offlineTab" class="tab-item" data-tab-name="offline" href="javascript:;" data-tab-href="pages/offline.html">
+		<span class="icon icon-pages"></span>
+		<span class="tab-label">On Device</span>
+	</a>
+</nav>
 
-<ul id="homeTabs" class="topBar tabBar nav" role="tablist" data-target="#homeMain">
-	<li id="searchTab" data-tab-name="search"><a href="javascript:;" data-tab-href="pages/search.html">
-		<span class="glyphicon glyphicon-search"></span> Search
-	</a></li>
-	<li id="offlineTab" data-tab-name="offline"><a href="javascript:;" data-tab-href="pages/offline.html">
-		<span class="glyphicon glyphicon-book"></span> On Device
-	</a></li>
-</ul>
-
-<div id="homeMain" class="contentBelowTopBar"></div>
+<div id="homeMain" class="content"></div>
 
 <script src="jsbin/tabBar.js"></script>
 <script src="jsbin/home.js"></script>

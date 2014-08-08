@@ -19,6 +19,7 @@
 
 $.fn.tabBar = (tabClickedCallback) ->
 	$tabBar = this
+	$tabs = this.find('.tab-item')
 	$target = $(this.attr('data-target'))
 
 	go = (url) ->
@@ -26,16 +27,15 @@ $.fn.tabBar = (tabClickedCallback) ->
 			$target.load(url)
 			$target.attr('data-current-tab-href', url)
 
-	this.find('a').click ->
+	$tabs.click ->
 		$this = $(this)
 		go($this.attr('data-tab-href'))
 
-		$tabBar.children('li').removeClass('active')
-		$this.parent().addClass('active')
+		$tabs.removeClass('active')
+		$this.addClass('active')
 
-		if tabClickedCallback?
-			tabClickedCallback($this.parent().attr('data-tab-name'))
+		tabClickedCallback($this.attr('data-tab-name')) if tabClickedCallback?
 
-	go(this.find('.active > a').attr('data-tab-href'))
+	go(this.find('.active').attr('data-tab-href'))
 
 	return this
