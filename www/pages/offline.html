@@ -1,17 +1,19 @@
-<link rel="stylesheet" type="text/css" href="cssbin/offline.css" />
+<link rel="stylesheet" type="text/css" href="cssbin/list.css" />
 
 <script id="recordTemplate" type="text/x-jinja2-template">
-	<a class="listItem list-group-item" href="#/record?offline=true&sourceID={{sourceID}}&id={{recordID}}">
-		<div class="title">{{usRecord.title}}</div>
-		<div class="source rightSide">{{sourceID | sourceIDToName}}</div>
-		<div class="author">
-			{% for author in usRecord.authors %}
-			{{author.name}};
-			{% endfor %}
-		</div>
-	</a>
+	<li class="listItem table-view-cell">
+		<a href="#/record?offline=true&sourceID={{sourceID}}&id={{recordID}}">
+			<div class="listItem_title">{{usRecord.title}}</div>
+			<div class="source rightSide">{{sourceID | sourceIDToName}}</div>
+			<div class="author">
+				{% for author in usRecord.authors %}
+				{{author.name}};
+				{% endfor %}
+			</div>
+		</a>
+	</li>
 </script>
 
-<div id="recordList" class="list-group"></div>
+<ul id="recordList" class="table-view fullWidth"></ul>
 
 <script src="jsbin/offline.js"></script>

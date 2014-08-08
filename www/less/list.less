@@ -25,13 +25,11 @@
 		margin-right: -@contentPadding;
 	}
 
-	&.list-group-item {
-		// Override Bootstrap to give full-width list items
-		border-left: none;
-		border-right: none;
-
-		&:last-child, &:first-child {
-			border-radius: 0;
+	.fullWidth > &.table-view-cell {
+		// Override Ratchet to remove massive right border
+		padding-right: 15px;
+		& > a:not(.btn) {
+			margin-right: -15px;
 		}
 	}
 
@@ -42,19 +40,26 @@
 		border-color: #428BCA;
 	}
 
-	& > * {
+	& > a > * {
 		white-space: nowrap;
 		overflow-x: hidden;
 		text-overflow: ellipsis;
+
+		font-size: small;
+
+		color: #777;
 	}	
 
-	.title {
-		font-weight: bold;
+	.listItem_title {
+		font-size: medium;
+
+		color: #333;
 	}
 
 	.rightSide {
 		// Float to the right, keeping it on the same line as the next element
 		float: right;
 		max-width: 40%;
+		margin-left: 0.3em;
 	}
 }
