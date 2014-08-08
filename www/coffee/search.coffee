@@ -36,7 +36,8 @@ addClause = ->
 	$newClause = $(clauseTemplate.render())
 	$newClause.appendTo('#clauses')
 
-	$newClause.find('.dropdown').dropdownSelect()
+	$dropdown = $newClause.find('.dropdown')
+	$dropdown.dropdown().dropdownSelect()
 
 $('#addClauseButton').click(addClause)
 

@@ -1,51 +1,53 @@
 <link rel="stylesheet" type="text/css" href="cssbin/search.css" />
 
 <div id="sources" class="expandingButtonList">
-	<button class="ebl_button btn btn-default" type="button">
+	<button class="ebl_button btn" type="button">
 		<span class="ebl_name"></span>
-		<span class="caret"></span>
+		<span class="icon icon-caret"></span>
 	</button>
 	<script id="sources_listTemplate" type="text/x-jinja2-template">
 		{% for source in data %}
-		<a class="list-group-item" role="menuitem" href="javascript:;"
-			data-index="{{loop.index - 1}}">
-			{{source.name}}
-		</a>
+		<li class="table-view-cell">
+			<a role="menuitem" href="javascript:;"
+				data-index="{{loop.index - 1}}">
+				{{source.name}}
+			</a>
+		</li>
 		{% endfor %}
 	</script>
-	<div class="list-group" role="menu">
+	<ul class="table-view" role="menu">
 		<div class="ebl_list">
 		</div>
-		<a class="list-group-item" role="menuitem" href="#/add-source">Add source...</a>
-	</div>
+		<li class="table-view-cell"><a role="menuitem" href="#/add-source">Add source...</a></li>
+	</ul>
 </div>
 
 <script id="clauseTemplate" type="text/x-jinja2-template">
-	<div class="clause input-group">
-		<input class="clause_fieldValue form-control" type="text" />
+	<div class="clause">
+		<input class="clause_fieldValue" type="text" />
 
-		<div class="dropdown input-group-addon" data-value="">
-			<a class="dropdown-toggle" data-toggle="dropdown">
+		<div class="dropdown combo" data-value="">
+			<a class="dropdownToggle" data-toggle="dropdown">
 				<span class="dropdownSelect_label">anywhere</span>
-				<span class="caret"></span>
+				<span class="icon icon-caret"></span>
 			</a>
-			<ul class="dropdown-menu dropdown-menu-right" role="menu">
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="">
+			<ul class="dropdownMenu table-view" role="menu">
+				<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="">
 					anywhere
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="author">
+				<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="author">
 					in Author
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="title">
+				<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="title">
 					in Title
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="rn">
+				<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="rn">
 					in Report number
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="cn">
+				<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="cn">
 					in Collaboration
 				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="k">
+				<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="k">
 					in Keywords
 				</a></li>
 			</ul>
@@ -53,11 +55,11 @@
 	</div>
 </script>
 
-<div id="clauses">
-</div>
+<form id="clauses">
+</form>
 
 <div class="flexRow">
-	<button id="addClauseButton" class="btn btn-default" type="button">
+	<button id="addClauseButton" class="btn" type="button">
 		Add clause
 	</button>
 
@@ -71,5 +73,6 @@
 </footer>
 
 <script src="jsbin/expandingButtonList.js"></script>
+<script src="jsbin/dropdown.js"></script>
 <script src="jsbin/dropdownSelect.js"></script>
 <script src="jsbin/search.js"></script>

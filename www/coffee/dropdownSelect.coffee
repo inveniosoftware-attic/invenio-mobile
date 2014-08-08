@@ -31,7 +31,7 @@
 $.fn.dropdownSelect = ->
 	$dropdownSelect = this
 	$label = this.find('.dropdownSelect_label')
-	$menu = this.find('.dropdown-menu')
+	$menu = this.find('.dropdownMenu')
 	$menu.find('li > a[data-value]').click ->
 		$this = $(this)
 		$dropdownSelect.attr('data-value', $this.attr('data-value'))

@@ -111,3 +111,23 @@ body {
 		&:last-child { margin-right: 0; }
 	}
 }
+
+.dropdown {
+	position: relative;
+
+	.dropdownMenu {
+		position: absolute;
+		top: 100%;
+		right: 0;
+
+		display: none;
+
+		z-index: 1000;
+
+		font-size: smaller;
+		background: white;
+		border: 1px solid #9B9B9B;
+	}
+
+	&.open .dropdownMenu { display: block; }
+}

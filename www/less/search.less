@@ -19,19 +19,52 @@
 
 @import "expandingButtonList.less";
 
+#homeMain {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
 #homeMain > *, #clauses > * {
 	margin-bottom: 0.5em;
 }
 
 footer {
-	text-align: center;
 	margin-top: 1em;
+	text-align: center;
+	font-size: small;
 }
 
 #sources > button {
 	width: 100%;
+	margin-top: 0.5em;
 }
 
 #searchButton {
 	flex-grow: 3.5;
+}
+
+#clauses {
+	// Counter Ratchet's translateZ hack that messes up stacking contexts
+	transform: none;
+}
+
+.clause {
+	display: table;
+
+	& > * {
+		display: table-cell;
+	}
+
+	.clause_fieldValue {
+		margin: 0;
+	}
+
+	.combo {
+		width: 1%;
+
+		padding-left: 0.5em;
+
+		vertical-align: middle;
+		white-space: nowrap;
+	}
 }
