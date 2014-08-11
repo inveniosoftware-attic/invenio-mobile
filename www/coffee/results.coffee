@@ -19,6 +19,8 @@
 
 PAGE_SIZE = 50
 
+$sourceName = $('#sourceName')
+$sourcesList = $('#sourcesList')
 $queryBar = $('#queryBar')
 $spinner = $('.spinner')
 $scrollPane = $('#scrollPane')
@@ -57,10 +59,12 @@ displayResults = (usData) ->
 				"<div class='#{sClassAttr}'>{{result['#{sField}']}}</div>"
 
 	itemsTemplate = jinja.compile("""
-		<a class="listItem list-group-item" href="#/record?id={{result.id}}">
-			<div class="title">{{result.title}}</div>
-			#{sItemLines}
-		</a>
+		<li class="listItem table-view-cell">
+			<a href="#/record?id={{result.id}}" data-ignore="push">
+				<div class="listItem_title">{{result.title}}</div>
+				#{sItemLines}
+			</a>
+		</li>
 		""")
 
 	for result in usData.results
@@ -116,15 +120,23 @@ sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
 
 app.onceSettingsLoaded ->
 	[source, index] = app.settings.getSelectedSource()
+	sources = app.settings.getSourceList()
 
-	$('#sources').expandingButtonList(sourcesListTemplate,
-		app.settings.getSourceList(), index, (i) ->
+	$sourceName.text(source.name)
+	$sourcesList.html(sourcesListTemplate.render(data: sources, selected: index))
+	$sourcesList.find('a[data-index]').click ->
+		i = parseInt($(this).attr('data-index'))
+		if index != i
+			index = i
 			app.settings.setSelectedSource(i)
+			$sourceName.text(sources[i].name)
 			doSearch()
-	)
+
+		$('#sourcesPopover').removeClass('visible')
 
 ## Sort dropdown ##
 
+$('#sortDropdown').dropdown()
 $sortOptions = $('#sortDropdown ul')
 
 $sortOptions.find('a').click ->

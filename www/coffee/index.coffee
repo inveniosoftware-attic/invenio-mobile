@@ -198,6 +198,7 @@ currentPage = null
 	history.replaceState(null, null, newURL)
 
 $(window).on 'hashchange', ->
+	return unless window.location.hash[1] is '/'
 	hash = window.location.hash.substr(2)
 	[page, params] = hash.split('?')
 	unless page is currentPage

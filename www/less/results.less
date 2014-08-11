@@ -27,23 +27,21 @@
 	display: block;
 }
 
-@queryBarHeight: 2.4em;
+.content {
+	display: flex;
+	flex-direction: column;
+}
 
 #queryBar {
-	height: @queryBarHeight;
+	display: block;
+	flex: 0 1 auto;
 
-	line-height: @queryBarHeight;
+	line-height: 2.4em;
 	font-weight: bold;
 }
 
-.contentBelowQueryBar {
-	position: absolute;
-	top: @queryBarHeight;
-	bottom: 0;
-	left: 0;
-
-	width: 100%;
-
+#scrollPane {
+	flex: 1 1 0%;
 	margin-bottom: 0;
 
 	overflow-y: auto;

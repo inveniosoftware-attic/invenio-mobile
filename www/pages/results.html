@@ -1,49 +1,44 @@
 <link rel="stylesheet" type="text/css" href="cssbin/results.css" />
 
-<div id="sources" class="topBar">
-	<a class="topBar_title ebl_button" href="javascript:;">
-		<span class="ebl_name"></span>
-		<span class="caret"></span>
-	</a>
-	<script id="sources_listTemplate" type="text/x-jinja2-template">
-		{% for source in data %}
-		<a class="list-group-item" role="menuitem" href="javascript:;"
-			data-index="{{loop.index - 1}}">
-			{{source.name}}
+<header id="sources" class="bar bar-nav">
+	<div id="sortDropdown" class="dropdown pull-right">
+		<a id="sortButton" class="icon icon-list pull-right" title="Sort" href="javascript:;" data-toggle="dropdown">
 		</a>
-		{% endfor %}
-	</script>
-	<div class="topBar_dropdown list-group" role="menu">
-		<div class="ebl_list">
-		</div>
-		<a class="list-group-item" role="menuitem" href="#/add-source">Add source...</a></li>
+		<ul class="dropdownMenu table-view" role="menu">
+			<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="date">
+				Recent
+			</a></li>
+			<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="relevance">
+				Relevant
+			</a></li>
+			<li class="table-view-cell"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="citations">
+				Cited
+			</a></li>
+		</ul>
 	</div>
 
-	<div class="topBar_actions">
-		<div id="sortDropdown" class="dropdown">
-			<a id="sortButton" class="topBar_action dropdown-toggle" title="Sort" href="javascript:;" data-toggle="dropdown">
-				<span class="glyphicon glyphicon-sort"></span>
-			</a>
-			<ul class="dropdown-menu dropdown-menu-right" role="menu" labelled-by="sortButton">
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="date">
-					Recent
-				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="relevance">
-					Relevant
-				</a></li>
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;" data-value="citations">
-					Cited
-				</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
-
-<div class="contentBelowTopBar">
-	<a id="queryBar" href="#/home?tab=search">
+	<a href="#sourcesPopover">
+		<h1 class="title"><span id="sourceName"></span> <span class="icon icon-caret"></span></h1>
 	</a>
+	<div id="sourcesPopover" class="popover">
+		<script id="sources_listTemplate" type="text/x-jinja2-template">
+			{% for source in data %}
+			<li class="table-view-cell">
+				<a role="menuitem" href="javascript:;" data-index="{{loop.index - 1}}">
+					{{source.name}}
+				</a>
+			</li>
+			{% endfor %}
+		</script>
+		<ul id="sourcesList" class="table-view" role="menu">
+		</ul>
+	</div>
+</header>
 
-	<div id="scrollPane" class="contentBelowQueryBar list-group">
+<div class="content">
+	<a id="queryBar" href="#/home?tab=search"></a>
+
+	<div id="scrollPane" class="contentBelowQueryBar table-view fullWidth">
 		<div id="resultsList"></div>
 		<div class="spinner">
 			Loading...
@@ -51,4 +46,5 @@
 	</div>
 </div>
 
+<script src="jsbin/dropdown.js"></script>
 <script src="jsbin/results.js"></script>
