@@ -29,8 +29,7 @@ formatDate = (dateString) ->
 displayRecord = (usRecord) ->
 	$downloadButton.show()
 	if params.offline is 'true' or app.offlineStore.contains(source.id, params.id)
-		$downloadButton.children('.icon').removeClass('icon-download')
-		                                      .addClass('icon-compose')
+		$downloadButton.removeClass('icon-download').addClass('icon-compose')
 
 	$('.content').html(recordTemplate.render(usRecord, filters: {formatDate: formatDate}))
 	$('.record_filesButton').dropdown()

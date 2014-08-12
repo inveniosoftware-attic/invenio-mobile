@@ -112,7 +112,7 @@ else if offlineEntry?
 		selectItems(offlineEntry.usSavedFilePaths)
 
 	$('#removeButton').show()
-	$('#downloadButton').text "Update"
+	$('#downloadButton .text').text "Update"
 
 else
 	connector.getRecord(params.id, displayRecord)
