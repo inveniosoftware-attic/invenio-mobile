@@ -93,6 +93,12 @@ body {
 	padding: @contentPadding;
 }
 
+.content > * {
+	// Counter Ratchet's translateZ hack that messes up z order
+	-webkit-transform: none;
+	transform: none;
+}
+
 .spinner {
 	margin: 2em;
 	text-align: center;
