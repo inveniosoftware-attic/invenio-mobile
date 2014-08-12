@@ -17,9 +17,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-@import "constants.less";
-
 .inlineList(@separator) {
+	margin: 0;
 	padding-left: 0;
 
 	li {
@@ -28,11 +27,6 @@
 		&::after { content: @separator; }
 		&:last-child::after { content: none; }
 	}
-}
-
-.content {
-	padding-left: @contentPadding;
-	padding-right: @contentPadding;
 }
 
 .pillsContainer {
@@ -87,8 +81,6 @@
 .record_authors {
 	.inlineList('; ');
 
-	margin: 0;
-
 	font-size: medium;
 
 	.record_institute {
@@ -110,8 +102,6 @@
 
 .record_reportNumbers {
 	.inlineList('; ');
-
-	margin: 0;
 
 	font-size: small;
 }

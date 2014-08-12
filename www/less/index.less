@@ -35,62 +35,9 @@ body {
 	color: firebrick;
 }
 
-.topBar {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-
-	height: @topBarHeight;
-
-	z-index: 999;
-
-	background: none repeat scroll 0% 0% #E8E8E8;
-	border-color: #E8E8E8;
-
-	.topBar_title {
-		margin-left: 1em;
-		line-height: @topBarHeight;
-		font-weight: bold;
-		color: black;
-	}
-
-	.topBar_actions {
-		float: right;
-		display: inline-block;
-
-		margin: 0;
-		border: 0 none;
-		padding: 0;
-
-		.topBar_action {
-			display: inline-block;
-			width: @topBarHeight;
-			height: @topBarHeight;
-
-			padding: @topBarHeight / 6;
-
-			font-size: @topBarHeight * 2 / 3;
-
-			color: #555;
-		}
-	}
-
-	&, .topBar_dropdown {  // If something's going to extend out of the top bar, give it a shadow too
-		box-shadow: 0px 0px 15px #AAA;
-	}
-
-	.glyphicon { top: 0; }
-}
-
-.contentBelowTopBar {
-	position: fixed;
-	top: @topBarHeight;
-	bottom: 0;
-
-	width: 100%;
-
-	padding: @contentPadding;
+.content.padded {
+	padding-left: @contentPadding;
+	padding-right: @contentPadding;
 }
 
 .content > * {
@@ -103,8 +50,6 @@ body {
 	margin: 2em;
 	text-align: center;
 	font-weight: bold;
-
-	.contentBelowTopBar > & { margin-top: 8em; }
 }
 
 .flexRow {
@@ -128,20 +73,18 @@ body {
 
 	.dropdownMenu {
 		position: absolute;
+		display: none;
 		top: 100%;
 		right: 0;
 
-		display: none;
-
 		z-index: 1000;
+
+		border: 1px solid #9B9B9B;
 
 		font-size: smaller;
 		background: white;
-		border: 1px solid #9B9B9B;
 
-		.active {
-			border-left: solid black;
-		}
+		.active { border-left: solid black; }
 
 		.disabled { color: #AAA; }
 	}
