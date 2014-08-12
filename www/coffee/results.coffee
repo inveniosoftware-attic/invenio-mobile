@@ -132,7 +132,8 @@ app.onceSettingsLoaded ->
 			$sourceName.text(sources[i].name)
 			doSearch()
 
-		$('#sourcesPopover').removeClass('visible')
+		# Hide the popover
+		$('.backdrop')[0].dispatchEvent(new CustomEvent('touchend'))
 
 ## Sort dropdown ##
 
