@@ -24,7 +24,7 @@ params = parseHashParameters()
 
 source = app.settings.getSourceByID(params.sourceID)
 
-$('.topBar_title').text source.name
+$('.bar-nav .title').text source.name
 
 ## Files list ##
 
@@ -101,7 +101,7 @@ if navigator.connection.type is Connection.NONE
 	$filesList.children('.listItem').addClass('disabled')
 	$filesList.find('input[type=checkbox]').attr('disabled', 'true')
 
-	$('#removeButton').removeClass('hidden')
+	$('#removeButton').show()
 	$('#downloadButton').hide()
 
 else if offlineEntry?
@@ -111,7 +111,7 @@ else if offlineEntry?
 		displayRecord(usData)
 		selectItems(offlineEntry.usSavedFilePaths)
 
-	$('#removeButton').removeClass('hidden')
+	$('#removeButton').show()
 	$('#downloadButton').text "Update"
 
 else

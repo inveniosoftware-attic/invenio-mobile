@@ -20,11 +20,6 @@
 @import "constants.less";
 
 .listItem {
-	.contentBelowTopBar & {
-		margin-left:  -@contentPadding;
-		margin-right: -@contentPadding;
-	}
-
 	.fullWidth &.table-view-cell {
 		// Override Ratchet to remove massive right border
 		padding-right: 15px;
@@ -33,11 +28,18 @@
 		}
 	}
 
-	&.selected, &.selected:hover {
-		z-index: 2;
-		color: white;
-		background-color: #87ABCA;
-		border-color: #428BCA;
+	.checkList & {
+		color: #777;
+
+		&.selected { color: black; }
+	}
+
+	input[type=checkbox] {
+		// Position in the same place as Ratchet's badges
+		position: absolute;
+		top: 50%;
+		right: 15px;
+		transform: translateY(-50%);
 	}
 
 	& > a > * {
