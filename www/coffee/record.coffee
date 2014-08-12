@@ -35,8 +35,10 @@ displayRecord = (usRecord) ->
 	$('.content').html(recordTemplate.render(usRecord, filters: {formatDate: formatDate}))
 	$('.record_filesButton').dropdown()
 	$('.record_file').click ->
-		usFilePath = $(this).attr('data-file-path')
-		fileType = $(this).attr('data-file-type')
+		$this = $(this)
+		return if $this.parent().hasClass('disabled')
+		usFilePath = $this.attr('data-file-path')
+		fileType = $this.attr('data-file-type')
 
 		error = (e) ->
 			console.error "Error in download or opening: #{JSON.stringify(e)}"

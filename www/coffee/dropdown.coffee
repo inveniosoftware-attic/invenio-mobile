@@ -23,6 +23,7 @@ $.fn.dropdown = ->
 		$dropdown.toggleClass('open')
 
 	$dropdown.find('li > a').click ->
+		return if $(this).parent().hasClass('disabled')
 		$dropdown.removeClass('open')
 
 	return this
