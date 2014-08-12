@@ -27,12 +27,13 @@ formatDate = (dateString) ->
 	return new Date(dateString).toLocaleDateString()
 
 displayRecord = (usRecord) ->
-	$downloadButton.removeClass('hidden')
+	$downloadButton.show()
 	if params.offline is 'true' or app.offlineStore.contains(source.id, params.id)
-		$downloadButton.children('.glyphicon').removeClass('glyphicon-floppy-disk')
-		                                      .addClass('glyphicon-floppy-saved')
+		$downloadButton.children('.icon').removeClass('icon-download')
+		                                      .addClass('icon-compose')
 
-	$('.contentBelowTopBar').html(recordTemplate.render(usRecord, filters: {formatDate: formatDate}))
+	$('.content').html(recordTemplate.render(usRecord, filters: {formatDate: formatDate}))
+	$('.record_filesButton').dropdown()
 	$('.record_file').click ->
 		usFilePath = $(this).attr('data-file-path')
 		fileType = $(this).attr('data-file-type')
@@ -65,5 +66,5 @@ else
 	connector.getRecord(params.id, displayRecord)
 
 $downloadButton.attr('href', "#/download?sourceID=#{originalSourceID ? source.id}&id=#{params.id}")
-$('.topBar_title').text source.name
+$('.bar-nav .title').text source.name
 

@@ -1,25 +1,21 @@
 <link rel="stylesheet" type="text/css" href="cssbin/record.css" />
 
-<div class="topBar">
-	<span class="topBar_title"></span>
+<header class="bar bar-nav">
+	<a id="downloadButton" class="icon icon-download pull-right" title="Download"></a>
 
-	<div class="topBar_actions">
-		<a id="downloadButton" class="topBar_action hidden" title="Download">
-			<span class="glyphicon glyphicon-floppy-disk"></span>
-		</a>
-	</div>
-</div>
+	<h1 class="title"></h1>
+</header>
 
 <script id="recordTemplate" type="text/x-jinja2-template">
 	{% if files %}
-	<div class="record_filesButton btn-group">
-		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-			<span class="glyphicon glyphicon-file"></span>
-			<span class="caret"></span>
+	<div class="record_filesButton dropdown">
+		<button type="button" class="btn" data-toggle="dropdown">
+			<span class="icon icon-pages"></span>
+			<span class="icon icon-caret"></span>
 		</button>
-		<ul class="dropdown-menu dropdown-menu-right" role="menu">
+		<ul class="dropdownMenu table-view" role="menu">
 		{% for file in files %}
-			<li {% if file._availableOffline === false %}class="disabled"{% endif %}>
+			<li class="table-view-cell{% if file._availableOffline === false %} disabled{% endif %}">
 				<a class="record_file" href="javascript:;" data-file-path="{{file.path}}" data-file-type="{{file.type}}">
 					{{file.name}}
 				</a>
@@ -32,7 +28,7 @@
 	<ul class="record_authors">
 	{% for author in authors %}
 		<li>
-			<a href="#/results?query=author:'{{author.name}}'">{{author.name}}</a>
+			<a href="#/results?query=author:'{{author.name}}'" data-ignore="push">{{author.name}}</a>
 			{% if author.inst %}<span class="record_institute">{{author.inst}}</span>{% endif %}
 		</li>
 	{% endfor %}
@@ -53,14 +49,15 @@
 	<div class="fieldLabel">Keywords</div>
 	<ul class="record_keywords pillsContainer">
 	{% for keyword in keywords %}
-		<li class="pill"><a href="#/results?query=keyword:'{{keyword}}'">{{keyword}}</a></li>
+		<li class="pill"><a href="#/results?query=keyword:'{{keyword}}'" data-ignore="push">{{keyword}}</a></li>
 	{% endfor %}
 	</ul>
 </script>
-<div class="contentBelowTopBar">
+<div class="content">
 	<div class="spinner">
 		Loading...
 	</div>
 </div>
 
+<script src="jsbin/dropdown.js"></script>
 <script src="jsbin/record.js"></script>
