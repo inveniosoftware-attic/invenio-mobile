@@ -197,12 +197,16 @@ currentPage = null
 	newURL = "#/#{currentPage}?#{$.param(params)}"
 	history.replaceState(null, null, newURL)
 
+checkForBackButton = ->
+	$('#backButton').click -> history.back()
+
 $(window).on 'hashchange', ->
 	return unless window.location.hash[1] is '/'
 	hash = window.location.hash.substr(2)
 	[page, params] = hash.split('?')
 	unless page is currentPage
-		$('#main').load("./pages/#{page}.html")
-		currentPage = page
+		$('#main').load "./pages/#{page}.html", ->
+			currentPage = page
+			checkForBackButton()
 
 window.location.hash = '#/home'
