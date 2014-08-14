@@ -45,13 +45,7 @@ clearError = ->
 url = null
 source = null
 
-$urlInput.on 'input', ->
-	if $urlInput.val().length > 0
-		$locateButton.removeAttr('disabled')
-	else
-		$locateButton.attr('disabled', '')
-
-$locateButton.click ->
+locateSource = ->
 	url = normalizeURL($urlInput.val())
 	clearError()
 	$('.spinner').show()
@@ -72,6 +66,16 @@ $locateButton.click ->
 			displayError "An error occurred. Please check the URL is correct and that you have an Internet connection."
 
 	InvenioConnector.getSourceFromURL(url, success, error)
+
+$urlInput.on 'input', ->
+	if $urlInput.val().length > 0
+		$locateButton.removeAttr('disabled')
+	else
+		$locateButton.attr('disabled', '')
+
+$locateButton.click(locateSource)
+$urlInput.keypress (e) ->
+	locateSource() if e.which is 13 or e.keyCode is 13
 
 $('#addButton').click ->
 	source.url = url

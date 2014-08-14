@@ -5,9 +5,9 @@
 	<h1 class="title">Add source</h1>
 </header>
 
-<form id="urlForm" class="content padded">
+<div id="urlForm" class="content padded">
 	<label for="urlInput">URL</label>
-	<input id="urlInput" class="form-control" type="url" autofocus placeholder="cds.cern.ch" />
+	<input id="urlInput" type="url" autofocus placeholder="cds.cern.ch" mozactionhint="next"/>
 	<p id="urlErrorMessage" class="negative"></p>
 	<p>
 		Enter the URL of an Invenio source. This is simply the Web address
@@ -19,7 +19,7 @@
 	<div class="spinner" style="display:none;">
 		Loading...
 	</div>
-</form>
+</div>
 <div id="sourceInfo" class="content padded" style="display:none;">
 	<h3 id="sourceInfo_name"></h3>
 	<blockquote id="sourceInfo_description"></blockquote>
