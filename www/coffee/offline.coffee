@@ -27,5 +27,9 @@ filters = {
 app.onceSettingsLoaded ->
 	compareTitles = (a, b) -> a.usRecord.title > b.usRecord.title
 	entries = app.offlineStore.getAllEntries().sort(compareTitles)
-	for entry in entries
-		$recordList.append(recordTemplate.render(entry, filters: filters))
+	if entries.length > 0
+		$recordList.empty()
+		for entry in entries
+			$recordList.append(recordTemplate.render(entry, filters: filters))
+	else
+		$('.emptyListMessage').show()

@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="cssbin/list.css" />
+<link rel="stylesheet" type="text/css" href="cssbin/offline.css" />
 
 <script id="recordTemplate" type="text/x-jinja2-template">
 	<li class="listItem table-view-cell">
@@ -14,6 +14,10 @@
 	</li>
 </script>
 
-<ul id="recordList" class="table-view fullWidth"></ul>
+<ul id="recordList" class="table-view fullWidth">
+	<div class="emptyListMessage" style="display: none;">
+		You have not saved any records yet.
+	</div>
+</ul>
 
 <script src="jsbin/offline.js"></script>
