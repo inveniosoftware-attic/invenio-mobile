@@ -32,12 +32,17 @@ app.onceSettingsLoaded ->
 
 clauseTemplate = jinja.compile($('#clauseTemplate').html())
 
+clause_keyPress = (e) ->
+	performQuery() if e.which is 13 or e.keyCode is 13
+
 addClause = ->
 	$newClause = $(clauseTemplate.render())
 	$newClause.appendTo('#clauses')
 
 	$dropdown = $newClause.find('.dropdown')
 	$dropdown.dropdown().dropdownSelect()
+
+	$newClause.find('input[type=text]').keypress(clause_keyPress)
 
 $('#addClauseButton').click(addClause)
 
@@ -60,10 +65,12 @@ createQueryJSON = ->
 
 	return array
 
-$('#searchButton').click ->
+performQuery = ->
 	array = createQueryJSON()
 	[source, index] = app.settings.getSelectedSource()
 	connector = getConnector(source)
 	query = connector.compileQuery(array)
 	
 	window.location.hash = "#/results?query=#{query}"
+
+$('#searchButton').click(performQuery)
