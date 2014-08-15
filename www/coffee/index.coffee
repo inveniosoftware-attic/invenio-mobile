@@ -84,6 +84,8 @@ class Settings
 
 
 class InvenioMobileApp
+	version: '1.0.0 Beta'
+
 	constructor: ->
 		this.bindEvents()
 		this._settingsLoaded = false
