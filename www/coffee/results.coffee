@@ -21,7 +21,7 @@ PAGE_SIZE = 50
 
 $sourceName = $('#sourceName')
 $sourcesList = $('#sourcesList')
-$queryBar = $('#queryBar')
+$queryTextBox = $('#queryTextBox')
 $spinner = $('.spinner')
 $scrollPane = $('#scrollPane')
 $resultsList = $('#resultsList')
@@ -94,7 +94,7 @@ getSearchResults = (first) ->
 
 doSearch = ->
 	$resultsList.empty()
-	$queryBar.text(params.query)
+	$queryTextBox.val(params.query)
 
 	nextPageStart = 0
 	getSearchResults(nextPageStart)
@@ -152,3 +152,11 @@ $sortOptions.find('a').click ->
 	$this.parent().addClass('active')
 
 $sortOptions.find("a[data-value=#{params.sort}]").parent().addClass('active')
+
+## Query bar ##
+
+$queryTextBox.keypress (e) ->
+	if e.which is 13 or e.keyCode is 13
+		params.query = $queryTextBox.val()
+		updateHashParameters(params)
+		doSearch()
