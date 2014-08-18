@@ -50,8 +50,14 @@ class @InvenioConnector extends Connector
 		options.page_start = pageStart if pageStart?
 		options.page_size  = pageSize  if pageSize?
 
-		$.get("#{@source.url}api/search?#{$.param(options)}", callback, 'json')
-		# TODO: perform separation of paging and results data
+		success = (usData) ->
+			paging = {
+				pageStart: parseInt(usData.paging.page_start),
+				count: parseInt(usData.paging.count)
+			}
+			callback(usData.results, usData.lines, paging)
+
+		$.get("#{@source.url}api/search?#{$.param(options)}", success, 'json')
 
 	getRecord: (id, callback, error) ->
 		$.ajax(

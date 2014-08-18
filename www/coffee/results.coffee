@@ -32,7 +32,7 @@ filters = {
 	joinList: (list) -> list.join("; ")
 }
 
-displayResults = (usData) ->
+displayResults = (usResults, usLines) ->
 	# Hungarian notation: variables prefixed with `us` contain unsafe data.
 	# `s` variables are safe.
 	# See http://joelonsoftware.com/articles/Wrong.html
@@ -47,7 +47,7 @@ displayResults = (usData) ->
 	sCleanField = (usField) -> usField.split('\'').join('')
 
 	sItemLines = ""
-	for usLine in usData.lines
+	for usLine in usLines
 		sClassAttr = sGenerateClassAttr(usLine.classes)
 		sField = sCleanField(usLine.field)
 
@@ -67,8 +67,8 @@ displayResults = (usData) ->
 		</li>
 		""")
 
-	for result in usData.results
-		$resultsList.append(itemsTemplate.render({result: result}, filters: filters))
+	for usResult in usResults
+		$resultsList.append(itemsTemplate.render({result: usResult}, filters: filters))
 
 params = parseHashParameters()
 params.sort ?= 'date'
@@ -81,16 +81,18 @@ getSearchResults = (first) ->
 	$spinner.show()
 	loading = true
 
-	[source, index] = app.settings.getSelectedSource()
-	connector = getConnector(source)
-	connector.performQuery params.query, params.sort, first, PAGE_SIZE, (usData) ->
-		displayResults(usData)
+	success = (usResults, usLines, paging) ->
+		displayResults(usResults, usLines)
 
-		numResults = usData.paging.count
-		nextPageStart = usData.paging.page_start + usData.results.length
+		numResults = paging.count
+		nextPageStart = paging.pageStart + usResults.length
 
 		loading = false
 		$spinner.hide()
+
+	[source, index] = app.settings.getSelectedSource()
+	connector = getConnector(source)
+	connector.performQuery(params.query, params.sort, first, PAGE_SIZE, success)
 
 doSearch = ->
 	$resultsList.empty()
