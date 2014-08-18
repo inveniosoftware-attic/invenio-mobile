@@ -23,8 +23,8 @@ class @InvenioConnector extends Connector
 	
 	@getSourceFromURL = (url, callback, error) ->
 		checkData = (data) ->
-			unless data.invenioAPIVersion?
-				error(jqXHR, 'parsererror', "invenioAPIVersion was not defined.")
+			unless data.invenio_api_version?
+				error(jqXHR, 'parsererror', "invenio_api_version was not defined.")
 				return
 
 			callback(data)
@@ -47,10 +47,11 @@ class @InvenioConnector extends Connector
 			query: escape(query),
 			sort: sort
 		}
-		options.pageStart = pageStart if pageStart?
-		options.pageSize  = pageSize  if pageSize?
+		options.page_start = pageStart if pageStart?
+		options.page_size  = pageSize  if pageSize?
 
 		$.get("#{@source.url}api/search?#{$.param(options)}", callback, 'json')
+		# TODO: perform separation of paging and results data
 
 	getRecord: (id, callback, error) ->
 		$.ajax(

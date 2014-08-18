@@ -87,7 +87,7 @@ getSearchResults = (first) ->
 		displayResults(usData)
 
 		numResults = usData.paging.count
-		nextPageStart = usData.paging.pageStart + usData.results.length
+		nextPageStart = usData.paging.page_start + usData.results.length
 
 		loading = false
 		$spinner.hide()
