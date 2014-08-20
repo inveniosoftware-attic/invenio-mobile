@@ -29,11 +29,15 @@ normalizeURL = (url) ->
 
 
 sCleanSource = (usSource) ->
-	return {
+	sSource = {
 		id: usSource.id
 		invenio_api_version: usSource.invenio_api_version
 		name: $('<div/>').text(usSource.name).html()
 	}
+	if usSource.authentication_url?
+		sSource.authentication_url = usSource.authentication_url
+
+	return sSource
 
 displayError = (message) ->
 	$('#urlErrorMessage').text(message)
@@ -48,11 +52,16 @@ source = null
 locateSource = ->
 	url = normalizeURL($urlInput.val())
 	clearError()
-	$('.spinner').show()
+	$('#urlForm .spinner').show()
 	success = (usSource) ->
 		source = sCleanSource(usSource)
 		$('#sourceInfo_name').text(usSource.name)
 		$('#sourceInfo_description').text(usSource.description)
+
+		if usSource.authentication_url?
+			$('#addButton').hide()
+			$('#authQuestion').show()
+
 		$('#urlForm').hide()
 		$('#sourceInfo').show()
 
@@ -67,6 +76,22 @@ locateSource = ->
 
 	InvenioConnector.getSourceFromURL(url, success, error)
 
+addSource = ->
+	source.url = url
+	index = app.settings.addSource(source)
+	app.settings.setSelectedSource(index)
+
+authenticate = ->
+	connector = getConnector(source)
+	connector.authenticate ->
+		app.settings.save()
+		$('#authStage p').hide()
+		$('#authStage .spinner').show()
+		connector.testAccessToken (successful) ->
+			# TODO: deal with access test failure
+			console.log "Test successful." if successful
+			history.back()
+
 $urlInput.on 'input', ->
 	if $urlInput.val().length > 0
 		$locateButton.removeAttr('disabled')
@@ -77,9 +102,15 @@ $locateButton.click(locateSource)
 $urlInput.keypress (e) ->
 	locateSource() if e.which is 13 or e.keyCode is 13
 
-$('#addButton').click ->
-	source.url = url
-	index = app.settings.addSource(source)
-	app.settings.setSelectedSource(index)
-
+addAndClose = ->
+	addSource()
 	history.back()
+
+$('#addButton').click(addAndClose)
+$('#noButton').click(addAndClose)
+
+$('#yesButton').click ->
+	addSource()
+	$('#sourceInfo').hide()
+	$('#authStage').show()
+	authenticate()

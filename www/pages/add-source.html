@@ -23,9 +23,29 @@
 <div id="sourceInfo" class="content padded" style="display:none;">
 	<h3 id="sourceInfo_name"></h3>
 	<blockquote id="sourceInfo_description"></blockquote>
+	<div id="authQuestion" style="display:none;">
+		<p>
+			This source may require you to login to view some records. Do you wish to login to this source?
+		</p>
+		<div class="flexRow">
+			<button id="noButton" class="btn" type="button">No</button>
+			<button id="yesButton" class="btn btn-primary" type="button">
+				<span class="icon icon-person"></span>
+				Yes
+			</button>
+		</div>
+	</div>
 	<button id="addButton" class="btn btn-positive btn-block" type="button">
 		Add source
 	</button>
+</div>
+<div id="authStage" class="content padded" style="display:none;">
+	<p>
+		The authentication browser has been launched. Please login and authorise this application.
+	</p>
+	<span class="spinner" style="display:none;">
+		Testing authentication token...
+	</span>
 </div>
 
 <script src="jsbin/add-source.js"></script>

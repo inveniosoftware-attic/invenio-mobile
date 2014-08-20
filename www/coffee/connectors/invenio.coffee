@@ -30,8 +30,68 @@ class @InvenioConnector extends Connector
 			callback(data)
 
 		jqXHR = $.ajax(url: "#{url}api/info", success: checkData, error: error, dataType: 'json')
-	
+
 	## Instance methods ##
+
+	###*
+		Runs through the process for retrieving an access token for the source.
+		Once retrieved, the token is stored in the source object. For the token
+		to persist, the application's settings must be saved once retrieval is
+		complete.
+
+		@param {function} success  A function to run when finished.
+	###
+	authenticate: (success) ->
+		unless @source.authentication_url?
+			throw new Error("The source does not support authentication.")
+
+		state = Math.floor(Math.random() * Math.pow(2, 32)).toString()
+		stateSHA = new jsSHA(state, 'TEXT')
+		stateHash = stateSHA.getHash('SHA-256', 'B64')
+
+		url = @source.authentication_url.replace('{STATE}', stateHash)
+
+		authBrowser = window.open(url, '_blank')
+		authBrowser.addEventListener 'loadstart', (e) =>
+			# Work out whether this is the success redirect
+			# TODO: check for rejection
+			indexOfHash = e.url.indexOf('#')
+			return if indexOfHash is -1
+
+			hash = e.url[indexOfHash+1..]
+			return if hash.indexOf('access_token=') is -1
+
+			response = app.parseParamString(hash)
+			return unless response.access_token?
+
+			response.state = decodeURIComponent(response.state)
+			if response.state isnt stateHash
+				console.error "State error: #{response.state} != #{stateHash}."
+				return
+
+			response.access_token = decodeURIComponent(response.access_token)
+			console.log "Token received."
+			authBrowser.close()
+
+			@source.access_token = response.access_token
+			success()
+
+	testAccessToken: (callback) ->
+		success = (data, textStatus, jqXHR) ->
+			console.dir(data: data, textStatus: textStatus, jqXHR: jqXHR)
+			callback(data.ping is 'pong')
+
+		error = (jqXHR, textStatus, errorThrown) ->
+			console.dir(jqXHR: jqXHR, textStatus: textStatus, errorThrown: errorThrown)
+			callback(false)
+
+		console.log "Testing token."
+		$.ajax("http://localhost:4000/oauth/ping",
+			headers: {'Authorization': 'Bearer '+ @source.access_token},
+			dataType: 'json',
+			success: success,
+			error: error
+		)
 
 	compileQuery: (queryArray) ->
 		query = ''

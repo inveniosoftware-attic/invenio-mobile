@@ -171,6 +171,19 @@ class InvenioMobileApp
 		error = (e) -> console.error(JSON.stringify(e))
 		window.resolveLocalFileSystemURL(sPath, resolved, error)
 
+	## Other utility methods ##
+	
+	parseParamString: (params) ->
+		obj = {}
+
+		for param in params.split('&')
+			splitAt = param.indexOf('=')
+			key = param[...splitAt]
+			value = param[splitAt + 1..]
+			obj[key] = value
+		
+		return obj
+
 $ -> FastClick.attach(document.body)
 
 @app = new InvenioMobileApp()
@@ -184,16 +197,7 @@ currentPage = null
 ###
 @parseHashParameters = ->
 	[page, params] = window.location.hash.split('?')
-	obj = {}
-	return obj unless params?
-
-	for param in params.split('&')
-		splitAt = param.indexOf('=')
-		key = param[...splitAt]
-		value = param[splitAt + 1..]
-		obj[key] = value
-	
-	return obj
+	return if params? then app.parseParamString(params) else {}
 
 @updateHashParameters = (params) ->
 	newURL = "#/#{currentPage}?#{$.param(params)}"

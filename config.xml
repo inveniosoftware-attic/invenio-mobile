@@ -15,6 +15,9 @@
     <feature name="File Transfer">
         <param name="id" value="org.apache.cordova.file-transfer" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="id" value="org.apache.cordova.inappbrowser" />
+    </feature>
     <feature name="Network Information">
         <param name="id" value="org.apache.cordova.network-information" />
     </feature>
