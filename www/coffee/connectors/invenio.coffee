@@ -117,16 +117,26 @@ class @InvenioConnector extends Connector
 			}
 			callback(usData.results, usData.lines, paging)
 
-		$.get("#{@source.url}api/search?#{$.param(options)}", success, 'json')
+		$.ajax(
+			url: "#{@source.url}api/search?#{$.param(options)}",
+			headers: {
+				'Authorization': 'Bearer ' + @source.access_token if @source.access_token?
+			},
+			success: success,
+			dataType: 'json',
+		)
 
 	getRecord: (id, callback, error) ->
 		$.ajax(
 			url: "#{@source.url}api/record/#{id}",
+			headers: {
+				'Authorization': 'Bearer ' + @source.access_token if @source.access_token?
+			},
 			success: callback,
 			error: error,
 			dataType: 'json',
 		)
-	
+
 	getFileURL: (recordID, fileName) ->
 		return "#{@source.url}api/record/#{recordID}/files/#{fileName}"
 
