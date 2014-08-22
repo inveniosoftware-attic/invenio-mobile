@@ -20,7 +20,17 @@
 class @InvenioConnector extends Connector
 
 	## Static methods ##
-	
+
+	###*
+		Fetches information about an Invenio source, given its URL.
+
+		@param {string}   url      The URL of the source.
+		@param {function} callback Success callback. The first argument will be
+			a source object containing the source information.
+		@param {function} error    Error callback. The arguments are the same as
+			those to a jQuery.ajax callback, except that textStatus will equal
+			'parsererror' if the server exists but is not an Invenio server.
+	###
 	@getSourceFromURL = (url, callback, error) ->
 		checkData = (data) ->
 			unless data.invenio_api_version?
@@ -76,6 +86,12 @@ class @InvenioConnector extends Connector
 			@source.access_token = response.access_token
 			success()
 
+	###*
+		Tests the access token associated with the connector's source.
+
+		@param {function} callback  Called when the test is complete, with a boolean
+			indicating success.
+	###
 	testAccessToken: (callback) ->
 		success = (data, textStatus, jqXHR) ->
 			console.dir(data: data, textStatus: textStatus, jqXHR: jqXHR)
