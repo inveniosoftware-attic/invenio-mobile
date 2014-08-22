@@ -22,10 +22,15 @@ class @Connector
 
 	getStorageDirectory: -> cordova.file.externalApplicationStorageDirectory + 'cache/'
 
+	downloadFile: (recordID, usFilePath, usDestination, success, error) ->
+		app.downloadFile(this.getFileURL(recordID, usFilePath), usDestination,
+			success, error, @source.access_token)
+
 	openFile: (recordID, usFilePath, fileType, errorCallback) ->
 		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFilePath}"
 
-		app.downloadAndOpenFile(this.getFileURL(recordID, usFilePath), usPath, fileType, errorCallback)
+		app.downloadAndOpenFile(this.getFileURL(recordID, usFilePath),
+			usPath, fileType, errorCallback, @source.access_token)
 
 
 connectors = {}

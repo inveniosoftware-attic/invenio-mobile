@@ -84,8 +84,8 @@ class @OfflineStore
 				downloadRecursive(index + 1)
 
 			console.log "Downloading #{usFilePath} (#{index})..."
-			app.downloadFile(connector.getFileURL(usRecord.id, usFilePath),
-					usPath + usFilePath, success, errorCallback)
+			connector.downloadFile(usRecord.id, usFilePath, usPath + usFilePath, success,
+				errorCallback)
 
 		downloadRecursive(0)
 
