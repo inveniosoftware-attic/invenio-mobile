@@ -36,7 +36,7 @@ displayRecord = (usRecord) ->
 	$('.record_file').click ->
 		$this = $(this)
 		return if $this.parent().hasClass('disabled')
-		usFilePath = $this.attr('data-file-path')
+		usFileName = $this.attr('data-file-name')
 		fileType = $this.attr('data-file-type')
 
 		error = (e) ->
@@ -47,7 +47,7 @@ displayRecord = (usRecord) ->
 				params.sourceID + '/' + params.id
 			else
 				params.id
-		connector.openFile(id, usFilePath, fileType, error)
+		connector.openFile(id, usFileName, fileType, error)
 
 
 if params.offline is 'true'

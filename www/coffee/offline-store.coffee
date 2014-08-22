@@ -49,10 +49,10 @@ class @OfflineStore
 
 		oldEntry = this.getEntry(sourceID, usRecord.id)
 		if oldEntry?
-			for usFilePath in oldEntry.usSavedFilePaths
-				if usFilePath not in usFiles
-					usFullPath = "#{getStorageDirectory()}#{sourceID}/#{usRecord.id}/#{usFilePath}"
-					app.removeFile(usFullPath)
+			for usFileName in oldEntry.usSavedFileNames
+				if usFileName not in usFiles
+					usPath = "#{getStorageDirectory()}#{sourceID}/#{usRecord.id}/#{usFileName}"
+					app.removeFile(usPath)
 
 			this._db({sourceID: sourceID, recordID: usRecord.id}).remove()
 
@@ -60,7 +60,7 @@ class @OfflineStore
 			sourceID: sourceID
 			recordID: usRecord.id
 			usRecord: usRecord
-			usSavedFilePaths: []
+			usSavedFileNames: []
 		}
 
 		entryQuery = this._db.insert(entry)
@@ -71,20 +71,20 @@ class @OfflineStore
 				successCallback()
 				return
 
-			usFilePath = usFiles[index]
+			usFileName = usFiles[index]
 			success = ->
 				entryQuery.update ->
 					# Clone the array so that TaffyDB notices that it's changed.
 					# This can be tidied when the TaffyDB GitHub issue #85 is
 					# fixed. (https://github.com/typicaljoe/taffydb/issues/85)
-					this.usSavedFilePaths = this.usSavedFilePaths.slice(0)
-					this.usSavedFilePaths.push(usFilePath)
+					this.usSavedFileNames = this.usSavedFileNames.slice(0)
+					this.usSavedFileNames.push(usFileName)
 					return this
 
 				downloadRecursive(index + 1)
 
-			console.log "Downloading #{usFilePath} (#{index})..."
-			connector.downloadFile(usRecord.id, usFilePath, usPath + usFilePath, success,
+			console.log "Downloading #{usFileName} (#{index})..."
+			connector.downloadFile(usRecord.id, usFileName, usPath + usFileName, success,
 				errorCallback)
 
 		downloadRecursive(0)
@@ -108,7 +108,7 @@ class OfflineStoreConnector extends Connector
 
 		if usRecord.files?
 			for usFile in usRecord.files
-				usFile._availableOffline = (usFile.path in entry.usSavedFilePaths)
+				usFile._availableOffline = (usFile.name in entry.usSavedFileNames)
 
 		callback(usRecord)
 
@@ -118,8 +118,8 @@ class OfflineStoreConnector extends Connector
 
 	getStorageDirectory: -> getStorageDirectory()
 
-	openFile: (recordID, usFilePath, fileType, errorCallback) ->
-		usPath = "#{this.getStorageDirectory()}#{recordID}/#{usFilePath}"
+	openFile: (recordID, usFileName, fileType, errorCallback) ->
+		usPath = "#{this.getStorageDirectory()}#{recordID}/#{usFileName}"
 
 		app.openFile(usPath, fileType, errorCallback)
 

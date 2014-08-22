@@ -27,11 +27,11 @@ class @Connector
 	###*
 		Downloads a file from the source.
 
-		@param {string} recordID       The record ID which the file belongs to.
-		@param {string} usFilePath     The path of the file belonging to the record.
-		@param {string} usDestination  The location at which to save the file.
+		@param {string} recordID    The record ID which the file belongs to.
+		@param {string} usFileName  The name of the file.
+		@param {string} usPath      The location at which to save the file.
 	###
-	downloadFile: (recordID, usFilePath, usDestination, success, error) ->
+	downloadFile: (recordID, usFileName, usDestination, success, error) ->
 		sPath = sCleanPath(usDestination)
 
 		if @source.access_token?
@@ -40,26 +40,26 @@ class @Connector
 			}
 
 		fileTransfer = new FileTransfer()
-		fileTransfer.download(this.getFileURL(recordID, usFilePath), sPath,
+		fileTransfer.download(this.getFileURL(recordID, usFileName), sPath,
 			success, error, false, options)
 
 	###*
 		Opens a file from the source.
 
 		@param {string} recordID    The record ID which the file belongs to.
-		@param {string} usFilePath  The path of the file belonging to the record.
+		@param {string} usFileName  The name of the file.
 		@param {string} fileType    The MIME type of the file.
 	###
-	openFile: (recordID, usFilePath, fileType, error) ->
-		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFilePath}"
+	openFile: (recordID, usFileName, fileType, error) ->
+		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFileName}"
 
-		url = this.getFileURL(recordID, usFilePath)
+		url = this.getFileURL(recordID, usFileName)
 		sPath = sCleanPath(usPath)
 
 		open = (fileEntry) -> app.openFile(sPath, fileType, error)
 
 		download = (e) =>
-			this.downloadFile(recordID, usFilePath, sPath, open, error)
+			this.downloadFile(recordID, usFileName, sPath, open, error)
 
 		window.resolveLocalFileSystemURL(sPath, open, download)
 

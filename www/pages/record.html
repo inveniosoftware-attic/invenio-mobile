@@ -17,8 +17,8 @@
 		<ul class="dropdownMenu table-view" role="menu">
 		{% for file in files %}
 			<li class="table-view-cell{% if file._availableOffline === false %} disabled{% endif %}">
-				<a class="record_file" href="javascript:;" data-file-path="{{file.path}}" data-file-type="{{file.type}}">
-					{{file.name}}
+				<a class="record_file" href="javascript:;" data-file-name="{{file.name}}" data-file-type="{{file.type}}">
+					{{file.label}}
 				</a>
 			</li>
 		{% endfor %}

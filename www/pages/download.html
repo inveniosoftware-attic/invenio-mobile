@@ -9,10 +9,10 @@
 	<h3 id="recordTitle"></h3>
 	<p id="message"> The record will be saved to your device. Select the files to download with it: </p>
 	<script id="fileItemTemplate" type="text/x-jinja2-template">
-		<li class="listItem table-view-cell" data-value="{{path}}">
+		<li class="listItem table-view-cell" data-value="{{name}}">
 			<a>
 				<input type="checkbox"/>
-				{{name}}
+				{{label}}
 			</a>
 		</li>
 	</script>

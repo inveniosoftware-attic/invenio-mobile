@@ -97,7 +97,7 @@ offlineEntry = app.offlineStore.getEntry(source.id, params.id)
 if navigator.connection.type is Connection.NONE
 	$('#message').text "Cannot download new files while offline."
 	displayRecord(offlineEntry.usRecord)
-	selectItems(offlineEntry.usSavedFilePaths)
+	selectItems(offlineEntry.usSavedFileNames)
 	$filesList.children('.listItem').addClass('disabled')
 	$filesList.find('input[type=checkbox]').attr('disabled', 'true')
 
@@ -109,7 +109,7 @@ else if offlineEntry?
 		stored with it, choose them from this list:"
 	connector.getRecord params.id, (usData) ->
 		displayRecord(usData)
-		selectItems(offlineEntry.usSavedFilePaths)
+		selectItems(offlineEntry.usSavedFileNames)
 
 	$('#removeButton').show()
 	$('#downloadButton .text').text "Update"
