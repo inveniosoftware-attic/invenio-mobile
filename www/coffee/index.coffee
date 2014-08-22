@@ -120,18 +120,7 @@ class InvenioMobileApp
 	}
 
 	## Files ##
-	
-	downloadFile: (url, usPath, successCallback, errorCallback, accessToken) ->
-		sPath = sCleanPath(usPath)
 
-		if accessToken?
-			options = {
-				headers: {'Authorization': 'Bearer ' + accessToken}
-			}
-
-		fileTransfer = new FileTransfer()
-		fileTransfer.download(url, sPath, successCallback, errorCallback, false, options)
-	
 	###*
 		Opens a file from the local file system.
 
@@ -144,25 +133,6 @@ class InvenioMobileApp
 		console.log "Opening #{sPath}..."
 		cordova.plugins.fileOpener2.open(sPath, fileType, error: errorCallback)
 		# TODO: test on Android <4
-
-	###*
-		Opens a file, downloading it if it does not exist.
-
-		@param {string} url       The URL from which to download the file.
-		@param {string} usPath    The path at which to store the file on the device.
-		@param {string} fileType  The MIME type of the file.
-
-		@param {string} accessToken  (optional) The access token to send.
-	###
-	downloadAndOpenFile: (url, usPath, fileType, errorCallback, accessToken) ->
-		sPath = sCleanPath(usPath)
-
-		open = (fileEntry) => this.openFile(sPath, fileType, errorCallback)
-
-		download = (e) =>
-			this.downloadFile(url, sPath, open, errorCallback, accessToken)
-
-		window.resolveLocalFileSystemURL(sPath, open, download)
 
 	removeFile: (usPath) ->
 		sPath = sCleanPath(usPath)

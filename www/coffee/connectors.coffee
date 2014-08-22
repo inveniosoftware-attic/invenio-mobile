@@ -17,20 +17,51 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+sCleanPath = (usPath) -> usPath.split('../').join('\\.\\./')
+
 class @Connector
 	constructor: (@source) ->
 
 	getStorageDirectory: -> cordova.file.externalApplicationStorageDirectory + 'cache/'
 
-	downloadFile: (recordID, usFilePath, usDestination, success, error) ->
-		app.downloadFile(this.getFileURL(recordID, usFilePath), usDestination,
-			success, error, @source.access_token)
+	###*
+		Downloads a file from the source.
 
-	openFile: (recordID, usFilePath, fileType, errorCallback) ->
+		@param {string} recordID       The record ID which the file belongs to.
+		@param {string} usFilePath     The path of the file belonging to the record.
+		@param {string} usDestination  The location at which to save the file.
+	###
+	downloadFile: (recordID, usFilePath, usDestination, success, error) ->
+		sPath = sCleanPath(usDestination)
+
+		if @source.access_token?
+			options = {
+				headers: {'Authorization': 'Bearer ' + @source.access_token}
+			}
+
+		fileTransfer = new FileTransfer()
+		fileTransfer.download(this.getFileURL(recordID, usFilePath), sPath,
+			success, error, false, options)
+
+	###*
+		Opens a file from the source.
+
+		@param {string} recordID    The record ID which the file belongs to.
+		@param {string} usFilePath  The path of the file belonging to the record.
+		@param {string} fileType    The MIME type of the file.
+	###
+	openFile: (recordID, usFilePath, fileType, error) ->
 		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFilePath}"
 
-		app.downloadAndOpenFile(this.getFileURL(recordID, usFilePath),
-			usPath, fileType, errorCallback, @source.access_token)
+		url = this.getFileURL(recordID, usFilePath)
+		sPath = sCleanPath(usPath)
+
+		open = (fileEntry) -> app.openFile(sPath, fileType, error)
+
+		download = (e) =>
+			this.downloadFile(recordID, usFilePath, sPath, open, error)
+
+		window.resolveLocalFileSystemURL(sPath, open, download)
 
 
 connectors = {}
