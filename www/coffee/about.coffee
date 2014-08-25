@@ -26,12 +26,15 @@ $('#appVersion').text(app.version)
 $licenseModal.find('.closeButton').click ->
 	history.back()
 
+$websiteLink.click ->
+	window.open($(this).attr('data-href'), '_system')
+
 $('a[data-license]').on 'touchend', ->
 		# `touchend` not `click` because `click` mysteriously fails on Android
 	$this = $(this)
 	$licenseModal.find('.title').text($this.text())
 	if $this.attr('data-website')
-		$websiteLink.attr('href', $this.attr('data-website')).show()
+		$websiteLink.attr('data-href', $this.attr('data-website')).show()
 	else
 		$websiteLink.hide()
 
