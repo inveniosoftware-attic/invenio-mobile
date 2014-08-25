@@ -68,6 +68,8 @@ class Settings
 
 	getSourceByID: (sourceID) -> this._idMap[sourceID]
 
+	getNumSources: -> this._sources.length
+
 	getSelectedSource: ->
 		return [this._sources[this._selectedSourceIndex], this._selectedSourceIndex]
 
@@ -81,6 +83,18 @@ class Settings
 		localStorage['sources'] = JSON.stringify(this._sources)
 		this._buildIDMap()
 		return index
+
+	removeSource: (id) ->
+		for source, i in this._sources
+			if source.id == id
+				this._sources.splice(i, 1)
+				index = i
+				break
+
+		if this._selectedSourceIndex >= index
+			this._selectedSourceIndex -= 1
+
+		this.save()
 
 
 class InvenioMobileApp

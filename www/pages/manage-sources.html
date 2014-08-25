@@ -1,0 +1,54 @@
+<link rel="stylesheet" type="text/css" href="cssbin/list.css" />
+
+<header class="bar bar-nav">
+	<a id="backButton" class="iosOnly icon icon-left-nav pull-left" href="javascript:;"></a>
+	<a id="addButton" class="icon icon-plus pull-right" href="#/add-source"></a>
+	<h1 class="title">Sources</h1>
+</header>
+
+<script id="sourceTemplate" type="text/x-jinja2-template">
+	<li class="listItem table-view-cell">
+		<a href="javascript:;" data-source-id="{{id}}">
+			<div class="listItem_title">{{name}}</div>
+			<div>
+				<span>{{url}}</span>
+				{% if access_token %}
+				&ndash;
+				<span class="icon icon-person"></span>
+				Logged in
+				{% endif %}
+			</div>
+		</a>
+	</li>
+</script>
+
+<ul id="sourceList" class="content table-view fullWidth">
+</ul>
+
+<div id="sourceModal" class="modal">
+	<header class="bar bar-nav">
+		<a class="closeButton icon icon-close pull-right" href="javascript:;"></a>
+		<h1 class="title"></h1>
+	</header>
+
+	<div class="content">
+		<div class="content-padded">
+			<a class="website" href="javascript:;"></a>
+
+			<p class="authStatus"></a>
+
+			<div class="flexRow">
+				<button class="removeButton btn btn-negative">
+					<span class="icon icon-trash"></span> Remove
+				</button>
+			</div>
+
+			<p class="cannotRemoveNotice" style="display:none;">
+				This is the only source, and so cannot be removed.
+			</p>
+		</div>
+	</div>
+</div>
+
+
+<script src="jsbin/manage-sources.js"></script>
