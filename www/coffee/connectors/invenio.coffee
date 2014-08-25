@@ -51,7 +51,7 @@ class @InvenioConnector extends Connector
 
 		@param {function} success  A function to run when finished.
 	###
-	authenticate: (success) ->
+	authenticate: (success, error) ->
 		unless @source.authentication_url?
 			throw new Error("The source does not support authentication.")
 
@@ -64,9 +64,19 @@ class @InvenioConnector extends Connector
 		authBrowser = window.open(url, '_blank')
 		authBrowser.addEventListener 'loadstart', (e) =>
 			# Work out whether this is the success redirect
-			# TODO: check for rejection
 			indexOfHash = e.url.indexOf('#')
-			return if indexOfHash is -1
+			if indexOfHash is -1
+				# Check for rejection or other error
+				indexOfQuestionMark = e.url.indexOf('?')
+				return if indexOfQuestionMark is -1
+
+				query = e.url[indexOfQuestionMark+1..]
+				return if query.indexOf('error=') is -1
+
+				queryArgs = app.parseParamString(query)
+				error('redirect', queryArgs.error) if queryArgs.error?
+				authBrowser.close()
+				return
 
 			hash = e.url[indexOfHash+1..]
 			return if hash.indexOf('access_token=') is -1
@@ -77,6 +87,8 @@ class @InvenioConnector extends Connector
 			response.state = decodeURIComponent(response.state)
 			if response.state isnt stateHash
 				console.error "State error: #{response.state} != #{stateHash}."
+				error('state')
+				authBrowser.close()
 				return
 
 			response.access_token = decodeURIComponent(response.access_token)
@@ -86,6 +98,9 @@ class @InvenioConnector extends Connector
 			@source.access_token = response.access_token
 			success()
 
+		authBrowser.addEventListener 'loaderror', (e) ->
+			error('browser', e.code, e.message)
+
 	###*
 		Tests the access token associated with the connector's source.
 
@@ -93,6 +108,9 @@ class @InvenioConnector extends Connector
 			indicating success.
 	###
 	testAccessToken: (callback) ->
+		unless @source.access_token?
+			throw new Error("The source has no access token to test.")
+
 		success = (data, textStatus, jqXHR) ->
 			console.dir(data: data, textStatus: textStatus, jqXHR: jqXHR)
 			callback(data.ping is 'pong')

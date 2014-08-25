@@ -83,14 +83,27 @@ addSource = ->
 
 authenticate = ->
 	connector = getConnector(source)
-	connector.authenticate ->
+	success = ->
 		app.settings.save()
-		$('#authStage p').hide()
+		$('#authMessage').hide()
+		$('#authErrorButtons').hide()
 		$('#authStage .spinner').show()
 		connector.testAccessToken (successful) ->
 			# TODO: deal with access test failure
 			console.log "Test successful." if successful
 			history.back()
+
+	error = (cause, type, message) ->
+		console.error "#{cause} error while authenticating: #{type}, #{message}"
+		switch cause
+			when 'browser' then return
+			when 'redirect'
+				if type is 'access_denied'
+					history.back()
+
+		$('#authMessage').addClass('negative').text "An error occurred during authentication."
+
+	connector.authenticate(success, error)
 
 $urlInput.on 'input', ->
 	if $urlInput.val().length > 0
@@ -108,9 +121,11 @@ addAndClose = ->
 
 $('#addButton').click(addAndClose)
 $('#noButton').click(addAndClose)
-
 $('#yesButton').click ->
 	addSource()
 	$('#sourceInfo').hide()
 	$('#authStage').show()
 	authenticate()
+
+$('#continueButton').click -> history.back()
+$('#retryButton').click(authenticate)

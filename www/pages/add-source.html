@@ -40,9 +40,16 @@
 	</button>
 </div>
 <div id="authStage" class="content padded" style="display:none;">
-	<p>
+	<p id="authMessage">
 		The authentication browser has been launched. Please login and authorise this application.
 	</p>
+	<div id="authErrorButtons" class="flexRow">
+		<button id="continueButton" class="btn" type="button">Continue</button>
+		<button id="retryButton" class="btn btn-primary" type="button">
+			<span class="icon icon-person"></span>
+			Retry
+		</button>
+	</div>
 	<span class="spinner" style="display:none;">
 		Testing authentication token...
 	</span>
