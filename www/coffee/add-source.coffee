@@ -55,6 +55,12 @@ locateSource = ->
 	$('#urlForm .spinner').show()
 	success = (usSource) ->
 		source = sCleanSource(usSource)
+		existingSource = app.settings.getSourceByID(source.id)
+		if existingSource?
+			$('.spinner').hide()
+			displayError "That source (#{existingSource.name}) has already been added."
+			return
+
 		$('#sourceInfo_name').text(usSource.name)
 		$('#sourceInfo_description').text(usSource.description)
 
