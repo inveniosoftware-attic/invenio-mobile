@@ -26,7 +26,7 @@ $('#appVersion').text(app.version)
 $licenseModal.find('.closeButton').click ->
 	history.back()
 
-$('a[href=#licenseModal]').on 'touchend', ->
+$('a[data-license]').on 'touchend', ->
 		# `touchend` not `click` because `click` mysteriously fails on Android
 	$this = $(this)
 	$licenseModal.find('.title').text($this.text())
@@ -39,8 +39,8 @@ $('a[href=#licenseModal]').on 'touchend', ->
 	$licenseModal.find('.license').load $this.attr('data-license'), ->
 		$licenseModal.find('.content').scrollTop(0)
 	
+	$licenseModal.addClass('active')
 	window.location.hash = '#licenseModal'
-		# Because Android doesn't change the hash when the modal opens
 
 $(window).on 'hashchange', ->
 	if window.location.hash is '#/about'
