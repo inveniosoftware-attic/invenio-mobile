@@ -8,8 +8,7 @@
 	<script id="sources_listTemplate" type="text/x-jinja2-template">
 		{% for source in data %}
 		<li class="table-view-cell">
-			<a role="menuitem" href="javascript:;"
-				data-index="{{loop.index - 1}}">
+			<a role="menuitem" href="javascript:;" data-index="{{loop.index - 1}}">
 				{{source.name}}
 			</a>
 		</li>

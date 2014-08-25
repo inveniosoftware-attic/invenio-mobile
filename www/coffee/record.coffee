@@ -62,7 +62,7 @@ if params.offline is 'true'
 	connector.getRecord(params.sourceID + '/' + params.id, displayRecord, error)
 
 else
-	[source, sourceIndex] = app.settings.getSelectedSource()
+	source = app.settings.getSelectedSource()
 	connector = getConnector(source)
 	connector.getRecord(params.id, displayRecord)
 

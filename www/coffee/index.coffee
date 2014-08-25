@@ -23,77 +23,62 @@ class Settings
 	constructor: ->
 		if localStorage['version']?
 			this._sources = JSON.parse(localStorage['sources'])
-			this._selectedSourceIndex = parseInt(localStorage['selectedSourceIndex'])
+			this._selectedSourceID = localStorage['selectedSourceID']
 		else
 			this.createDefaultSettings()
 
-		this._buildIDMap()
-
 		console.log "Settings loaded."
 
-	_buildIDMap: ->
-		this._idMap = {}
-		for source in this._sources
-			this._idMap[source.id] = source
-
 	save: ->
-		localStorage['version'] = '0.0.0'
+		localStorage['version'] = app.version
 		localStorage['sources'] = JSON.stringify(this._sources)
-		localStorage['selectedSourceIndex'] = this._selectedSourceIndex
+		localStorage['selectedSourceID'] = this._selectedSourceID
 
 	createDefaultSettings: ->
 		console.log "First run; creating default settings."
-		this._sources = [
-			{
+		this._sources = {
+			'ch.cern.invenio-demo-next': {
 				id: 'ch.cern.invenio-demo-next'
 				name: "Atlantis Institute of Fictive Science"
 			},
-			{
+			'ch.cern.cds': {
 				id: 'ch.cern.cds'
 				name: "CDS"
 			},
-			{
+			'net.inspirehep': {
 				id: 'net.inspirehep'
 				name: "INSPIRE"
 			},
-			{
+			'org.ilo.labordoc': {
 				id: 'org.ilo.labordoc'
 				name: "Labordoc"
 			},
-		]
-		this._selectedSourceIndex = 0
+		}
+		this._selectedSourceID = 'ch.cern.invenio-demo-next'
 		this.save()
 
-	getSourceList: -> this._sources
+	getSources: -> this._sources
 
-	getSourceByID: (sourceID) -> this._idMap[sourceID]
+	getSourceList: -> (this._sources[id] for id in Object.keys(this._sources))
 
-	getNumSources: -> this._sources.length
+	getSourceByID: (sourceID) -> this._sources[sourceID]
+
+	getNumSources: -> Object.keys(this._sources).length
 
 	getSelectedSource: ->
-		return [this._sources[this._selectedSourceIndex], this._selectedSourceIndex]
+		return this._sources[this._selectedSourceID]
 
-	setSelectedSource: (index) ->
-		this._selectedSourceIndex = index
-		localStorage['selectedSourceIndex'] = index
+	setSelectedSource: (id) ->
+		this._selectedSourceID = id
+		localStorage['selectedSourceID'] = id
 		return this.getSelectedSource()
 
 	addSource: (source) ->
-		index = this._sources.push(source) - 1
+		this._sources[source.id] = source
 		localStorage['sources'] = JSON.stringify(this._sources)
-		this._buildIDMap()
-		return index
 
 	removeSource: (id) ->
-		for source, i in this._sources
-			if source.id == id
-				this._sources.splice(i, 1)
-				index = i
-				break
-
-		if this._selectedSourceIndex >= index
-			this._selectedSourceIndex -= 1
-
+		delete this._sources[id]
 		this.save()
 
 

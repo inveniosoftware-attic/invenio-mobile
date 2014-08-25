@@ -78,8 +78,8 @@ locateSource = ->
 
 addSource = ->
 	source.url = url
-	index = app.settings.addSource(source)
-	app.settings.setSelectedSource(index)
+	app.settings.addSource(source)
+	app.settings.setSelectedSource(source.id)
 
 authenticate = ->
 	connector = getConnector(source)

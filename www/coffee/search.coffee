@@ -22,11 +22,12 @@
 sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
 
 app.onceSettingsLoaded ->
-	[source, index] = app.settings.getSelectedSource()
+	source = app.settings.getSelectedSource()
+	sourcesList = app.settings.getSourceList()
+	index = sourcesList.indexOf(source)
 
-	$('#sources').expandingButtonList(sourcesListTemplate,
-		app.settings.getSourceList(), index,
-		(i) -> app.settings.setSelectedSource(i))
+	$('#sources').expandingButtonList(sourcesListTemplate, sourcesList, index,
+		(i) -> app.settings.setSelectedSource(sourcesList[i].id))
 
 ## Clauses ##
 
@@ -67,7 +68,7 @@ createQueryJSON = ->
 
 performQuery = ->
 	array = createQueryJSON()
-	[source, index] = app.settings.getSelectedSource()
+	source = app.settings.getSelectedSource()
 	connector = getConnector(source)
 	query = connector.compileQuery(array)
 	

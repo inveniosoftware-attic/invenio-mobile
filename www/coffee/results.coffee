@@ -90,7 +90,7 @@ getSearchResults = (first) ->
 		loading = false
 		$spinner.hide()
 
-	[source, index] = app.settings.getSelectedSource()
+	source = app.settings.getSelectedSource()
 	connector = getConnector(source)
 	connector.performQuery(params.query, params.sort, first, PAGE_SIZE, success)
 
@@ -121,17 +121,16 @@ $scrollPane.scroll ->
 sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
 
 app.onceSettingsLoaded ->
-	[source, index] = app.settings.getSelectedSource()
+	source = app.settings.getSelectedSource()
 	sources = app.settings.getSourceList()
 
 	$sourceName.text(source.name)
-	$sourcesList.html(sourcesListTemplate.render(data: sources, selected: index))
-	$sourcesList.find('a[data-index]').click ->
-		i = parseInt($(this).attr('data-index'))
-		if index != i
-			index = i
-			app.settings.setSelectedSource(i)
-			$sourceName.text(sources[i].name)
+	$sourcesList.html(sourcesListTemplate.render(data: sources, selected: source.id))
+	$sourcesList.find('a[data-source-id]').click ->
+		id = $(this).attr('data-source-id')
+		if source.id != id
+			source = app.settings.setSelectedSource(id)
+			$sourceName.text(source.name)
 			doSearch()
 
 		# Hide the popover
