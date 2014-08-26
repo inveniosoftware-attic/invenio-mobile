@@ -71,9 +71,7 @@ connectors = {}
 @getConnector = (source) ->
 	connectorClass = connectors[source.type ? 'invenio']
 	if not connectorClass?
-		# TODO: an error message
-		console.error("No connector for source type #{source.type} is installed.")
-		return
+		throw new Error("No connector for source type #{source.type} is installed.")
 
 	return new connectorClass(source)
 

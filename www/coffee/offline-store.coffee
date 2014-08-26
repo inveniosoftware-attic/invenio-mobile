@@ -37,7 +37,7 @@ class @OfflineStore
 		else if entries.length is 0
 			return null
 		else
-			console.error "#{entries.length} entries for ID #{recordID} from #{sourceID}."
+			throw new Error("#{entries.length} entries for ID #{recordID} from #{sourceID}.")
 
 	removeEntry: (sourceID, recordID) ->
 		this._db({sourceID: sourceID, recordID: recordID}).remove()
