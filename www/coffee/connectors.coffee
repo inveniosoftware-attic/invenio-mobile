@@ -50,16 +50,18 @@ class @Connector
 		@param {string} usFileName  The name of the file.
 		@param {string} fileType    The MIME type of the file.
 	###
-	openFile: (recordID, usFileName, fileType, error) ->
+	openFile: (recordID, usFileName, fileType, errorCallback) ->
 		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFileName}"
 
 		url = this.getFileURL(recordID, usFileName)
 		sPath = sCleanPath(usPath)
 
-		open = (fileEntry) -> app.openFile(sPath, fileType, error)
+		error = (type) -> (args...) -> errorCallback(type, args...)
+
+		open = (fileEntry) -> app.openFile(sPath, fileType, error('open'))
 
 		download = (e) =>
-			this.downloadFile(recordID, usFileName, sPath, open, error)
+			this.downloadFile(recordID, usFileName, sPath, open, error('download'))
 
 		window.resolveLocalFileSystemURL(sPath, open, download)
 

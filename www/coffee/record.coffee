@@ -40,9 +40,19 @@ displayRecord = (usRecord) ->
 		usFileName = $this.attr('data-file-name')
 		fileType = $this.attr('data-file-type')
 
-		error = (e) ->
-			console.error "Error in download or opening: #{JSON.stringify(e)}"
-			# TODO: show nice error messages to the user
+		error = (type, e) ->
+			console.error "#{type} error: #{JSON.stringify(e)}"
+			message = switch type
+				when 'download'
+					"Could not download the file. Please check your network connection."
+				when 'open'
+					if e.message.indexOf('Activity not found') is 0
+						"No application on your device can open this file."
+					else
+						"An error occurred while opening the file."
+				else "An unknown error occurred."
+
+			navigator.notification.alert(message, (->), "Error")
 
 		id = if params.offline is 'true'
 				params.sourceID + '/' + params.id

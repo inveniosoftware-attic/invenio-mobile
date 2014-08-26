@@ -9,6 +9,9 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <feature name="Notification">
+        <param name="id" value="org.apache.cordova.dialogs" />
+    </feature>
     <feature name="File">
         <param name="id" value="org.apache.cordova.file" />
     </feature>

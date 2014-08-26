@@ -121,7 +121,7 @@ class OfflineStoreConnector extends Connector
 	openFile: (recordID, usFileName, fileType, errorCallback) ->
 		usPath = "#{this.getStorageDirectory()}#{recordID}/#{usFileName}"
 
-		app.openFile(usPath, fileType, errorCallback)
+		app.openFile(usPath, fileType, (args...) -> errorCallback('open', args...))
 
 
 registerConnector('offline', OfflineStoreConnector)
