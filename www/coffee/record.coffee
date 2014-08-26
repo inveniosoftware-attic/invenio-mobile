@@ -18,6 +18,7 @@
 ###
 
 $downloadButton = $('#downloadButton')
+$spinner = $('.spinner')
 
 params = parseHashParameters()
 
@@ -50,6 +51,11 @@ displayRecord = (usRecord) ->
 		connector.openFile(id, usFileName, fileType, error)
 
 
+displayError = (message) ->
+	$spinner.text "Could not fetch record: #{message}"
+	$spinner.show()
+
+
 if params.offline is 'true'
 	source = app.offlineSource
 	originalSourceID = params.sourceID
@@ -62,9 +68,13 @@ if params.offline is 'true'
 	connector.getRecord(params.sourceID + '/' + params.id, displayRecord, error)
 
 else
+	error = (jqXHR, textStatus, errorThrown) ->
+		console.error "Could not fetch record: #{JSON.stringify(jqXHR)}"
+		displayError "#{errorThrown} (#{jqXHR.status})"
+
 	source = app.settings.getSelectedSource()
 	connector = getConnector(source)
-	connector.getRecord(params.id, displayRecord)
+	connector.getRecord(params.id, displayRecord, error)
 
 $downloadButton.attr('href', "#/download?sourceID=#{originalSourceID ? source.id}&id=#{params.id}")
 $('.bar-nav .title').text source.name

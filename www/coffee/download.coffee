@@ -17,6 +17,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+$spinner = $('.spinner')
 $filesList = $('#filesList')
 fileItemTemplate = jinja.compile($('#fileItemTemplate').html())
 
@@ -70,12 +71,17 @@ usRecord = null
 
 displayRecord = (usData) ->
 	usRecord = usData
+	$('#record').show()
 	$('#recordTitle').text usData.title
 	if usData.files?
 		for usFile in usData.files
 			$filesList.append(fileItemTemplate.render(usFile))
 
 		bindListItemHandlers()
+
+displayError = (message) ->
+	$spinner.text "Could not fetch record: #{message}"
+	$spinner.show()
 
 $('#downloadButton').click ->
 	$('#downloadButton').attr('disabled', 'true')
@@ -93,6 +99,10 @@ $('#removeButton').click ->
 	history.back()
 	# TODO: handle the record screen not finding the saved entry any more.
 
+error = (jqXHR, textStatus, errorThrown) ->
+	console.error "Could not fetch record: #{JSON.stringify(jqXHR)}"
+	displayError "#{errorThrown} (#{jqXHR.status})"
+
 offlineEntry = app.offlineStore.getEntry(source.id, params.id)
 if navigator.connection.type is Connection.NONE
 	$('#message').text "Cannot download new files while offline."
@@ -107,13 +117,16 @@ if navigator.connection.type is Connection.NONE
 else if offlineEntry?
 	$('#message').text "This record is already saved. To change which files are
 		stored with it, choose them from this list:"
-	connector.getRecord params.id, (usData) ->
+
+	success = (usData) ->
 		displayRecord(usData)
 		selectItems(offlineEntry.usSavedFileNames)
+	
+	connector.getRecord(params.id, success, error)
 
 	$('#removeButton').show()
 	$('#downloadButton .text').text "Update"
 
 else
-	connector.getRecord(params.id, displayRecord)
+	connector.getRecord(params.id, displayRecord, error)
 

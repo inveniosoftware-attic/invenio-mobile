@@ -136,7 +136,7 @@ class @InvenioConnector extends Connector
 
 		return query.trim()
 
-	performQuery: (query, sort, pageStart, pageSize, callback) ->
+	performQuery: (query, sort, pageStart, pageSize, successCallback, error) ->
 		options = {
 			query: escape(query),
 			sort: sort
@@ -149,7 +149,7 @@ class @InvenioConnector extends Connector
 				pageStart: parseInt(usData.paging.page_start),
 				count: parseInt(usData.paging.count)
 			}
-			callback(usData.results, usData.lines, paging)
+			successCallback(usData.results, usData.lines, paging)
 
 		$.ajax(
 			url: "#{@source.url}api/search?#{$.param(options)}",
@@ -157,6 +157,7 @@ class @InvenioConnector extends Connector
 				'Authorization': 'Bearer ' + @source.access_token if @source.access_token?
 			},
 			success: success,
+			error: error,
 			dataType: 'json',
 		)
 

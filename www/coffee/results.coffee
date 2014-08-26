@@ -70,6 +70,10 @@ displayResults = (usResults, usLines) ->
 	for usResult in usResults
 		$resultsList.append(itemsTemplate.render({result: usResult}, filters: filters))
 
+displayError = (message) ->
+	$spinner.text "Could not fetch results: #{message}"
+	$spinner.show()
+
 params = parseHashParameters()
 params.sort ?= 'date'
 
@@ -90,9 +94,13 @@ getSearchResults = (first) ->
 		loading = false
 		$spinner.hide()
 
+	error = (jqXHR, textStatus, errorThrown) ->
+		console.error "Could not fetch results: #{JSON.stringify(jqXHR)}"
+		displayError "#{errorThrown} (#{jqXHR.status})"
+
 	source = app.settings.getSelectedSource()
 	connector = getConnector(source)
-	connector.performQuery(params.query, params.sort, first, PAGE_SIZE, success)
+	connector.performQuery(params.query, params.sort, first, PAGE_SIZE, success, error)
 
 doSearch = ->
 	$resultsList.empty()
