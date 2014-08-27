@@ -17,15 +17,27 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+# Page elements #
+
 $spinner = $('.spinner')
 $filesList = $('#filesList')
 fileItemTemplate = jinja.compile($('#fileItemTemplate').html())
 
-params = parseHashParameters()
 
-source = app.settings.getSourceByID(params.sourceID)
+# Page methods #
 
-$('.bar-nav .title').text source.name
+displayRecord = (usData) ->
+	$('#record').show()
+	$('#recordTitle').text usData.title
+	if usData.files?
+		for usFile in usData.files
+			$filesList.append(fileItemTemplate.render(usFile))
+
+		bindListItemHandlers()
+
+displayError = (message) ->
+	$spinner.text "Could not fetch record: #{message}"
+	$spinner.show()
 
 ## Files list ##
 
@@ -40,7 +52,7 @@ toggleListItem = ($listItem) ->
 		$listItem.addClass('selected')
 
 bindListItemHandlers = ->
-	$filesList.children('.listItem').click -> toggleListItem($(this))
+	$filesList.find('.listItem').click -> toggleListItem($(this))
 	$filesList.find('.listItem > input[type=checkbox]').click ->
 		toggleListItem($(this).parent())
 
@@ -64,24 +76,20 @@ hideUnselectedItems = ->
 	$filesList.find('input[type=checkbox]:not(:checked)').parent().hide()
 	$filesList.children('.listItem').removeClass('selected')
 
-## ##
+disableAllItems = ->
+	$filesList.children('.listItem').addClass('disabled')
+	$filesList.find('input[type=checkbox]').attr('disabled', 'true')
 
+# Logic #
+
+params = parseHashParameters()
+source = app.settings.getSourceByID(params.sourceID)
 connector = getConnector(source)
 usRecord = null
 
-displayRecord = (usData) ->
-	usRecord = usData
-	$('#record').show()
-	$('#recordTitle').text usData.title
-	if usData.files?
-		for usFile in usData.files
-			$filesList.append(fileItemTemplate.render(usFile))
 
-		bindListItemHandlers()
 
-displayError = (message) ->
-	$spinner.text "Could not fetch record: #{message}"
-	$spinner.show()
+# Event handlers #
 
 $('#downloadButton').click ->
 	$('#downloadButton').attr('disabled', 'true')
@@ -97,7 +105,11 @@ $('#downloadButton').click ->
 $('#removeButton').click ->
 	app.offlineStore.removeEntry(source.id, params.id)
 	history.back()
-	# TODO: handle the record screen not finding the saved entry any more.
+
+
+# On load #
+
+$('.bar-nav .title').text source.name
 
 error = (jqXHR, textStatus, errorThrown) ->
 	console.error "Could not fetch record: #{JSON.stringify(jqXHR)}"
@@ -106,10 +118,10 @@ error = (jqXHR, textStatus, errorThrown) ->
 offlineEntry = app.offlineStore.getEntry(source.id, params.id)
 if navigator.connection.type is Connection.NONE
 	$('#message').text "Cannot download new files while offline."
-	displayRecord(offlineEntry.usRecord)
+	usRecord = offlineEntry.usRecord
+	displayRecord(usRecord)
 	selectItems(offlineEntry.usSavedFileNames)
-	$filesList.children('.listItem').addClass('disabled')
-	$filesList.find('input[type=checkbox]').attr('disabled', 'true')
+	disableAllItems()
 
 	$('#removeButton').show()
 	$('#downloadButton').hide()
@@ -119,6 +131,7 @@ else if offlineEntry?
 		stored with it, choose them from this list:"
 
 	success = (usData) ->
+		usRecord = usData
 		displayRecord(usData)
 		selectItems(offlineEntry.usSavedFileNames)
 	
@@ -128,5 +141,9 @@ else if offlineEntry?
 	$('#downloadButton .text').text "Update"
 
 else
-	connector.getRecord(params.id, displayRecord, error)
+	success = (usData) ->
+		usRecord = usData
+		displayRecord(usData)
+
+	connector.getRecord(params.id, success, error)
 
