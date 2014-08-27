@@ -65,7 +65,7 @@ $sourceModal.find('.website').click ->
 $sourceModal.find('.removeButton').click ->
 	app.settings.removeSource(modalSourceID)
 	displaySources()
-	$sourceModal.removeClass('active')
+	history.back()
 
 $(window).on 'hashchange', ->
 	if window.location.hash is '#/manage-sources'
