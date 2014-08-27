@@ -17,19 +17,30 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+# Page elements #
+
 $recordList = $('#recordList')
 recordTemplate = jinja.compile($('#recordTemplate').html())
+
+
+# Page methods #
 
 filters = {
 	sourceIDToName: (sourceID) -> app.settings.getSourceByID(sourceID).name
 }
 
-app.onceSettingsLoaded ->
-	compareTitles = (a, b) -> a.usRecord.title > b.usRecord.title
-	entries = app.offlineStore.getAllEntries().sort(compareTitles)
+displayEntries = (entries) ->
 	if entries.length > 0
 		$recordList.empty()
 		for entry in entries
 			$recordList.append(recordTemplate.render(entry, filters: filters))
 	else
 		$('.emptyListMessage').show()
+
+
+# On load #
+
+app.onceSettingsLoaded ->
+	compareTitles = (a, b) -> a.usRecord.title > b.usRecord.title
+	entries = app.offlineStore.getAllEntries().sort(compareTitles)
+	displayEntries(entries)
