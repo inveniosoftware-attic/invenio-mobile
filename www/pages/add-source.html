@@ -5,7 +5,7 @@
 	<h1 class="title">Add source</h1>
 </header>
 
-<div id="urlForm" class="content padded">
+<div id="urlForm" class="stage content padded">
 	<label for="urlInput">URL</label>
 	<input id="urlInput" type="url" autofocus placeholder="cds.cern.ch" mozactionhint="next"/>
 	<p id="urlErrorMessage" class="negative"></p>
@@ -20,7 +20,7 @@
 		Loading...
 	</div>
 </div>
-<div id="sourceInfo" class="content padded" style="display:none;">
+<div id="sourceInfo" class="stage content padded" style="display:none;">
 	<h3 id="sourceInfo_name"></h3>
 	<blockquote id="sourceInfo_description"></blockquote>
 	<div id="authQuestion" style="display:none;">
@@ -39,7 +39,7 @@
 		Add source
 	</button>
 </div>
-<div id="authStage" class="content padded" style="display:none;">
+<div id="auth" class="stage content padded" style="display:none;">
 	<p id="authMessage">
 		The authentication browser has been launched. Please login and authorise this application.
 	</p>
@@ -50,7 +50,9 @@
 			Retry
 		</button>
 	</div>
-	<span class="spinner" style="display:none;">
+</div>
+<div id="testAuth" class="stage content padded" style="display:none;">
+	<span class="spinner">
 		Testing authentication token...
 	</span>
 </div>
