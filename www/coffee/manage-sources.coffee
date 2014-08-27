@@ -17,10 +17,15 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+# Page elements #
+
 $sourceList = $('#sourceList')
 $sourceModal = $('#sourceModal')
 
 sourceTemplate = jinja.compile($('#sourceTemplate').html())
+
+
+# Page methods #
 
 modalSourceID = null
 
@@ -54,8 +59,12 @@ displaySources = ->
 	for source in app.settings.getSourceList()
 		$sourceList.append(sourceTemplate.render(source))
 
-	$sourceList.find('li > a').click ->
-		displaySourceModal($(this).attr('data-source-id'))
+	$sourceList.find('li > a').click(sourceClicked)
+
+# Event handlers #
+
+sourceClicked = ->
+	displaySourceModal($(this).attr('data-source-id'))
 
 $sourceModal.find('.closeButton').click -> history.back()
 
@@ -71,4 +80,8 @@ $(window).on 'hashchange', ->
 	if window.location.hash is '#/manage-sources'
 		$sourceModal.removeClass('active')
 
+
+# On load #
+
 displaySources()
+
