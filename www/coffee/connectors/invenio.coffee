@@ -60,6 +60,22 @@ class @InvenioConnector extends Connector
 
 		:param success: A function to run when finished.
 		:type success: function
+		:param error:
+			A function to be called if an error occurs. The first argument is
+			the cause of the error.
+
+			If the error occurs in the browser, the cause will be ``'browser'``
+			and the second argument will be an InAppBrowserEvent (see
+			http://plugins.cordova.io/#/package/org.apache.cordova.inappbrowser).
+
+			If the cause is ``'state'``, the CSRF token that was received does
+			not match the one that was sent.
+
+			If the cause is ``'redirect'`` then the OAuth2 server returned an
+			error in a redirect. The second argument is the error (such as
+			``'access_denied'``).
+
+		:type error: function
 		###
 		unless @source.authentication_url?
 			throw new Error("The source does not support authentication.")
