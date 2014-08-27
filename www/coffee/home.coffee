@@ -17,12 +17,19 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+# Logic #
+
 params = parseHashParameters()
-activeTab = '#' + (params['tab'] ? 'search') + 'Tab'
-$(activeTab).addClass('active')
+startTab = '#' + (params.tab ? 'search') + 'Tab'
+
+# Event handlers #
 
 tabClicked = (tabName) ->
 	params.tab = tabName
 	updateHashParameters(params)
 
+# On load #
+
+$(startTab).addClass('active')
 $('#homeTabs').tabBar(tabClicked)
+
