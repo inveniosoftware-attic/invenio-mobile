@@ -17,7 +17,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-$.fn.dropdownSelect = ->
+$.fn.dropdownSelect = (callback) ->
 	###
 	Adds behaviour to a dropdown to make it behave like a <select> element.
 
@@ -31,9 +31,17 @@ $.fn.dropdownSelect = ->
 	$dropdownSelect = this
 	$label = this.find('.dropdownSelect_label')
 	$menu = this.find('.dropdownMenu')
-	$menu.find('li > a[data-value]').click ->
+	$optionLinks = $menu.find('li > a[data-value]')
+	$optionLinks.click ->
 		$this = $(this)
-		$dropdownSelect.attr('data-value', $this.attr('data-value'))
+		value = $this.attr('data-value')
+
+		$dropdownSelect.attr('data-value', value)
 		$label.text($this.text())
+
+		$optionLinks.parent().removeClass('active')
+		$this.parent().addClass('active')
+
+		callback(value) if callback?
 	
 	return this

@@ -17,7 +17,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-PAGE_SIZE = 50
+# Page elements #
 
 $sourceName = $('#sourceName')
 $sourcesList = $('#sourcesList')
@@ -25,6 +25,27 @@ $queryTextBox = $('#queryTextBox')
 $spinner = $('.spinner')
 $scrollPane = $('#scrollPane')
 $resultsList = $('#resultsList')
+
+sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
+
+
+# Page methods #
+
+initSourcesPopover = (callback) ->
+	source = app.settings.getSelectedSource()
+	sources = app.settings.getSourceList()
+
+	$sourceName.text(source.name)
+	$sourcesList.html(sourcesListTemplate.render(data: sources, selected: source.id))
+	$sourcesList.find('a[data-source-id]').click ->
+		id = $(this).attr('data-source-id')
+		if source.id != id
+			source = app.settings.setSelectedSource(id)
+			$sourceName.text(source.name)
+			callback(id)
+
+		# Hide the popover
+		$('.backdrop')[0].dispatchEvent(new CustomEvent('touchend'))
 
 filters = {
 	# DO NOT add `safe` to this object.
@@ -74,6 +95,11 @@ displayError = (message) ->
 	$spinner.text "Could not fetch results: #{message}"
 	$spinner.show()
 
+
+# Logic #
+
+PAGE_SIZE = 50
+
 params = parseHashParameters()
 params.sort ?= 'date'
 
@@ -109,10 +135,6 @@ doSearch = ->
 	nextPageStart = 0
 	getSearchResults(nextPageStart)
 
-app.onceSettingsLoaded -> doSearch()
-
-## Load-on-demand ##
-
 loadNextPage = ->
 	if nextPageStart < numResults
 		console.log "Scrolled to bottom, loading more results"
@@ -120,52 +142,34 @@ loadNextPage = ->
 	else
 		console.log "No more results."
 
-$scrollPane.scroll ->
-	if $scrollPane.scrollTop() + $scrollPane.innerHeight() >= $scrollPane.prop('scrollHeight')
-		loadNextPage() unless loading
 
-## Sources dropdown ##
+# Event handlers #
 
-sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
+sourceChanged = (id) ->
+	doSearch()
 
-app.onceSettingsLoaded ->
-	source = app.settings.getSelectedSource()
-	sources = app.settings.getSourceList()
-
-	$sourceName.text(source.name)
-	$sourcesList.html(sourcesListTemplate.render(data: sources, selected: source.id))
-	$sourcesList.find('a[data-source-id]').click ->
-		id = $(this).attr('data-source-id')
-		if source.id != id
-			source = app.settings.setSelectedSource(id)
-			$sourceName.text(source.name)
-			doSearch()
-
-		# Hide the popover
-		$('.backdrop')[0].dispatchEvent(new CustomEvent('touchend'))
-
-## Sort dropdown ##
-
-$('#sortDropdown').dropdown()
-$sortOptions = $('#sortDropdown ul')
-
-$sortOptions.find('a').click ->
-	$this = $(this)
-	value = $this.attr('data-value')
-
+sortOptionClicked = (value) ->
 	params.sort = value
 	doSearch()
 	updateHashParameters(params)
-
-	$sortOptions.children().removeClass('active')
-	$this.parent().addClass('active')
-
-$sortOptions.find("a[data-value=#{params.sort}]").parent().addClass('active')
-
-## Query bar ##
 
 $queryTextBox.keypress (e) ->
 	if e.which is 13 or e.keyCode is 13
 		params.query = $queryTextBox.val()
 		updateHashParameters(params)
 		doSearch()
+
+$scrollPane.scroll ->
+	if $scrollPane.scrollTop() + $scrollPane.innerHeight() >= $scrollPane.prop('scrollHeight')
+		loadNextPage() unless loading
+
+
+# On load #
+
+$('#sortDropdown').dropdown().dropdownSelect(sortOptionClicked)
+$('#sortDropdown ul').find("a[data-value=#{params.sort}]").parent().addClass('active')
+
+app.onceSettingsLoaded ->
+	doSearch()
+
+	initSourcesPopover(sourceChanged)
