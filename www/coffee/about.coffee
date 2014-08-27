@@ -17,19 +17,22 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
+# Page elements #
+
+$licenseLinks = $('a[data-license]')
+
 $licenseModal = $('#licenseModal')
 $websiteLink = $licenseModal.find('.website')
-$licenseModalContent = $licenseModal.find('.license')
 
-$('#appVersion').text(app.version)
 
-$licenseModal.find('.closeButton').click ->
-	history.back()
+# Event handlers #
+
+$licenseModal.find('.closeButton').click -> history.back()
 
 $websiteLink.click ->
 	window.open($(this).attr('data-href'), '_system')
 
-$('a[data-license]').on 'touchend', ->
+$licenseLinks.on 'touchend', ->
 		# `touchend` not `click` because `click` mysteriously fails on Android
 	$this = $(this)
 	$licenseModal.find('.title').text($this.text())
@@ -48,3 +51,9 @@ $('a[data-license]').on 'touchend', ->
 $(window).on 'hashchange', ->
 	if window.location.hash is '#/about'
 		$licenseModal.removeClass('active')
+
+
+# On load #
+
+$('#appVersion').text(app.version)
+
