@@ -18,6 +18,13 @@
 ###
 
 $.fn.dropdown = ->
+	###
+	Adds functionality to a dropdown menu.
+
+	The subelement with the attribute ``data-toggle="dropdown"`` will act as
+	the dropdown toggle, and a list of ``<li>`` elements containing links will
+	become the menu items.
+	###
 	$dropdown = this
 	this.find('[data-toggle=dropdown]').click ->
 		$dropdown.toggleClass('open')

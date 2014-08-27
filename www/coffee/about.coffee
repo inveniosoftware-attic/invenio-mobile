@@ -41,7 +41,7 @@ $('a[data-license]').on 'touchend', ->
 	$licenseModal.find('.licenseName').text($this.attr('data-license-name'))
 	$licenseModal.find('.license').load $this.attr('data-license'), ->
 		$licenseModal.find('.content').scrollTop(0)
-	
+
 	$licenseModal.addClass('active')
 	window.location.hash = '#licenseModal'
 

@@ -17,26 +17,29 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-###*
+$.fn.expandingButtonList = (template, data, selectedIndex, callback) ->
+	###
 	Adds behaviour to an expanding button list, as can be found within the
 	#sources div in pages/search.html. 
 	
 	The list items are placed in the descendant element with the class
-	`.ebl_list`.
+	``.ebl_list``.
 	
-	@param {Object}   template
+	:param template:
 		The Jinja.js template to use to create the menu. The data will be
-		passed as the `data` parameter.
-	@param {Array}    data
+		passed as the ``data`` parameter.
+	:type template: Object
+	:param data:
 		An array of objects to display in the list. The `name` value of each
 		object will be used as its label.
-	@param {number}   selectedIndex
-		The index of the object to be initially selected.
-	@param {function} callback
+	:type data: Array
+	:param selectedIndex: The index of the object to be initially selected.
+	:type selectedIndex: number
+	:param callback:
 		A function to be called when the selection is changed. The first
 		argument passed will be the index of the selected item.
-###
-$.fn.expandingButtonList = (template, data, selectedIndex, callback) ->
+	:type callback: function
+	###
 	$expandingButtonList = this
 	$button = this.children('.ebl_button')
 	$list = this.find('.ebl_list')

@@ -17,18 +17,17 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-###*
-	Adds behaviour to a Bootstrap dropdown to make it behave like a <select>
-	element (because <select> elements cannot be properly styled).
-
-	The <div> should be a Bootstrap dropdown
-	(http://getbootstrap.com/components/#dropdowns) with an element of class
-	`.dropdownSelect_label` which will display the text of the selected option.
-	When a menu item is clicked, the `data-value` attribute of the dropdown
-	<div> will be set to the `data-value` attribute of the clicked item. If a
-	menu item has no `data-value` attribute, it will be ignored.
-###
 $.fn.dropdownSelect = ->
+	###
+	Adds behaviour to a dropdown to make it behave like a <select> element.
+
+	The <div> should have an element of class ``dropdownSelect_label`` which will
+	display the text of the selected option, and an element of class
+	``dropdownMenu`` containing the menu items. When a menu item is clicked, the
+	``data-value`` attribute of the dropdown <div> will be set to the that of the
+	clicked item. If a menu item has no ``data-value`` attribute, it will be
+	ignored.
+	###
 	$dropdownSelect = this
 	$label = this.find('.dropdownSelect_label')
 	$menu = this.find('.dropdownMenu')

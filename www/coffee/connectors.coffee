@@ -20,18 +20,33 @@
 sCleanPath = (usPath) -> usPath.split('../').join('\\.\\./')
 
 class @Connector
+	###
+	Base class for Connector objects.
+	###
+
 	constructor: (@source) ->
+		###
+		Creates a new Connector for a source object.
 
-	getStorageDirectory: -> cordova.file.externalApplicationStorageDirectory + 'cache/'
+		:param source: the source object.
+		:type source: Object
+		###
 
-	###*
+	getStorageDirectory: ->
+		### :returns: string -- The directory the source stores files in. ###
+		return cordova.file.externalApplicationStorageDirectory + 'cache/'
+
+	downloadFile: (recordID, usFileName, usDestination, success, error) ->
+		###
 		Downloads a file from the source.
 
-		@param {string} recordID    The record ID which the file belongs to.
-		@param {string} usFileName  The name of the file.
-		@param {string} usPath      The location at which to save the file.
-	###
-	downloadFile: (recordID, usFileName, usDestination, success, error) ->
+		:param recordID: The record ID which the file belongs to.
+		:type recordID: string
+		:param usFileName: The name of the file.
+		:type usFileName: string
+		:param usPath: The location at which to save the file.
+		:type usPath: string
+		###
 		sPath = sCleanPath(usDestination)
 
 		if @source.access_token?
@@ -43,14 +58,28 @@ class @Connector
 		fileTransfer.download(this.getFileURL(recordID, usFileName), sPath,
 			success, error, false, options)
 
-	###*
+	openFile: (recordID, usFileName, fileType, errorCallback) ->
+		###
 		Opens a file from the source.
 
-		@param {string} recordID    The record ID which the file belongs to.
-		@param {string} usFileName  The name of the file.
-		@param {string} fileType    The MIME type of the file.
-	###
-	openFile: (recordID, usFileName, fileType, errorCallback) ->
+		:param recordID: The record ID which the file belongs to.
+		:type recordID: string 
+		:param usFileName: The name of the file.
+		:type usFileName: string
+		:param fileType: The MIME type of the file.
+		:type fileType: string
+		:param errorCallback:
+			A function to call if an error occurs.
+			
+			If the error occurs when downloading the file, the first parameter
+			will be ``download`` and the second a ``FileTransferError``.
+
+			If the error occurs when opening the file, the first parameter will
+			be ``open`` and the second an object with a ``message`` field.
+
+			see:: http://plugins.cordova.io/#/package/org.apache.cordova.file-transfer
+		:type errorCallback: function
+		###
 		usPath = "#{this.getStorageDirectory()}#{this.source.id}/#{recordID}/#{usFileName}"
 
 		url = this.getFileURL(recordID, usFileName)
@@ -69,6 +98,14 @@ class @Connector
 connectors = {}
 
 @getConnector = (source) ->
+	###
+	Get a :class:`Connector` object for the given source.
+
+	:param source: The source to get a connector for.
+	:type source: Object
+	:returns: Connector -- a :class:`Connector` for the source.
+	:throws Error: if no connector has been registered for the source type.
+	###
 	connectorClass = connectors[source.type ? 'invenio']
 	if not connectorClass?
 		throw new Error("No connector for source type #{source.type} is installed.")
@@ -76,5 +113,13 @@ connectors = {}
 	return new connectorClass(source)
 
 @registerConnector = (sourceType, connectorClass) ->
+	###
+	Register a class as a connector object.
+
+	:param sourceType: the source type which this connector class handles.
+	:type sourceType: string
+	:param connectorClass: the connector class.
+	:type connectorClass: Connector
+	###
 	connectors[sourceType] = connectorClass
 

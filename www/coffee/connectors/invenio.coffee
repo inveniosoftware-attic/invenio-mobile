@@ -18,20 +18,28 @@
 ###
 
 class @InvenioConnector extends Connector
+	###
+	Provides an interface to the Invenio REST API. Extends :class:`Connector`.
+	###
 
 	## Static methods ##
 
-	###*
+	@getSourceFromURL = (url, callback, error) ->
+		###
 		Fetches information about an Invenio source, given its URL.
 
-		@param {string}   url      The URL of the source.
-		@param {function} callback Success callback. The first argument will be
-			a source object containing the source information.
-		@param {function} error    Error callback. The arguments are the same as
-			those to a jQuery.ajax callback, except that textStatus will equal
-			'parsererror' if the server exists but is not an Invenio server.
-	###
-	@getSourceFromURL = (url, callback, error) ->
+		:param url: The URL of the source.
+		:type url: string
+		:param callback:
+			Success callback, passed a source object containing the source
+			information.
+		:type callback: function
+		:param error:
+			Error callback. The arguments are the same as those to a jQuery.ajax
+			callback, except that textStatus will also be 'parsererror' if the
+			server exists but is not an Invenio server.
+		:type error: function
+		###
 		checkData = (data) ->
 			unless data.invenio_api_version?
 				error(jqXHR, 'parsererror', "invenio_api_version was not defined.")
@@ -43,15 +51,16 @@ class @InvenioConnector extends Connector
 
 	## Instance methods ##
 
-	###*
+	authenticate: (success, error) ->
+		###
 		Runs through the process for retrieving an access token for the source.
 		Once retrieved, the token is stored in the source object. For the token
 		to persist, the application's settings must be saved once retrieval is
 		complete.
 
-		@param {function} success  A function to run when finished.
-	###
-	authenticate: (success, error) ->
+		:param success: A function to run when finished.
+		:type success: function
+		###
 		unless @source.authentication_url?
 			throw new Error("The source does not support authentication.")
 
@@ -101,13 +110,14 @@ class @InvenioConnector extends Connector
 		authBrowser.addEventListener 'loaderror', (e) ->
 			error('browser', e.code, e.message)
 
-	###*
+	testAccessToken: (callback) ->
+		###
 		Tests the access token associated with the connector's source.
 
-		@param {function} callback  Called when the test is complete, with a boolean
-			indicating success.
-	###
-	testAccessToken: (callback) ->
+		:param callback:
+			Called when the test is complete, with a boolean indicating success.
+		:type callback: function
+		###
 		unless @source.access_token?
 			throw new Error("The source has no access token to test.")
 
@@ -128,6 +138,10 @@ class @InvenioConnector extends Connector
 		)
 
 	compileQuery: (queryArray) ->
+		###
+		Turns a JSON query structure from the Search screen into a query string
+		suitable for submitting to the source via :meth:`performQuery`.
+		###
 		query = ''
 		for clause in queryArray
 			query += clause.operation + ' ' if clause.operation?
@@ -137,6 +151,30 @@ class @InvenioConnector extends Connector
 		return query.trim()
 
 	performQuery: (query, sort, pageStart, pageSize, successCallback, error) ->
+		###
+		Sends a search query to the server.
+
+		:param query: The query to send.
+		:type query: string
+		:param sort:
+			The sort parameter. Valid values are ``'relevance'``, ``'date'`` or
+			``'citations'``.
+		:type sort: string
+		:param pageStart:
+			The zero-based index of the first result to be returned.
+		:type pageStart: number
+		:param pageSize: The number of results to return.
+		:type pageSize: number
+		:param successCallback:
+			A function to call when the results are retrieved. The arguments
+			are: an array of results; an array of line specifications; and an
+			object containing paging information.
+		:type successCallback: function
+		:param error:
+			A function to call if an error occurs. The arguments are those
+			passed by the jQuery.ajax function.
+		:type error: function
+		###
 		options = {
 			query: escape(query),
 			sort: sort
@@ -161,18 +199,38 @@ class @InvenioConnector extends Connector
 			dataType: 'json',
 		)
 
-	getRecord: (id, callback, error) ->
+	getRecord: (id, success, error) ->
+		###
+		Retrieves a record from the server, as JSON.
+
+		:param id: The ID of the record to retrieve.
+		:type id: string
+		:param success: A function to be called when the record is retrieved.
+			The record is passed as the first argument.
+		:type success: function
+		:param error: A function to be called if an error occurs. The arguments
+			are those passed by the jQuery.ajax function.
+		:type error: function
+		###
 		$.ajax(
 			url: "#{@source.url}api/record/#{id}",
 			headers: {
 				'Authorization': 'Bearer ' + @source.access_token if @source.access_token?
 			},
-			success: callback,
+			success: success,
 			error: error,
 			dataType: 'json',
 		)
 
 	getFileURL: (recordID, fileName) ->
+		###
+		Returns the URL of a file associated with the given record.
+
+		:param recordID: The ID of the record.
+		:type recordID: string
+		:param fileName: The name of the file.
+		:type fileName: string
+		###
 		return "#{@source.url}api/record/#{recordID}/files/#{fileName}"
 
 

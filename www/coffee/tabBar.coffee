@@ -18,6 +18,19 @@
 ###
 
 $.fn.tabBar = (tabClickedCallback) ->
+	###
+	Adds functionality to a `Ratchet tab bar
+	<http://goratchet.com/components/#bars>`.
+
+	The element's ``data-target`` attribute should be a jQuery selector of the
+	element into which content is loaded.
+
+	Each tab's ``tab-item`` element should have a ``data-tab-href`` attribute,
+	containing the URL of the tab's content. When a tab is clicked, its content
+	will be loaded into the target element, and it will be set as the active
+	tab. When the function is called, the content of the tab with the ``active``
+	class will be loaded.
+	###
 	$tabBar = this
 	$tabs = this.find('.tab-item')
 	$target = $(this.attr('data-target'))
