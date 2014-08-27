@@ -17,15 +17,25 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-$downloadButton = $('#downloadButton')
-$spinner = $('.spinner')
-
-params = parseHashParameters()
-
-recordTemplate = jinja.compile($('#recordTemplate').html())
+# Utility methods #
 
 formatDate = (dateString) ->
 	return new Date(dateString).toLocaleDateString()
+
+
+# Page elements #
+
+$downloadButton = $('#downloadButton')
+$spinner = $('.spinner')
+
+recordTemplate = jinja.compile($('#recordTemplate').html())
+
+
+# Page methods #
+
+displayError = (message) ->
+	$spinner.text "Could not fetch record: #{message}"
+	$spinner.show()
 
 displayRecord = (usRecord) ->
 	$downloadButton.show()
@@ -34,37 +44,45 @@ displayRecord = (usRecord) ->
 
 	$('.content').html(recordTemplate.render(usRecord, filters: {formatDate: formatDate}))
 	$('.record_filesButton').dropdown()
-	$('.record_file').click ->
-		$this = $(this)
-		return if $this.parent().hasClass('disabled')
-		usFileName = $this.attr('data-file-name')
-		fileType = $this.attr('data-file-type')
-
-		error = (type, e) ->
-			console.error "#{type} error: #{JSON.stringify(e)}"
-			message = switch type
-				when 'download'
-					"Could not download the file. Please check your network connection."
-				when 'open'
-					if e.message.indexOf('Activity not found') is 0
-						"No application on your device can open this file."
-					else
-						"An error occurred while opening the file."
-				else "An unknown error occurred."
-
-			navigator.notification.alert(message, (->), "Error")
-
-		id = if params.offline is 'true'
-				params.sourceID + '/' + params.id
-			else
-				params.id
-		connector.openFile(id, usFileName, fileType, error)
+	$('.record_file').click(fileClicked)
 
 
-displayError = (message) ->
-	$spinner.text "Could not fetch record: #{message}"
-	$spinner.show()
+# Logic #
 
+params = parseHashParameters()
+
+
+# Event handlers #
+
+fileClicked = ->
+	$this = $(this)
+	return if $this.parent().hasClass('disabled')
+
+	usFileName = $this.attr('data-file-name')
+	fileType = $this.attr('data-file-type')
+
+	error = (type, e) ->
+		console.error "#{type} error: #{JSON.stringify(e)}"
+		message = switch type
+			when 'download'
+				"Could not download the file. Please check your network connection."
+			when 'open'
+				if e.message.indexOf('Activity not found') is 0
+					"No application on your device can open this file."
+				else
+					"An error occurred while opening the file."
+			else "An unknown error occurred."
+
+		navigator.notification.alert(message, (->), "Error")
+
+	id = if params.offline is 'true'
+			params.sourceID + '/' + params.id
+		else
+			params.id
+	connector.openFile(id, usFileName, fileType, error)
+
+
+# On load #
 
 if params.offline is 'true'
 	source = app.offlineSource
