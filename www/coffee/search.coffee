@@ -17,24 +17,12 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 ###
 
-## Source list ##
+# Page elements #
 
 sourcesListTemplate = jinja.compile($('#sources_listTemplate').html())
-
-app.onceSettingsLoaded ->
-	source = app.settings.getSelectedSource()
-	sourcesList = app.settings.getSourceList()
-	index = sourcesList.indexOf(source)
-
-	$('#sources').expandingButtonList(sourcesListTemplate, sourcesList, index,
-		(i) -> app.settings.setSelectedSource(sourcesList[i].id))
-
-## Clauses ##
-
 clauseTemplate = jinja.compile($('#clauseTemplate').html())
 
-clause_keyPress = (e) ->
-	performQuery() if e.which is 13 or e.keyCode is 13
+# Page methods #
 
 addClause = ->
 	$newClause = $(clauseTemplate.render())
@@ -44,12 +32,6 @@ addClause = ->
 	$dropdown.dropdown().dropdownSelect()
 
 	$newClause.find('input[type=text]').keypress(clause_keyPress)
-
-$('#addClauseButton').click(addClause)
-
-addClause()
-
-## Performing the query ##
 
 createQueryJSON = ->
 	array = []
@@ -66,6 +48,9 @@ createQueryJSON = ->
 
 	return array
 
+
+# Logic #
+
 performQuery = ->
 	array = createQueryJSON()
 	source = app.settings.getSelectedSource()
@@ -74,4 +59,25 @@ performQuery = ->
 	
 	window.location.hash = "#/results?query=#{query}"
 
+
+# Event handlers #
+
+clause_keyPress = (e) ->
+	performQuery() if e.which is 13 or e.keyCode is 13
+
+$('#addClauseButton').click(addClause)
+
 $('#searchButton').click(performQuery)
+
+# On load #
+
+addClause()
+
+app.onceSettingsLoaded ->
+	source = app.settings.getSelectedSource()
+	sourcesList = app.settings.getSourceList()
+	index = sourcesList.indexOf(source)
+
+	$('#sources').expandingButtonList(sourcesListTemplate, sourcesList, index,
+		(i) -> app.settings.setSelectedSource(sourcesList[i].id))
+
