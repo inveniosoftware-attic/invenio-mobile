@@ -125,6 +125,8 @@ class Settings
 		:type id: string
 		###
 		delete this._sources[id]
+		if this._selectedSourceID == id
+			this._selectedSourceID = this.getSourceList()[0].id
 		this.save()
 
 
