@@ -1,0 +1,64 @@
+<link rel="stylesheet" type="text/css" href="cssbin/record.css" />
+
+<header class="bar bar-nav">
+	<a id="backButton" class="iosOnly icon icon-left-nav pull-left" href="javascript:;"></a>
+	<a id="downloadButton" class="icon icon-download pull-right" title="Download" style="display:none;"></a>
+
+	<h1 class="title"></h1>
+</header>
+
+<script id="recordTemplate" type="text/x-jinja2-template">
+	{% if files %}
+	<div class="record_filesButton dropdown">
+		<button type="button" class="btn" data-toggle="dropdown">
+			<span class="icon icon-pages"></span>
+			<span class="icon icon-caret"></span>
+		</button>
+		<ul class="dropdownMenu table-view" role="menu">
+		{% for file in files %}
+			<li class="table-view-cell{% if file._availableOffline === false %} disabled{% endif %}">
+				<a class="record_file" href="javascript:;" data-file-name="{{file.name}}" data-file-type="{{file.type}}">
+					{{file.label}}
+				</a>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+	<h3 class="record_title">{{title}}</h3>
+	<ul class="record_authors">
+	{% for author in authors %}
+		<li>
+			<a href="#/results?query=author:'{{author.name}}'" data-ignore="push">{{author.name}}</a>
+			{% if author.inst %}<span class="record_institute">{{author.inst}}</span>{% endif %}
+		</li>
+	{% endfor %}
+	</ul>
+
+	<span class="record_journal">{{journal}}</span>,
+	<span class="record_date">{{date | formatDate}}</span>
+
+	<ul class="record_reportNumbers">
+	{% for report_number in report_numbers %}
+		<li>{{report_number}}</li>
+	{% endfor %}
+	</ul>
+
+	<div class="fieldLabel">Abstract</div>
+	<p class="record_abstract">{{abstract}}</p>
+
+	<div class="fieldLabel">Keywords</div>
+	<ul class="record_keywords pillsContainer">
+	{% for keyword in keywords %}
+		<li class="pill"><a href="#/results?query=keyword:'{{keyword}}'" data-ignore="push">{{keyword}}</a></li>
+	{% endfor %}
+	</ul>
+</script>
+<div class="content padded">
+	<div class="spinner">
+		Loading...
+	</div>
+</div>
+
+<script src="jsbin/dropdown.js"></script>
+<script src="jsbin/record.js"></script>

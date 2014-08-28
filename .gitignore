@@ -1,0 +1,13 @@
+www/cssbin/
+www/jsbin/
+
+### Node ###
+node_modules/
+
+### Cordova ###
+platforms/
+plugins/
+hooks/README.md
+
+### Bower ###
+www/bower_components/

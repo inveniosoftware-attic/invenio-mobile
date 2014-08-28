@@ -1,0 +1,37 @@
+<link rel="stylesheet" type="text/css" href="cssbin/download.css" />
+
+<div class="bar bar-nav">
+	<a id="backButton" class="iosOnly icon icon-left-nav pull-left" href="javascript:;"></a>
+	<h1 class="title"></h1>
+</div>
+
+<div class="content">
+	<div class="spinner">
+		Loading...
+	</div>
+</div>
+
+<div id="record" class="content padded" style="display:none;">
+	<h3 id="recordTitle"></h3>
+	<p id="message"> The record will be saved to your device. Select the files to download with it: </p>
+	<script id="fileItemTemplate" type="text/x-jinja2-template">
+		<li class="listItem table-view-cell" data-value="{{name}}">
+			<a>
+				<input type="checkbox"/>
+				{{label}}
+			</a>
+		</li>
+	</script>
+	<div id="filesList" class="table-view card checkList"></div>
+	<div class="flexRow">
+		<button id="removeButton" class="btn" type="button" style="display:none;">
+			<span class="icon icon-trash"></span> Remove
+		</button>
+		<button id="downloadButton" class="btn btn-primary" type="button">
+			<span class="icon icon-download"></span>
+			<span class="text">Download</span>
+		</button>
+	</div>
+</div>
+
+<script src="jsbin/download.js"></script>

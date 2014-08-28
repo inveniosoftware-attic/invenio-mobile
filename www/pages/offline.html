@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="cssbin/offline.css" />
+
+<script id="recordTemplate" type="text/x-jinja2-template">
+	<li class="listItem table-view-cell">
+		<a href="#/record?offline=true&sourceID={{sourceID}}&id={{recordID}}">
+			<div class="listItem_title">{{usRecord.title}}</div>
+			<div class="source rightSide">{{sourceID | sourceIDToName}}</div>
+			<div class="author">
+				{% for author in usRecord.authors %}
+				{{author.name}};
+				{% endfor %}
+			</div>
+		</a>
+	</li>
+</script>
+
+<ul id="recordList" class="table-view fullWidth">
+	<div class="emptyListMessage" style="display: none;">
+		You have not saved any records yet.
+	</div>
+</ul>
+
+<script src="jsbin/offline.js"></script>

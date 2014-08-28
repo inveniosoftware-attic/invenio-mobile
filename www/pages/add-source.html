@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="cssbin/add-source.css" />
+
+<header class="bar bar-nav">
+	<a id="backButton" class="iosOnly icon icon-left-nav pull-left" href="javascript:;"></a>
+	<h1 class="title">Add source</h1>
+</header>
+
+<div id="urlForm" class="stage content padded">
+	<label for="urlInput">URL</label>
+	<input id="urlInput" type="url" autofocus placeholder="cds.cern.ch" mozactionhint="next"/>
+	<p id="urlErrorMessage" class="negative"></p>
+	<p>
+		Enter the URL of an Invenio source. This is simply the Web address
+		of the source's website, for example cds.cern.ch.
+	</p>
+	<button id="locateButton" class="btn btn-primary btn-block" disabled type="button">
+		Locate
+	</button>
+	<div class="spinner" style="display:none;">
+		Loading...
+	</div>
+</div>
+<div id="sourceInfo" class="stage content padded" style="display:none;">
+	<h3 id="sourceInfo_name"></h3>
+	<blockquote id="sourceInfo_description"></blockquote>
+	<div id="authQuestion" style="display:none;">
+		<p>
+			This source may require you to login to view some records. Do you wish to login to this source?
+		</p>
+		<div class="flexRow">
+			<button id="noButton" class="btn" type="button">No</button>
+			<button id="yesButton" class="btn btn-primary" type="button">
+				<span class="icon icon-person"></span>
+				Yes
+			</button>
+		</div>
+	</div>
+	<button id="addButton" class="btn btn-positive btn-block" type="button">
+		Add source
+	</button>
+</div>
+<div id="auth" class="stage content padded" style="display:none;">
+	<p id="authMessage">
+		The authentication browser has been launched. Please login and authorise this application.
+	</p>
+	<div id="authErrorButtons" class="flexRow">
+		<button id="continueButton" class="btn" type="button">Continue</button>
+		<button id="retryButton" class="btn btn-primary" type="button">
+			<span class="icon icon-person"></span>
+			Retry
+		</button>
+	</div>
+</div>
+<div id="testAuth" class="stage content padded" style="display:none;">
+	<span class="spinner">
+		Testing authentication token...
+	</span>
+</div>
+
+<script src="jsbin/add-source.js"></script>
